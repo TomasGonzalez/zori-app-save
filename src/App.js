@@ -1,15 +1,15 @@
 import React from "react";
-
-// import test from "~/components/test";
+import { ThemeProvider } from "styled-components";
+import theme from "theme";
+import Test from "components/Test";
 
 function App() {
   return (
-    <div className='App'>
+    <ThemeProvider theme={theme}>
       <header className=' App-header'>
-        <p>Zori</p>
-        {/* <test /> */}
+        <Test />
       </header>
-    </div>
+    </ThemeProvider>
   );
 }
 

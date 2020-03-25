@@ -1,5 +1,14 @@
 import React from "react";
+import styled from "styled-components";
 
-const test = () => <div>generic</div>;
+const StyledTest = styled.div`
+  font-size: 25px;
+  color: ${props => props.theme.color.primary};
+`;
 
-export default test;
+const Test = () => {
+  console.log("test");
+  return <StyledTest>asdfas df asdfs </StyledTest>;
+};
+
+export default Test;
