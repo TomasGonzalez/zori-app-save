@@ -7,7 +7,6 @@ const StyledTest = styled.div`
 `;
 
 const Test = () => {
-  console.log("test");
   return <StyledTest>asdfas df asdfs </StyledTest>;
 };
 

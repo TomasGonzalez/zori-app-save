@@ -1,6 +1,7 @@
 export default {
   color: {
-    primary: "#0C77F8"
+    primary: "#0C77F8",
+    background: "#ffffff"
   },
   unit: {
     getRem(px) {
