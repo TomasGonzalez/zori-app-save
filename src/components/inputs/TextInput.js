@@ -2,8 +2,11 @@ import React from "react";
 
 import styled from "styled-components";
 
-const MainContainer = styled.input`
-  border-width: 0px 0px 0.5px 0px;
+const StyledWrapper = styled.div`
+  border-width: 0px 0px 4px 0px;
+`;
+
+const StyledInput = styled.input`
   width: 100%;
   outline: none;
 
@@ -16,7 +19,11 @@ const MainContainer = styled.input`
 `;
 
 const TextInput = props => {
-  return <MainContainer {...props} />;
+  return (
+    <StyledWrapper>
+      <StyledInput {...props} />
+    </StyledWrapper>
+  );
 };
 
 export default TextInput;

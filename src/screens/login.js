@@ -28,6 +28,21 @@ const FormContaienr = styled.div`
   background-color: ${props => props.theme.color.white};
 `;
 
+const TitleWrapper = styled.div`
+  margin-bottom: 62px;
+`;
+
+const TitleUnderline = styled.div`
+  width: 18px;
+  height: 3px;
+  background-color: ${props => props.theme.color.green1};
+`;
+
+const Title = styled.div`
+  font-size: 30px;
+  font-weight: bold;
+`;
+
 const StyledForm = styled.form`
   padding: 112px;
   width: 100%;
@@ -49,8 +64,10 @@ const login = () => {
                 name='bio'
                 render={({ input, meta }) => (
                   <div>
-                    <Title>Log in</Title>
-
+                    <TitleWrapper>
+                      <Title>Log in</Title>
+                      <TitleUnderline />
+                    </TitleWrapper>
                     <TextInput
                       style={{ marginBottom: 84 }}
                       placeholder='Enter your email address'
