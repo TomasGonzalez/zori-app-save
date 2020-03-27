@@ -33,5 +33,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "babel-plugin-root-import": "^6.5.0",
+    "react-app-rewired": "^2.1.5"
   }
 }
