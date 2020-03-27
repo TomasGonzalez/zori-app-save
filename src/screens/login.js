@@ -3,7 +3,10 @@ import React from "react";
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
 
-import TextInput from "components/inputs/TextInput";
+import { TextInput } from "components/forms/inputs";
+
+import Checkbox from "components/Checkbox";
+import Button from "components/Button";
 
 const MainContainer = styled.div`
   display: flex;
@@ -24,7 +27,6 @@ const FormContaienr = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
-
   background-color: ${props => props.theme.color.white};
 `;
 
@@ -48,6 +50,32 @@ const StyledForm = styled.form`
   width: 100%;
 `;
 
+const CheckboxWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const TempLink = styled.div`
+  width: 204px;
+  height: 17px;
+  font-size: 14px;
+  font-weight: 500;
+  color: ${props => props.theme.color.green1};
+`;
+
+const ButtonsWrappers = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
+const FormWrapper = styled.div`
+  max-width: 616px;
+  display: flex;
+  flex-direction: column;
+`;
+
 const login = () => {
   return (
     <MainContainer>
@@ -61,9 +89,9 @@ const login = () => {
           render={() => (
             <StyledForm>
               <Field
-                name='bio'
+                name='Login'
                 render={({ input, meta }) => (
-                  <div>
+                  <FormWrapper>
                     <TitleWrapper>
                       <Title>Log in</Title>
                       <TitleUnderline />
@@ -72,10 +100,17 @@ const login = () => {
                       style={{ marginBottom: 84 }}
                       placeholder='Enter your email address'
                     />
-                    <TextInput placeholder='Enter your password*' />
-
+                    <TextInput placeholder='Enter your password' />
+                    <CheckboxWrapper style={{ marginTop: 8 }}>
+                      <Checkbox label='stay signed in' />
+                      <TempLink>did you forget your password?</TempLink>
+                    </CheckboxWrapper>
+                    <ButtonsWrappers style={{ marginTop: 80 }}>
+                      <Button label={"Sign up"} />
+                      <Button type={"dark"} label={"Log in"} />
+                    </ButtonsWrappers>
                     {meta.touched && meta.error && <span>{meta.error}</span>}
-                  </div>
+                  </FormWrapper>
                 )}
               />
             </StyledForm>
