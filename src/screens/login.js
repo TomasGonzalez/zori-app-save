@@ -47,6 +47,7 @@ const Title = styled.div`
 
 const StyledForm = styled.form`
   min-width: 650px;
+  padding: 48px;
 `;
 
 const CheckboxWrapper = styled.div`
@@ -60,6 +61,7 @@ const TempLink = styled.div`
   height: 17px;
   font-size: 14px;
   font-weight: 500;
+  cursor: pointer;
   color: ${props => props.theme.color.green1};
 `;
 
@@ -96,10 +98,11 @@ const login = () => {
                       <TitleUnderline />
                     </TitleWrapper>
                     <TextInput
+                      meta={meta}
                       style={{ marginBottom: 84 }}
                       placeholder='Enter your email address'
                     />
-                    <TextInput placeholder='Enter your password' />
+                    <TextInput meta={meta} placeholder='Enter your password' />
                     <CheckboxWrapper style={{ marginTop: 8 }}>
                       <Checkbox label='stay signed in' />
                       <TempLink>did you forget your password?</TempLink>
@@ -108,7 +111,6 @@ const login = () => {
                       <Button label={"Sign up"} />
                       <Button type={"dark"} label={"Log in"} />
                     </ButtonsWrappers>
-                    {meta.touched && meta.error && <span>{meta.error}</span>}
                   </FormWrapper>
                 )}
               />

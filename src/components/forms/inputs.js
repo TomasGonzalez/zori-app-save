@@ -2,6 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
+const MainWrapper = styled.div``;
+
 const StyledInput = styled.input`
   border-width: 0px 0px 2px 0px;
   outline: none;
@@ -10,25 +12,27 @@ const StyledInput = styled.input`
   padding: 4.5px 0px;
 
   ::placeholder {
-    color: ${props => props.theme.color.gray1};
+    color: ${props =>
+      props.meta && props.meta.error
+        ? props.theme.color.danger
+        : props.theme.color.gray1};
   }
 `;
 
-const CheckBoxMainWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-`;
-
-const StyledCheckBox = styled.input`
-  outline: 0px solid ${props => props.theme.color.gray1};
+const ErrorMessage = styled.div`
+  margin-top: 8px;
+  font-size: 12px;
+  color: ${props => props.theme.color.lightDanger};
 `;
 
 export const TextInput = props => {
-  return <StyledInput {...props} />;
-};
+  console.log(props.meta && props.meta.touched);
+  console.log(props.meta && props.meta.error);
 
-export const CheckBox = () => (
-  <CheckBoxMainWrapper>
-    <StyledCheckBox type='checkbox' />
-  </CheckBoxMainWrapper>
-);
+  return (
+    <MainWrapper {...props}>
+      <StyledInput meta={props.meta} placeholder={props.placeholder} />
+      {props.meta.error && <ErrorMessage>{props.meta.error}</ErrorMessage>}
+    </MainWrapper>
+  );
+};

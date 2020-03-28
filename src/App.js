@@ -4,6 +4,7 @@ import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "theme";
 
 import Login from "screens/login";
+import MainRouter from "lib/MainRouter";
 
 export const AppRoot = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap);
@@ -17,7 +18,7 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <AppRoot />
-      <Login />
+      <MainRouter />
     </ThemeProvider>
   );
 }

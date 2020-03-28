@@ -5,7 +5,9 @@ export default {
     background: "#ffffff",
     black1: "#000000",
     underlineColor: "rgba(0,0,0,0.35)",
-    gray1: "rgba(0,0,0,0.35)"
+    gray1: "rgba(0,0,0,0.35)",
+    danger: "#FC282B",
+    lightDanger: "#E27875"
   },
   unit: {
     getRem(px) {

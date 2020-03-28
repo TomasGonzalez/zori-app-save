@@ -19,6 +19,7 @@ const StyledCheckbox = styled.div`
   height: 15px;
   border: solid 1px ${props => props.theme.color.gray1};
   border-radius: 3px;
+  cursor: pointer;
 `;
 
 const Checkbox = props => {
