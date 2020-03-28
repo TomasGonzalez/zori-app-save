@@ -6,22 +6,33 @@ const StyledButton = styled.div`
   height: 48px;
   border-radius: 6px;
   border: solid 1px rgba(0, 0, 0, 0.35);
-  background-color: #ffffff;
+  background-color: ${props =>
+    props.type !== "dark"
+      ? props.theme.color.background
+      : props.theme.color.black1};
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const Label = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: ${props => props.theme.color.gray1};
+  color: ${props =>
+    props.type !== "dark"
+      ? props.theme.color.gray1
+      : props.theme.color.background};
 `;
 
 const Button = props => {
   return (
     <StyledButton type={props.type}>
-      <Label>{props.label}</Label>
+      <Label type={props.type}>{props.label}</Label>
     </StyledButton>
   );
 };

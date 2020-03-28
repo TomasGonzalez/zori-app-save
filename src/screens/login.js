@@ -46,8 +46,7 @@ const Title = styled.div`
 `;
 
 const StyledForm = styled.form`
-  padding: 112px;
-  width: 100%;
+  min-width: 650px;
 `;
 
 const CheckboxWrapper = styled.div`
