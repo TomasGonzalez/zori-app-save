@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import { TextInput } from "components/forms/inputs";
@@ -79,16 +79,18 @@ const FormWrapper = styled.div`
 `;
 
 function Login() {
-  const handleSubmit = params => {
+  const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
+
+  const handleSubmit = async params => {
     console.log("runHandleSubmit");
     console.log(params);
+    try {
+      await tokenAuth({ variables: { password: "asdf", username: "hekk" } }); //{ ...params } });
+    } catch (err) {
+      console.log(err);
+    }
   };
-  const CheckboxComponent = ({ input }) => (
-    <CheckboxWrapper style={{ marginTop: 8 }}>
-      <Checkbox input={input} label='stay signed in' />
-      <TempLink>did you forget your password?</TempLink>
-    </CheckboxWrapper>
-  );
+
   return (
     <MainContainer>
       <ImageContainer
@@ -106,17 +108,24 @@ function Login() {
               </TitleWrapper>
               <FormWrapper>
                 <Field
-                  name='Email'
+                  name='username'
                   component={TextInput}
                   style={{ marginBottom: 84 }}
                   placeholder='Enter your email address'
                 />
                 <Field
-                  name='Password'
+                  name='password'
                   component={TextInput}
                   placeholder='Enter your password'
                 />
-                <Field name='checkbox' component={CheckboxComponent} />
+                <Field name='checkbox'>
+                  {({ input }) => (
+                    <CheckboxWrapper style={{ marginTop: 8 }}>
+                      <Checkbox input={input} label='stay signed in' />
+                      <TempLink>did you forget your password?</TempLink>
+                    </CheckboxWrapper>
+                  )}
+                </Field>
 
                 <ButtonsWrappers style={{ marginTop: 80 }}>
                   <Button label={"Sign up"} />
@@ -135,9 +144,9 @@ function Login() {
   );
 }
 
-const mutation = gql`
-  mutation($email: String!, $password: String!) {
-    tokenAuth(username: $email, password: $password) {
+const AUTH_TOKEN = gql`
+  mutation TokenAuth($username: String!, $password: String!) {
+    tokenAuth(username: $username, password: $password) {
       token
     }
   }

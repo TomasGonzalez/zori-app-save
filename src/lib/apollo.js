@@ -1,7 +1,31 @@
-import ApolloClient from "apollo-boost";
+import { ApolloClient } from "apollo-client";
+import { gql } from "apollo-boost";
+import { HttpLink } from "apollo-link-http";
+import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
+
+const link = new HttpLink({
+  uri: "https://lucasconstantino.github.io/graphiql-online/"
+});
+
+const cache = new InMemoryCache();
 
 const client = new ApolloClient({
-  uri: "http://zoriapi-dev.eba-mg9adby9.us-west-2.elasticbeanstalk.com/graphql/"
+  link,
+  cache
 });
+
+client
+  .query({
+    query: gql`
+      {
+        allUsers {
+          id
+          name
+        }
+      }
+    `
+  })
+  .then(result => console.log(result))
+  .catch(err => console.log(err));
 
 export default client;
