@@ -2,9 +2,10 @@ import React from "react";
 
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "theme";
+import { ApolloProvider } from "@apollo/react-hooks";
 
-import Login from "screens/login";
 import MainRouter from "lib/MainRouter";
+import client from "lib/apollo";
 
 export const AppRoot = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap);
@@ -16,10 +17,12 @@ export const AppRoot = createGlobalStyle`
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <AppRoot />
-      <MainRouter />
-    </ThemeProvider>
+    <ApolloProvider client={client}>
+      <ThemeProvider theme={theme}>
+        <AppRoot />
+        <MainRouter />
+      </ThemeProvider>
+    </ApolloProvider>
   );
 }
 

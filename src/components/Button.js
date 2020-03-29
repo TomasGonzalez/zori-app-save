@@ -7,7 +7,7 @@ const StyledButton = styled.div`
   border-radius: 6px;
   border: solid 1px rgba(0, 0, 0, 0.35);
   background-color: ${props =>
-    props.type !== "dark"
+    props.buttonStyle !== "dark"
       ? props.theme.color.background
       : props.theme.color.black1};
   display: flex;
@@ -24,15 +24,15 @@ const Label = styled.div`
   font-size: 14px;
   font-weight: 500;
   color: ${props =>
-    props.type !== "dark"
+    props.buttonStyle !== "dark"
       ? props.theme.color.gray1
       : props.theme.color.background};
 `;
 
 const Button = props => {
   return (
-    <StyledButton type={props.type}>
-      <Label type={props.type}>{props.label}</Label>
+    <StyledButton {...props} buttonStyle={props.buttonStyle}>
+      <Label buttonStyle={props.buttonStyle}>{props.label}</Label>
     </StyledButton>
   );
 };

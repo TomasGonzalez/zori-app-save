@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styled, { withTheme } from "styled-components";
 
 import { MdCheck } from "react-icons/md";
@@ -23,12 +23,14 @@ const StyledCheckbox = styled.div`
 `;
 
 const Checkbox = props => {
-  const [isChecked, setIsChecked] = useState(false);
-
   return (
     <MainWrapper {...props}>
-      <StyledCheckbox onClick={() => setIsChecked(!isChecked)}>
-        {isChecked && <MdCheck color={props.theme.color.gray1} />}
+      <StyledCheckbox
+        onClick={() => {
+          props.input.onChange(!props.input.value);
+        }}
+      >
+        {props.input.value && <MdCheck color={props.theme.color.gray1} />}
       </StyledCheckbox>
       <TextStyle>{props.label}</TextStyle>
     </MainWrapper>

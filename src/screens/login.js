@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import { TextInput } from "components/forms/inputs";
-
 import Checkbox from "components/Checkbox";
 import Button from "components/Button";
 
@@ -77,7 +78,17 @@ const FormWrapper = styled.div`
   flex-direction: column;
 `;
 
-const login = () => {
+function Login() {
+  const handleSubmit = params => {
+    console.log("runHandleSubmit");
+    console.log(params);
+  };
+  const CheckboxComponent = ({ input }) => (
+    <CheckboxWrapper style={{ marginTop: 8 }}>
+      <Checkbox input={input} label='stay signed in' />
+      <TempLink>did you forget your password?</TempLink>
+    </CheckboxWrapper>
+  );
   return (
     <MainContainer>
       <ImageContainer
@@ -86,40 +97,50 @@ const login = () => {
       />
       <FormContaienr>
         <Form
-          onSubmit={() => console.log("test")}
-          render={() => (
+          onSubmit={handleSubmit}
+          render={({ handleSubmit }) => (
             <StyledForm>
-              <Field
-                name='Login'
-                render={({ input, meta }) => (
-                  <FormWrapper>
-                    <TitleWrapper>
-                      <Title>Log in</Title>
-                      <TitleUnderline />
-                    </TitleWrapper>
-                    <TextInput
-                      meta={meta}
-                      style={{ marginBottom: 84 }}
-                      placeholder='Enter your email address'
-                    />
-                    <TextInput meta={meta} placeholder='Enter your password' />
-                    <CheckboxWrapper style={{ marginTop: 8 }}>
-                      <Checkbox label='stay signed in' />
-                      <TempLink>did you forget your password?</TempLink>
-                    </CheckboxWrapper>
-                    <ButtonsWrappers style={{ marginTop: 80 }}>
-                      <Button label={"Sign up"} />
-                      <Button type={"dark"} label={"Log in"} />
-                    </ButtonsWrappers>
-                  </FormWrapper>
-                )}
-              />
+              <TitleWrapper>
+                <Title>Log in</Title>
+                <TitleUnderline />
+              </TitleWrapper>
+              <FormWrapper>
+                <Field
+                  name='Email'
+                  component={TextInput}
+                  style={{ marginBottom: 84 }}
+                  placeholder='Enter your email address'
+                />
+                <Field
+                  name='Password'
+                  component={TextInput}
+                  placeholder='Enter your password'
+                />
+                <Field name='checkbox' component={CheckboxComponent} />
+
+                <ButtonsWrappers style={{ marginTop: 80 }}>
+                  <Button label={"Sign up"} />
+                  <Button
+                    onClick={handleSubmit}
+                    buttonStyle='dark'
+                    label={"Log in"}
+                  />
+                </ButtonsWrappers>
+              </FormWrapper>
             </StyledForm>
           )}
         />
       </FormContaienr>
     </MainContainer>
   );
-};
+}
 
-export default login;
+const mutation = gql`
+  mutation($email: String!, $password: String!) {
+    tokenAuth(username: $email, password: $password) {
+      token
+    }
+  }
+`;
+
+export default Login;

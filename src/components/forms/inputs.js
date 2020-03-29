@@ -26,12 +26,16 @@ const ErrorMessage = styled.div`
 `;
 
 export const TextInput = props => {
-  console.log(props.meta && props.meta.touched);
-  console.log(props.meta && props.meta.error);
+  // console.log(props.meta && props.meta.touched);
+  // console.log(props.meta && props.meta.error);
 
   return (
     <MainWrapper {...props}>
-      <StyledInput meta={props.meta} placeholder={props.placeholder} />
+      <StyledInput
+        {...props.input}
+        meta={props.meta}
+        placeholder={props.placeholder}
+      />
       {props.meta.error && <ErrorMessage>{props.meta.error}</ErrorMessage>}
     </MainWrapper>
   );
