@@ -1,18 +1,44 @@
 import React from "react";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+  Link
+} from "react-router-dom";
 
 import Login from "screens/Login";
 import Test from "screens/test";
+
+function PrivateRoute({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        false ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 export default function MainRouter() {
   return (
     <Router>
       <div>
         <Switch>
-          <Route path='/test'>
+          <PrivateRoute path='/test'>
             <Test />
-          </Route>
-          <Route path='/'>
+          </PrivateRoute>
+          <Route path='/login'>
             <Login />
           </Route>
         </Switch>
