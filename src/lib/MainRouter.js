@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -10,37 +10,71 @@ import {
 import Login from "screens/Login";
 import Test from "screens/test";
 
-function PrivateRoute({ children, ...rest }) {
-  return (
-    <Route
-      {...rest}
-      render={({ location }) =>
-        false ? (
-          children
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/login",
-              state: { from: location }
-            }}
-          />
-        )
-      }
-    />
-  );
-}
-
 export default function MainRouter() {
+  const PrivateRoute = ({ children, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={({ location }) =>
+          localStorage.getItem("jwtToken") ||
+          sessionStorage.getItem("jwtToken") ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/login",
+                state: { from: location }
+              }}
+            />
+          )
+        }
+      />
+    );
+  };
+
+  const PublicRoute = ({ children, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        exact
+        render={() =>
+          localStorage.getItem("jwtToken") ||
+          sessionStorage.getItem("jwtToken") ? (
+            <Redirect
+              to={{
+                pathname: "/"
+              }}
+            />
+          ) : (
+            children
+          )
+        }
+      />
+    );
+  };
+
   return (
     <Router>
       <div>
         <Switch>
+          <Route
+            exact
+            path='/'
+            render={() =>
+              localStorage.getItem("jwtToken") ||
+              sessionStorage.getItem("jwtToken") ? (
+                <Redirect to='/test' />
+              ) : (
+                <Redirect to='/login' />
+              )
+            }
+          />
+          <PublicRoute path='/login'>
+            <Login />
+          </PublicRoute>
           <PrivateRoute path='/test'>
             <Test />
           </PrivateRoute>
-          <Route path='/login'>
-            <Login />
-          </Route>
         </Switch>
       </div>
     </Router>

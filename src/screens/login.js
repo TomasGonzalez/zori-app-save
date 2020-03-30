@@ -4,6 +4,7 @@ import { Form, Field } from "react-final-form";
 import styled from "styled-components";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { useHistory } from "react-router-dom";
 
 import { TextInput } from "components/forms/inputs";
 import Checkbox from "components/Checkbox";
@@ -80,12 +81,20 @@ const FormWrapper = styled.div`
 
 function Login() {
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
+  let history = useHistory();
 
   const handleSubmit = async params => {
-    console.log("runHandleSubmit");
     console.log(params);
     try {
-      await tokenAuth({ variables: { password: "asdf", username: "hekk" } }); //{ ...params } });
+      await tokenAuth({
+        variables: { password: "asdf", username: "hekk" }
+      }).then(request => {
+        if (params.checkbox) {
+          localStorage.setItem("jwtToken", request.data.tokenAuth.token);
+        }
+        sessionStorage.setItem("jwtToken", request.data.tokenAuth.token);
+        history.push("/test");
+      });
     } catch (err) {
       console.log(err);
     }
