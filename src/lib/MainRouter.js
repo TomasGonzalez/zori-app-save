@@ -6,8 +6,8 @@ import {
   Redirect
 } from "react-router-dom";
 
-import Login from "screens/Login";
-import Test from "screens/test";
+import Login from "../screens/Login";
+import Test from "../screens/test";
 
 export default function MainRouter() {
   const PrivateRoute = ({ children, ...rest }) => {

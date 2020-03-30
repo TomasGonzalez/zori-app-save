@@ -6,10 +6,10 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useHistory } from "react-router-dom";
 
-import { EmailValidator } from "lib/formValidation";
-import { TextInput, PasswordInput } from "components/forms/inputs";
-import Checkbox from "components/Checkbox";
-import Button from "components/Button";
+import { EmailValidator } from "../lib/formValidation";
+import { TextInput, PasswordInput } from "../components/forms/inputs";
+import Checkbox from "../components/Checkbox";
+import Button from "../components/Button";
 
 const MainContainer = styled.div`
   display: flex;
@@ -106,7 +106,7 @@ function Login() {
     <MainContainer>
       <ImageContainer
         alt='Office Deskt'
-        src={require("assets/login-side-image.png")}
+        src={require("../assets/login-side-image.png")}
       />
       <FormContaienr>
         <Form
