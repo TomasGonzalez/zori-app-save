@@ -1,7 +1,7 @@
 import React from "react";
 
 const Test = () => {
-  return <div>This is test route</div>;
+  return <div>You are logged in</div>;
 };
 
 export default Test;

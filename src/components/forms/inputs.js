@@ -5,7 +5,11 @@ import styled from "styled-components";
 const MainWrapper = styled.div``;
 
 const StyledInput = styled.input`
-  border-width: 0px 0px 2px 0px;
+  border-width: 0px 0px 1px 0px;
+  border-color: ${props =>
+    (props.meta && props.meta.error) || !props.value
+      ? props.theme.color.danger
+      : props.theme.color.gray1};
   outline: none;
   width: 100%;
   font-size: 14px;
@@ -13,7 +17,7 @@ const StyledInput = styled.input`
 
   ::placeholder {
     color: ${props =>
-      props.meta && props.meta.error
+      props.meta && props.meta.error && props.meta.touched
         ? props.theme.color.danger
         : props.theme.color.gray1};
   }
@@ -26,17 +30,33 @@ const ErrorMessage = styled.div`
 `;
 
 export const TextInput = props => {
-  // console.log(props.meta && props.meta.touched);
-  // console.log(props.meta && props.meta.error);
-
   return (
     <MainWrapper {...props}>
       <StyledInput
+        type={props.type}
         {...props.input}
         meta={props.meta}
         placeholder={props.placeholder}
       />
-      {props.meta.error && <ErrorMessage>{props.meta.error}</ErrorMessage>}
+      {props.meta.error && props.meta.touched && (
+        <ErrorMessage>{props.meta.error}</ErrorMessage>
+      )}
+    </MainWrapper>
+  );
+};
+
+export const PasswordInput = props => {
+  return (
+    <MainWrapper {...props}>
+      <StyledInput
+        type={"password"}
+        {...props.input}
+        meta={props.meta}
+        placeholder={props.placeholder}
+      />
+      {props.meta.error && props.meta.touched && (
+        <ErrorMessage>{props.meta.error}</ErrorMessage>
+      )}
     </MainWrapper>
   );
 };

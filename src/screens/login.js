@@ -6,7 +6,8 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useHistory } from "react-router-dom";
 
-import { TextInput } from "components/forms/inputs";
+import { EmailValidator } from "lib/formValidation";
+import { TextInput, PasswordInput } from "components/forms/inputs";
 import Checkbox from "components/Checkbox";
 import Button from "components/Button";
 
@@ -84,19 +85,20 @@ function Login() {
   let history = useHistory();
 
   const handleSubmit = async params => {
-    console.log(params);
-    try {
-      await tokenAuth({
-        variables: { password: "asdf", username: "hekk" }
-      }).then(request => {
-        if (params.checkbox) {
-          localStorage.setItem("jwtToken", request.data.tokenAuth.token);
-        }
-        sessionStorage.setItem("jwtToken", request.data.tokenAuth.token);
-        history.push("/test");
-      });
-    } catch (err) {
-      console.log(err);
+    if (params.email && params.password) {
+      try {
+        await tokenAuth({
+          variables: { ...params }
+        }).then(request => {
+          if (params.checkbox) {
+            localStorage.setItem("jwtToken", request.data.tokenAuth.token);
+          }
+          sessionStorage.setItem("jwtToken", request.data.tokenAuth.token);
+          history.push("/test");
+        });
+      } catch (err) {
+        console.log(err);
+      }
     }
   };
 
@@ -117,14 +119,15 @@ function Login() {
               </TitleWrapper>
               <FormWrapper>
                 <Field
-                  name='username'
+                  validate={EmailValidator}
+                  name='email'
                   component={TextInput}
                   style={{ marginBottom: 84 }}
                   placeholder='Enter your email address'
                 />
                 <Field
                   name='password'
-                  component={TextInput}
+                  component={PasswordInput}
                   placeholder='Enter your password'
                 />
                 <Field name='checkbox'>
@@ -135,7 +138,6 @@ function Login() {
                     </CheckboxWrapper>
                   )}
                 </Field>
-
                 <ButtonsWrappers style={{ marginTop: 80 }}>
                   <Button label={"Sign up"} />
                   <Button
@@ -154,8 +156,8 @@ function Login() {
 }
 
 const AUTH_TOKEN = gql`
-  mutation TokenAuth($username: String!, $password: String!) {
-    tokenAuth(username: $username, password: $password) {
+  mutation TokenAuth($email: String!, $password: String!) {
+    tokenAuth(username: $email, password: $password) {
       token
     }
   }
