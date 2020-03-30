@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
@@ -80,7 +80,14 @@ const FormWrapper = styled.div`
   flex-direction: column;
 `;
 
+const ErrorMessage = styled.div`
+  color: ${props => props.theme.color.danger};
+  margin-top: 8px;
+  font-size: 12px;
+`;
+
 function Login() {
+  const [errorMessage, setErrorMessage] = useState();
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
   let history = useHistory();
 
@@ -98,6 +105,7 @@ function Login() {
         });
       } catch (err) {
         console.log(err);
+        setErrorMessage(err.message.replace("GraphQL error: ", ""));
       }
     }
   };
@@ -116,6 +124,7 @@ function Login() {
               <TitleWrapper>
                 <Title>Log in</Title>
                 <TitleUnderline />
+                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
               </TitleWrapper>
               <FormWrapper>
                 <Field
