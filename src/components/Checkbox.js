@@ -9,7 +9,7 @@ const MainWrapper = styled.div`
 `;
 
 const TextStyle = styled.div`
-  color: ${props => props.theme.color.gray1};
+  color: ${props => props.theme.color.green1};
   font-size: 14px;
   margin-left: 10px;
 `;
@@ -17,7 +17,9 @@ const TextStyle = styled.div`
 const StyledCheckbox = styled.div`
   width: 15px;
   height: 15px;
-  border: solid 1px ${props => props.theme.color.gray1};
+  border: solid 1px ${props => props.theme.color.green1};
+  background-color: ${props =>
+    props.value ? props.theme.color.green1 : "transparent"};
   border-radius: 3px;
   cursor: pointer;
 `;
@@ -29,9 +31,8 @@ const Checkbox = props => {
         onClick={() => {
           props.input.onChange(!props.input.value);
         }}
-      >
-        {props.input.value && <MdCheck color={props.theme.color.gray1} />}
-      </StyledCheckbox>
+        {...props.input}
+      />
       <TextStyle>{props.label}</TextStyle>
     </MainWrapper>
   );
