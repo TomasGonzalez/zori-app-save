@@ -28,8 +28,8 @@ const FormContaienr = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${props => props.theme.color.white};
-  height: 100vh;
   overflow: auto;
+
   ::-webkit-scrollbar {
     width: 0px; /* Remove scrollbar space */
     background: transparent; /* Optional: just make scrollbar invisible */
@@ -101,13 +101,13 @@ export default function SignUpForm() {
                 />
                 <Field
                   name='password'
-                  component={TextInput}
+                  component={PasswordInput}
                   style={{ marginBottom: 64, width: "100%" }}
                   placeholder='Create your password'
                 />
                 <Field
                   name='verifyPassword'
-                  component={TextInput}
+                  component={PasswordInput}
                   style={{ marginBottom: 64, width: "100%" }}
                   placeholder='Verify your password'
                 />

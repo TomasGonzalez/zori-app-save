@@ -23,7 +23,7 @@ const StyledModal = styled(Modal)`
 `;
 
 export default function MainSigningModal(props) {
-  const [typeOfSigning, setTypeOfSigning] = useState(0);
+  const [typeOfSigning, setTypeOfSigning] = useState(1); //this shuld be one when deployed
 
   const RouteSigningProcess = () => {
     switch (typeOfSigning) {

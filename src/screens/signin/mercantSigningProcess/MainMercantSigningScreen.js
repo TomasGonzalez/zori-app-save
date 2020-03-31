@@ -4,6 +4,7 @@ import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
 
+import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
 
 const Header = styled.div`
@@ -26,6 +27,31 @@ const Logo = styled.img`
   height: 34.6px;
   width: 35px;
   padding-left: 16px;
+`;
+
+const Footer = styled.div`
+  padding-bottom: 32px;
+  padding-right: 32px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+`;
+
+const PageCount = styled.div`
+  margin-left: 16px;
+`;
+
+const MainContainer = styled.div`
+  height: 100%;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  ::-webkit-scrollbar {
+    width: 0px; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
 `;
 
 const ProgressBar = props => {
@@ -57,22 +83,30 @@ const ProgressBar = props => {
 };
 
 function MainMercantSigninScreen(props) {
-  const [progress, setProgress] = useState(10);
+  const [progress, setProgress] = useState(1);
 
   return (
-    <>
-      <Header>
-        <Logo
-          onClick={() => setProgress(progress + 30)}
-          src={require("assets/zori-logo.png")}
-        />
-        <Close>
-          <MdClose onClick={props.onRequestClose} size={20} />
-        </Close>
-      </Header>
-      <ProgressBar progress={progress} {...props} />
+    <MainContainer>
+      <div>
+        <Header>
+          <Logo src={require("assets/zori-logo.png")} />
+          <Close>
+            <MdClose onClick={props.onRequestClose} size={20} />
+          </Close>
+        </Header>
+        <ProgressBar progress={(progress / 4) * 100} {...props} />
+      </div>
       <SignUpForm />
-    </>
+      <Footer>
+        <Button
+          onClick={() => setProgress(progress + 1)}
+          buttonStyle='dark'
+          size='small'
+          label='Next'
+        />
+        <PageCount>{progress} / 4</PageCount>
+      </Footer>
+    </MainContainer>
   );
 }
 export default withTheme(MainMercantSigninScreen);

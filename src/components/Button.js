@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const StyledButton = styled.div`
-  width: 296px;
+  width: ${props => (props.size === "small" ? 184 : 296)}px;
   height: 48px;
   border-radius: 6px;
   border: solid 1px rgba(0, 0, 0, 0.35);
