@@ -54,7 +54,10 @@ export default function SigninUserSelectionScreen(props) {
           <Title style={{ marginBottom: 56 }} label='How will you use ZORI?' />
           <ButtonWrapper>
             <ButtonWrapper>
-              <Button label='AS A VENDOR' />
+              <Button
+                onClick={() => props.onSigningProcessSeleected(1)}
+                label='AS A VENDOR'
+              />
               <Button label='AS A BUYER' />
             </ButtonWrapper>
           </ButtonWrapper>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import Modal from "react-modal";
 import styled from "styled-components";
@@ -23,10 +23,26 @@ const StyledModal = styled(Modal)`
 `;
 
 export default function MainSigningModal(props) {
+  const [typeOfSigning, setTypeOfSigning] = useState(0);
+
+  const RouteSigningProcess = () => {
+    switch (typeOfSigning) {
+      case 0:
+        return (
+          <SigninUserSelectionScreen
+            onSigningProcessSeleected={val => setTypeOfSigning(val)}
+            {...props}
+          />
+        );
+      case 1:
+        return <MainMercantSigninScreen {...props} />;
+      default:
+    }
+  };
+
   return (
     <StyledModal style={customStyles} {...props}>
-      {/* <SigninUserSelectionScreen {...props} /> */}
-      <MainMercantSigninScreen />
+      {RouteSigningProcess()}
     </StyledModal>
   );
 }

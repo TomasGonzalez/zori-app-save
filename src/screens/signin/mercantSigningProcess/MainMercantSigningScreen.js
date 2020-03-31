@@ -62,7 +62,10 @@ function MainMercantSigninScreen(props) {
   return (
     <>
       <Header>
-        <Logo src={require("assets/zori-logo.png")} />
+        <Logo
+          onClick={() => setProgress(progress + 30)}
+          src={require("assets/zori-logo.png")}
+        />
         <Close>
           <MdClose onClick={props.onRequestClose} size={20} />
         </Close>

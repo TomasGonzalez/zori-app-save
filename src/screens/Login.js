@@ -147,7 +147,7 @@ function Login() {
         />
       </FormContaienr>
       <MainSigningModal
-        isOpen={signupModal || true}
+        isOpen={signupModal}
         onRequestClose={() => setSignupModal(false)}
       />
     </MainContainer>
