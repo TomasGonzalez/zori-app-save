@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
-import { Line } from "rc-progress";
+
+import Progress from "react-progress";
 
 const Header = styled.div`
   width: 100%;
@@ -27,6 +28,8 @@ const Logo = styled.img`
 `;
 
 function MainMercantSigninScreen(props) {
+  const [progress, setProgress] = useState(0);
+
   return (
     <>
       <Header>
@@ -35,13 +38,29 @@ function MainMercantSigninScreen(props) {
           <MdClose onClick={props.onRequestClose} size={20} />
         </Close>
       </Header>
-      <Line
-        strokeLinecap={"square"}
-        percent='30'
-        style={{ height: 3, width: "100%" }}
-        trailColor={props.theme.color.lightGray}
-        strokeColor={props.theme.color.green1}
-      />
+      <div>
+        <div
+          style={{
+            position: "relative",
+            height: 3,
+            top: 14,
+            width: "100%",
+            backgroundColor: props.theme.color.lightGray
+          }}
+        />
+        <Progress
+          style={{
+            height: 3,
+            top: 0,
+            position: "relative",
+            boxShadow: "transparent"
+          }}
+          color={props.theme.color.green1}
+          height={3}
+          speed={0.4}
+          percent={progress}
+        />
+      </div>
     </>
   );
 }
