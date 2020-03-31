@@ -10,6 +10,8 @@ import { EmailValidator } from "../lib/formValidation";
 import { TextInput, PasswordInput } from "../components/forms/inputs";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
+import MainSigningModal from "../screens/signin/MainSigningModal";
+import Title from "components/Title";
 
 const MainContainer = styled.div`
   display: flex;
@@ -31,21 +33,6 @@ const FormContaienr = styled.div`
   align-items: center;
   justify-content: center;
   background-color: ${props => props.theme.color.white};
-`;
-
-const TitleWrapper = styled.div`
-  margin-bottom: 62px;
-`;
-
-const TitleUnderline = styled.div`
-  width: 18px;
-  height: 3px;
-  background-color: ${props => props.theme.color.green1};
-`;
-
-const Title = styled.div`
-  font-size: 30px;
-  font-weight: bold;
 `;
 
 const StyledForm = styled.form`
@@ -80,15 +67,11 @@ const FormWrapper = styled.div`
   flex-direction: column;
 `;
 
-const ErrorMessage = styled.div`
-  color: ${props => props.theme.color.danger};
-  margin-top: 8px;
-  font-size: 12px;
-`;
-
 function Login() {
   const [errorMessage, setErrorMessage] = useState();
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
+  const [signupModal, setSignupModal] = useState(false);
+
   let history = useHistory();
 
   const handleSubmit = async params => {
@@ -121,11 +104,11 @@ function Login() {
           onSubmit={handleSubmit}
           render={({ handleSubmit }) => (
             <StyledForm>
-              <TitleWrapper>
-                <Title>Log in</Title>
-                <TitleUnderline />
-                {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
-              </TitleWrapper>
+              <Title
+                style={{ marginBottom: 56 }}
+                errorMessage={errorMessage}
+                label={"Log in"}
+              />
               <FormWrapper>
                 <Field
                   validate={EmailValidator}
@@ -148,7 +131,10 @@ function Login() {
                   )}
                 </Field>
                 <ButtonsWrappers style={{ marginTop: 80 }}>
-                  <Button label={"Sign up"} />
+                  <Button
+                    onClick={() => setSignupModal(true)}
+                    label={"Sign up"}
+                  />
                   <Button
                     onClick={handleSubmit}
                     buttonStyle='dark'
@@ -160,6 +146,10 @@ function Login() {
           )}
         />
       </FormContaienr>
+      <MainSigningModal
+        isOpen={signupModal || true}
+        onRequestClose={() => setSignupModal(false)}
+      />
     </MainContainer>
   );
 }
