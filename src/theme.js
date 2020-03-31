@@ -6,6 +6,7 @@ export default {
     black1: "#000000",
     underlineColor: "rgba(0,0,0,0.35)",
     gray1: "rgba(0,0,0,0.35)",
+    lightGray: "#EDEDED",
     danger: "#FC282B",
     lightDanger: "#E27875"
   },

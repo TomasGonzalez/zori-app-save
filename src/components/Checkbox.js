@@ -1,8 +1,6 @@
 import React from "react";
 import styled, { withTheme } from "styled-components";
 
-import { MdCheck } from "react-icons/md";
-
 const MainWrapper = styled.div`
   display: flex;
   flex-direction: row;
