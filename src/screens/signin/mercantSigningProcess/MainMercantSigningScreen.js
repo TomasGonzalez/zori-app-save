@@ -83,7 +83,7 @@ const ProgressBar = props => {
 };
 
 function MainMercantSigninScreen(props) {
-  const [progress, setProgress] = useState(1);
+  const [progress, setProgress] = useState(0);
 
   return (
     <MainContainer>
