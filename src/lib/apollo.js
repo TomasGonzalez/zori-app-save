@@ -4,7 +4,7 @@ import { HttpLink } from "apollo-link-http";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 
 const link = new HttpLink({
-  uri: "http://zorishop-dev.us-west-2.elasticbeanstalk.com/graphql/"
+  uri: "https://api.zorishop.com/graphql/"
 });
 
 const cache = new InMemoryCache();

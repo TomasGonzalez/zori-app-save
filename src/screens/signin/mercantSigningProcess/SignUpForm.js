@@ -34,10 +34,6 @@ const FormContaienr = styled.div`
     width: 0px; /* Remove scrollbar space */
     background: transparent; /* Optional: just make scrollbar invisible */
   }
-
-  ::-webkit-scrollbar-thumb {
-    background: #ff0000;
-  }
 `;
 
 const StyledForm = styled.form`

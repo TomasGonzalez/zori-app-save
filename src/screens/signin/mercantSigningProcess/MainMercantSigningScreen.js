@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
@@ -54,6 +55,38 @@ const MainContainer = styled.div`
   }
 `;
 
+const MainFormContainer = styled.div`
+  display: flex;
+  position: absolute;
+
+  top: 0;
+  background-color: red;
+  overflow-y: auto;
+  flex-direction: column;
+
+  &.container-enter {
+    transform: translateX(800px);
+    opacity: 0;
+  }
+
+  &.container-enter-active {
+    opacity: 1;
+    transform: translateX(0px);
+    transition: opacity 350ms ease, transform 350ms ease;
+  }
+
+  &.container-exit {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+
+  &.container-exit-active {
+    opacity: 0;
+    transform: translateX(-800px);
+    transition: opacity 350ms ease, transform 350ms ease;
+  }
+`;
+
 const ProgressBar = props => {
   return (
     <div>
@@ -85,6 +118,7 @@ const ProgressBar = props => {
 function MainMercantSigninScreen(props) {
   const [progress, setProgress] = useState(0);
 
+  const formSteps = [<SignUpForm />, <SignUpForm />, <SignUpForm />];
   return (
     <MainContainer>
       <div>
@@ -96,7 +130,23 @@ function MainMercantSigninScreen(props) {
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />
       </div>
-      <SignUpForm />
+      <TransitionGroup>
+        {formSteps.map((step, index) => {
+          if (index !== progress) {
+            return null;
+          }
+          return (
+            <CSSTransition
+              classNames={"container"}
+              key={index}
+              timeout={500}
+              unmountOnExit
+            >
+              <MainFormContainer>{step}</MainFormContainer>
+            </CSSTransition>
+          );
+        })}
+      </TransitionGroup>
       <Footer>
         <Button
           onClick={() => setProgress(progress + 1)}

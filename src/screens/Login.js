@@ -156,7 +156,7 @@ function Login() {
 
 const AUTH_TOKEN = gql`
   mutation TokenAuth($email: String!, $password: String!) {
-    tokenAuth(username: $email, password: $password) {
+    tokenAuth(email: $email, password: $password) {
       token
     }
   }
