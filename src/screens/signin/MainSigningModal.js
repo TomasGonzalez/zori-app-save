@@ -8,6 +8,7 @@ import MainMercantSigninScreen from "screens/signin/mercantSigningProcess/MainMe
 
 const customStyles = {
   content: {
+    overflow: "auto",
     backgroundColor: "white",
     padding: 0,
     top: "0",
@@ -23,7 +24,7 @@ const StyledModal = styled(Modal)`
 `;
 
 export default function MainSigningModal(props) {
-  const [typeOfSigning, setTypeOfSigning] = useState(0); //this shuld be one when deployed
+  const [typeOfSigning, setTypeOfSigning] = useState(1); //this shuld be one when deployed
 
   const RouteSigningProcess = () => {
     switch (typeOfSigning) {

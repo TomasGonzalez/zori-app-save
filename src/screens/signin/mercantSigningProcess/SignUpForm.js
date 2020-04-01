@@ -8,6 +8,7 @@ import { EmailValidator } from "lib/formValidation";
 import Title from "components/Title";
 
 const MainContainer = styled.div`
+  height: 100%;
   display: flex;
   flex-direction: row;
   align-items: center;
