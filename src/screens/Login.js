@@ -70,7 +70,7 @@ const FormWrapper = styled.div`
 function Login() {
   const [errorMessage, setErrorMessage] = useState();
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
-  const [signupModal, setSignupModal] = useState(true); //this should be false
+  const [signupModal, setSignupModal] = useState(false); //this should be false
 
   let history = useHistory();
 
