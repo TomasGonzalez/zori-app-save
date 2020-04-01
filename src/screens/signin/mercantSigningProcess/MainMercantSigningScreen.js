@@ -3,7 +3,7 @@ import React, { useState, useRef } from "react";
 import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
+import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
@@ -45,19 +45,15 @@ const PageCount = styled.div`
 const MainContainer = styled.div`
   height: 100%;
   overflow: auto;
+  overflow-x: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 `;
 
-const StyledTransitionGroup = styled(TransitionGroup)``;
-
 const MainFormContainer = styled.div`
   &.container-enter {
     transform: translateX(800px);
-    position: absolute;
-    top: ${props => -props.scrollTop + 72}px;
-    width: 100%;
     opacity: 0;
   }
 
@@ -110,10 +106,8 @@ const ProgressBar = props => {
 function MainMercantSigninScreen(props) {
   const [progress, setProgress] = useState(0);
   const formSteps = [<SignUpForm />, <SignUpForm />, <SignUpForm />];
-  const myRef = useRef();
-
   return (
-    <MainContainer ref={myRef}>
+    <MainContainer>
       <div>
         <Header>
           <Logo src={require("assets/zori-logo.png")} />
@@ -122,28 +116,19 @@ function MainMercantSigninScreen(props) {
           </Close>
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />
-        <StyledTransitionGroup>
-          {formSteps.map((step, index) => {
-            if (index !== progress) {
-              return null;
-            }
-            return (
-              <CSSTransition
-                classNames={"container"}
-                key={index}
-                timeout={500}
-                unmountOnExit
-              >
-                <MainFormContainer
-                  scrollTop={myRef.current && myRef.current.scrollTop}
-                >
-                  {step}
-                </MainFormContainer>
-              </CSSTransition>
-            );
-          })}
-        </StyledTransitionGroup>
       </div>
+      <SwitchTransition mode={"out-in"}>
+        <CSSTransition
+          classNames={"container"}
+          timeout={500}
+          key={progress}
+          addEndListener={(node, done) => {
+            node.addEventListener("transitionend", done, false);
+          }}
+        >
+          <MainFormContainer>{formSteps[progress]}</MainFormContainer>
+        </CSSTransition>
+      </SwitchTransition>
       <Footer>
         <Button
           onClick={() => setProgress(progress + 1)}
