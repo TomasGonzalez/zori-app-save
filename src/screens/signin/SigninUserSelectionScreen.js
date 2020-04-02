@@ -31,6 +31,7 @@ const Header = styled.div`
   width: 100%;
   display: flex;
   justify-content: flex-end;
+  position: absolute;
 `;
 
 const Close = styled.div`

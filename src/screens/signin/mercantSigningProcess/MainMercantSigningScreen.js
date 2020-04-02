@@ -7,6 +7,8 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
+import VerificationCode from "./VerificationCode";
+import TellUsMore from "./TellUsMore";
 
 const Header = styled.div`
   width: 100%;
@@ -71,7 +73,7 @@ const MainFormContainer = styled.div`
   &.container-exit-active {
     opacity: 0;
     transform: translateX(-800px);
-    transition: opacity 350ms ease, transform 350ms ease;
+    transition: opacity 200ms ease, transform 200ms ease;
   }
 `;
 
@@ -104,8 +106,13 @@ const ProgressBar = props => {
 };
 
 function MainMercantSigninScreen(props) {
-  const [progress, setProgress] = useState(0);
-  const formSteps = [<SignUpForm />, <SignUpForm />, <SignUpForm />];
+  const [progress, setProgress] = useState(1);
+  const formSteps = [
+    <SignUpForm />,
+    <TellUsMore />,
+    <VerificationCode />,
+    <SignUpForm />
+  ];
   return (
     <MainContainer>
       <div>
@@ -120,7 +127,6 @@ function MainMercantSigninScreen(props) {
       <SwitchTransition mode={"out-in"}>
         <CSSTransition
           classNames={"container"}
-          timeout={500}
           key={progress}
           addEndListener={(node, done) => {
             node.addEventListener("transitionend", done, false);
