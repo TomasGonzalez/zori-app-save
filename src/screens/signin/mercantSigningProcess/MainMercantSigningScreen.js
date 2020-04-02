@@ -106,7 +106,7 @@ const ProgressBar = props => {
 };
 
 function MainMercantSigninScreen(props) {
-  const [progress, setProgress] = useState(1);
+  const [progress, setProgress] = useState(2);
   const formSteps = [
     <SignUpForm />,
     <TellUsMore />,

@@ -13,6 +13,24 @@ export const AppRoot = createGlobalStyle`
   *{
     font-family: 'Rubik', sans-serif;
   }
+  .ReactModal__Overlay {
+    opacity: 0;
+    transform: translate0(-100px);
+    transition: opacity 200ms ease, transform 200ms ease;
+  }
+
+  .ReactModal__Overlay--after-open {
+    opacity: 1;
+    transform: translateY(0px);
+
+  }
+
+  .ReactModal__Overlay--before-close {
+    opacity: 0;
+    transform: translateY(100px);
+    transition: opacity 200ms ease, transform 200ms ease;
+
+  }
 `;
 
 function App() {

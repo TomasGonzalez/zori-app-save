@@ -60,3 +60,9 @@ export const PasswordInput = props => {
     </MainWrapper>
   );
 };
+
+export const VerificationInput = props => {
+
+  return()
+
+}

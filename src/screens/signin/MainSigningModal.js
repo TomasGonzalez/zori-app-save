@@ -42,7 +42,7 @@ export default function MainSigningModal(props) {
   };
 
   return (
-    <StyledModal style={customStyles} {...props}>
+    <StyledModal closeTimeoutMS={200} style={customStyles} {...props}>
       {RouteSigningProcess()}
     </StyledModal>
   );

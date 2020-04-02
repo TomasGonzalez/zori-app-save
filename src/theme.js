@@ -1,6 +1,7 @@
 export default {
   color: {
     primary: "#0C77F8",
+    linkBlue: "#94E3F4",
     green1: "#1a7b64",
     green2: "#77B4A9",
     background: "#ffffff",
