@@ -10,7 +10,7 @@ const TitleUnderline = styled.div`
 `;
 
 const Title = styled.div`
-  font-size: 30px;
+  font-size: ${props => props.fontSize || 30}px;
   font-weight: bold;
 `;
 const ErrorMessage = styled.div`
@@ -22,7 +22,7 @@ const ErrorMessage = styled.div`
 export default function(props) {
   return (
     <TitleWrapper {...props}>
-      <Title>{props.label}</Title>
+      <Title fontSize={props.fontSize}>{props.label}</Title>
       <TitleUnderline />
       {props.errorMessage && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
     </TitleWrapper>

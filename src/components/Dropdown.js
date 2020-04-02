@@ -1,7 +1,9 @@
 import React from "react";
 
 import Select, { components } from "react-select";
+
 import theme from "theme";
+import BaseInput from "components/BaseInput";
 
 const groupStyles = {
   display: "flex",
@@ -106,13 +108,16 @@ const DropdownIndicator = props => {
   );
 };
 
-export default function Dropdown({ options }) {
+export default function Dropdown({ options, ...props }) {
   return (
-    <Select
-      placeholder={"Is this a brand you created or own?"}
-      styles={customStyles}
-      options={options}
-      components={{ DropdownIndicator }}
-    />
+    <BaseInput {...props}>
+      <Select
+        {...props.input}
+        placeholder={props.placeholder}
+        styles={customStyles}
+        options={options}
+        components={{ DropdownIndicator }}
+      />
+    </BaseInput>
   );
 }

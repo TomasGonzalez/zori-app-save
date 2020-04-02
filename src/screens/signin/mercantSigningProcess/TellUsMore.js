@@ -6,6 +6,7 @@ import { TextInput, PasswordInput } from "components/forms/inputs";
 import { EmailValidator } from "lib/formValidation";
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
+import { useField } from "react-final-form";
 
 const MainContainer = styled.div`
   display: flex;
@@ -37,7 +38,7 @@ const FormContainer = styled.div`
 
 const StyledForm = styled.form`
   padding: 80px;
-  max-width: 404px;
+  max-width: 440px;
 `;
 
 const FormWrapper = styled.div`
@@ -45,11 +46,29 @@ const FormWrapper = styled.div`
 `;
 
 const boolOptions = [
-  { value: true, label: "Yes" },
-  { value: false, label: "No" }
+  { value: "true", label: "Yes" },
+  { value: "false", label: "No" }
+];
+const brandRoleOptions = [
+  { value: "Sales Manager", label: "Sales Manager" },
+  { value: "Operations Manager", label: "Operations Manager" },
+  { value: "Marketing Manager", label: "Marketing Manager" },
+  { value: "Brand Strategist", label: "Brand Strategist" }
 ];
 
 export default function TellUsMore() {
+  const handleSubmit = props => {
+    console.log(props);
+  };
+
+  const Condition = ({ when, is, children }) => (
+    <Field name={when} subscription={{ value: true }}>
+      {({ input: { value } }) => {
+        return (value.value || value) === is ? children : null;
+      }}
+    </Field>
+  );
+
   return (
     <MainContainer>
       <ImageContainer
@@ -58,30 +77,48 @@ export default function TellUsMore() {
       />
       <FormContainer>
         <Form
-          onSubmit={() => {}}
-          render={({ handleSubmit }) => (
-            <StyledForm>
-              <Title
-                style={{ marginBottom: 56, fontWeight: "100" }}
-                errorMessage={""}
-                label={"Tell us a little bit more about your brand"}
-              />
-              <FormWrapper>
-                <Field
-                  name='brandName'
-                  component={TextInput}
-                  style={{ marginBottom: 64, width: "100%" }}
-                  placeholder='Enter your e-mail address'
+          onSubmit={handleSubmit}
+          render={({ handleSubmit }) => {
+            return (
+              <StyledForm>
+                <Title
+                  style={{ marginBottom: 56 }}
+                  fontSize={33}
+                  errorMessage={""}
+                  label={"Tell us a little bit more about your brand"}
                 />
-                <Field
-                  name='dropdown'
-                  options={boolOptions}
-                  component={Dropdown}
-                />
-                <Field name='url' component={TextInput} />
-              </FormWrapper>
-            </StyledForm>
-          )}
+                <FormWrapper>
+                  <Field
+                    name='brandName'
+                    component={TextInput}
+                    style={{ marginBottom: 64, width: "100%" }}
+                    placeholder='What’s the name of your brand?'
+                  />
+                  <Field
+                    name='brandOwnership'
+                    options={boolOptions}
+                    component={Dropdown}
+                    placeholder={"Is this a brand you created or own?"}
+                    style={{ marginBottom: 64, width: "100%" }}
+                  />
+                  <Condition when='brandOwnership' is={"false"}>
+                    <Field
+                      name='brandRole'
+                      options={brandRoleOptions}
+                      component={Dropdown}
+                      placeholder={"What’s your role at this brand?"}
+                      style={{ marginBottom: 64, width: "100%" }}
+                    />
+                  </Condition>
+                  <Field
+                    name='url'
+                    placeholder='If you don’t mind, please enter your website URL or Intagram handle'
+                    component={TextInput}
+                  />
+                </FormWrapper>
+              </StyledForm>
+            );
+          }}
         />
       </FormContainer>
     </MainContainer>
