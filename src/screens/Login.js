@@ -68,6 +68,7 @@ const FormWrapper = styled.div`
 
 function Login() {
   const [errorMessage, setErrorMessage] = useState();
+
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
 
   const history = useHistory();

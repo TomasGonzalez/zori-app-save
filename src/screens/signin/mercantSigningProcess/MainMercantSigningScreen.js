@@ -4,6 +4,9 @@ import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import { useHistory } from "react-router-dom";
 
 import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
@@ -108,15 +111,33 @@ const ProgressBar = props => {
 
 function MainMercantSigninScreen(props) {
   const [progress, setProgress] = useState(0);
-  const [validationModal, setValidationModal] = useState(true);
+  const [validationModal, setValidationModal] = useState(false);
+  const [signupData, setSignupData] = useState(null);
+
+  const [createUser, { data }] = useMutation(CREATE_USER);
+
+  const history = useHistory();
+
+  const Signup = () => {
+    console.log({ ...signupData, isVendor: true }, "signupData");
+    createUser({ variables: { ...signupData, isVendor: true } })
+      .then(request => {
+        console.log(request);
+        setValidationModal(true);
+      })
+      .catch(err => console.log(err));
+  };
 
   const formSteps = [
-    <SignUpForm nextAction={() => setValidationModal(true)} />,
+    <SignUpForm
+      setSignupData={values => setSignupData(values)}
+      nextAction={Signup}
+    />,
     <TellUsMore />,
     <SignUpForm />
   ];
 
-  const HeaderComponent = close => {
+  const HeaderComponent = ({ close }) => {
     return (
       <div style={{ width: "100%" }}>
         <Header>
@@ -132,7 +153,7 @@ function MainMercantSigninScreen(props) {
 
   return (
     <MainContainer>
-      <HeaderComponent close={props.onRequestClose} />
+      <HeaderComponent close={() => history.push("/login")} />
       <SwitchTransition mode={"out-in"}>
         <CSSTransition
           classNames={"container"}
@@ -167,10 +188,33 @@ function MainMercantSigninScreen(props) {
             setProgress(progress + 1);
             //setValidationModal(false);
           }}
-          header={HeaderComponent(() => setValidationModal(false))}
+          header={<HeaderComponent close={() => setValidationModal(false)} />}
         />
       </BaseModal>
     </MainContainer>
   );
 }
+
+const CREATE_USER = gql`
+  mutation CreateUser(
+    $email: String!
+    $firstName: String!
+    $isVendor: Boolean!
+    $lastName: String!
+    $password: String!
+  ) {
+    createUser(
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      isVendor: $isVendor
+    ) {
+      user {
+        dateJoined
+      }
+    }
+  }
+`;
+
 export default withTheme(MainMercantSigninScreen);

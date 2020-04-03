@@ -51,7 +51,7 @@ const FormWrapper = styled.div`
   max-width: 552px;
 `;
 
-export default function SignUpForm() {
+export default function SignUpForm({ setSignupData }) {
   return (
     <MainContainer>
       <ImageContainer
@@ -60,9 +60,12 @@ export default function SignUpForm() {
       />
       <FormContaienr>
         <Form
-          onSubmit={() => {}}
-          render={({ handleSubmit }) => (
-            <StyledForm>
+          onSubmit={() => null}
+          render={({ values }) => (
+            <StyledForm
+              subscription={{ values: true, valid: true }}
+              onChange={() => setSignupData(values)}
+            >
               <Title
                 style={{ marginBottom: 56 }}
                 errorMessage={""}
