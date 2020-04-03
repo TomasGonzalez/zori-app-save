@@ -10,7 +10,6 @@ import { EmailValidator } from "../lib/formValidation";
 import { TextInput, PasswordInput } from "../components/forms/inputs";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
-import MainSigningModal from "../screens/signin/MainSigningModal";
 import Title from "components/Title";
 
 const MainContainer = styled.div`
@@ -70,9 +69,8 @@ const FormWrapper = styled.div`
 function Login() {
   const [errorMessage, setErrorMessage] = useState();
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
-  const [signupModal, setSignupModal] = useState(true); //this should be false
 
-  let history = useHistory();
+  const history = useHistory();
 
   const handleSubmit = async params => {
     if (params.email && params.password) {
@@ -132,7 +130,7 @@ function Login() {
                 </Field>
                 <ButtonsWrappers style={{ marginTop: 80 }}>
                   <Button
-                    onClick={() => setSignupModal(true)}
+                    onClick={() => history.push("/signin")}
                     label={"Sign up"}
                   />
                   <Button
@@ -146,10 +144,6 @@ function Login() {
           )}
         />
       </FormContaienr>
-      <MainSigningModal
-        isOpen={signupModal}
-        onRequestClose={() => setSignupModal(false)}
-      />
     </MainContainer>
   );
 }

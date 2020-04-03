@@ -1,5 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
+
 import styled from "styled-components";
+
+import { VerificationInput } from "components/forms/inputs";
+import Button from "components/Button";
 
 const StyledLock = styled.img`
   height: 207.2px;
@@ -7,6 +11,15 @@ const StyledLock = styled.img`
 `;
 
 const MainWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+`;
+
+const ContentWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -32,9 +45,11 @@ const SubTitle = styled.div`
   }
 `;
 
-function VerificationCode() {
-  return (
-    <MainWrapper>
+function VerificationCode({ header, onVerification }) {
+  const [isVerified, setIsVerified] = useState(false);
+
+  const NotVerified = () => (
+    <ContentWrapper>
       <StyledLock src={require("assets/verificationDanger.png")} />
       <Title>Verification</Title>
       <SubTitle>
@@ -42,6 +57,36 @@ function VerificationCode() {
         below to proceed.
         <br /> Didn’t get it? <span>Have it resent</span>
       </SubTitle>
+      <VerificationInput />
+      <Button
+        buttonStyle='dark'
+        size='small'
+        label='Verify'
+        style={{ marginTop: 64 }}
+        onClick={onVerification}
+      />
+    </ContentWrapper>
+  );
+  const Verified = () => (
+    <ContentWrapper>
+      <StyledLock src={require("assets/verificationDanger.png")} />
+      <Title>Verification</Title>
+      <SubTitle>hello</SubTitle>
+      <VerificationInput />
+      <Button
+        buttonStyle='dark'
+        size='small'
+        label='Verify'
+        style={{ marginTop: 64 }}
+        onClick={onVerification}
+      />
+    </ContentWrapper>
+  );
+  return (
+    <MainWrapper>
+      {header}
+      {isVerified ? Verified() : NotVerified()}
+      <div />
     </MainWrapper>
   );
 }

@@ -1,5 +1,6 @@
 import React from "react";
 
+import InputMask from "react-input-mask";
 import styled from "styled-components";
 
 const MainWrapper = styled.div``;
@@ -20,6 +21,21 @@ const StyledInput = styled.input`
       props.meta && props.meta.error && props.meta.touched
         ? props.theme.color.danger
         : props.theme.color.gray1};
+  }
+`;
+
+const StyledVerificationInput = styled.input`
+  font-size: 72px;
+  letter-spacing: 32px;
+  top: 10px;
+  width: 434px;
+  border-width: 0px;
+  outline: none;
+  padding-left: 30px;
+  color: ${props => props.theme.color.lightGray};
+
+  ::placeholder {
+    color: ${props => props.theme.color.lightGray};
   }
 `;
 
@@ -62,7 +78,15 @@ export const PasswordInput = props => {
 };
 
 export const VerificationInput = props => {
-
-  return()
-
-}
+  return (
+    <InputMask mask='999999' value={props.value} onChange={props.onChange}>
+      {inputProps => (
+        <StyledVerificationInput
+          placeholder={"______"}
+          {...inputProps}
+          disableUnderline
+        />
+      )}
+    </InputMask>
+  );
+};

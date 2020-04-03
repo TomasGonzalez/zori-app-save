@@ -7,6 +7,8 @@ import {
 } from "react-router-dom";
 
 import Login from "screens/Login";
+import MainSigningScreen from "screens/signin/MainSigninScreen";
+
 import Test from "screens/test";
 
 export default function MainRouter() {
@@ -70,6 +72,9 @@ export default function MainRouter() {
           />
           <PublicRoute path='/login'>
             <Login />
+          </PublicRoute>
+          <PublicRoute path='/signin'>
+            <MainSigningScreen />
           </PublicRoute>
           <PrivateRoute path='/test'>
             <Test />

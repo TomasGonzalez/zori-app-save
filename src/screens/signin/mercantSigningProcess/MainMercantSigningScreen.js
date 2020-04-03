@@ -9,6 +9,7 @@ import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
 import VerificationCode from "./VerificationCode";
 import TellUsMore from "./TellUsMore";
+import BaseModal from "components/BaseModal";
 
 const Header = styled.div`
   width: 100%;
@@ -106,24 +107,32 @@ const ProgressBar = props => {
 };
 
 function MainMercantSigninScreen(props) {
-  const [progress, setProgress] = useState(2);
+  const [progress, setProgress] = useState(0);
+  const [validationModal, setValidationModal] = useState(true);
+
   const formSteps = [
-    <SignUpForm />,
+    <SignUpForm nextAction={() => setValidationModal(true)} />,
     <TellUsMore />,
-    <VerificationCode />,
     <SignUpForm />
   ];
-  return (
-    <MainContainer>
-      <div>
+
+  const HeaderComponent = close => {
+    return (
+      <div style={{ width: "100%" }}>
         <Header>
           <Logo src={require("assets/zori-logo.png")} />
           <Close>
-            <MdClose onClick={props.onRequestClose} size={20} />
+            <MdClose onClick={close} size={20} />
           </Close>
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />
       </div>
+    );
+  };
+
+  return (
+    <MainContainer>
+      <HeaderComponent close={props.onRequestClose} />
       <SwitchTransition mode={"out-in"}>
         <CSSTransition
           classNames={"container"}
@@ -137,13 +146,30 @@ function MainMercantSigninScreen(props) {
       </SwitchTransition>
       <Footer>
         <Button
-          onClick={() => setProgress(progress + 1)}
+          onClick={formSteps[progress].props.nextAction}
           buttonStyle='dark'
           size='small'
           label='Next'
         />
         <PageCount>{progress} / 4</PageCount>
       </Footer>
+      <BaseModal
+        isOpen={validationModal}
+        onRequestClose={() => setValidationModal(false)}
+        style={{
+          alignItems: "center",
+          justifyContent: "center",
+          display: "flex"
+        }}
+      >
+        <VerificationCode
+          onVerification={() => {
+            setProgress(progress + 1);
+            //setValidationModal(false);
+          }}
+          header={HeaderComponent(() => setValidationModal(false))}
+        />
+      </BaseModal>
     </MainContainer>
   );
 }

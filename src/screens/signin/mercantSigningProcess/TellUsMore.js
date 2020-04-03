@@ -6,7 +6,6 @@ import { TextInput, PasswordInput } from "components/forms/inputs";
 import { EmailValidator } from "lib/formValidation";
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
-import { useField } from "react-final-form";
 
 const MainContainer = styled.div`
   display: flex;
@@ -56,8 +55,8 @@ const brandRoleOptions = [
   { value: "Brand Strategist", label: "Brand Strategist" }
 ];
 
-export default function TellUsMore() {
-  const handleSubmit = props => {
+export default function TellUsMore(props) {
+  const handleSubmit = submitProps => {
     console.log(props);
   };
 

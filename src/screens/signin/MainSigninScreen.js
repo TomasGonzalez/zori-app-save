@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 
-import Modal from "react-modal";
 import styled from "styled-components";
 
 import SigninUserSelectionScreen from "screens/signin/SigninUserSelectionScreen";
 import MainMercantSigninScreen from "screens/signin/mercantSigningProcess/MainMercantSigningScreen";
+import { useHistory } from "react-router-dom";
 
 const customStyles = {
   content: {
@@ -18,13 +18,14 @@ const customStyles = {
   }
 };
 
-const StyledModal = styled(Modal)`
-  height: 100%;
+const MainContainer = styled.div`
+  height: 100vh;
   width: 100%;
 `;
 
-export default function MainSigningModal(props) {
-  const [typeOfSigning, setTypeOfSigning] = useState(1); //this shuld be one when deployed
+export default function MainSigningScreen(props) {
+  const [typeOfSigning, setTypeOfSigning] = useState(1); //this shuld be 0 when deployed
+  const history = useHistory();
 
   const RouteSigningProcess = () => {
     switch (typeOfSigning) {
@@ -32,18 +33,20 @@ export default function MainSigningModal(props) {
         return (
           <SigninUserSelectionScreen
             onSigningProcessSeleected={val => setTypeOfSigning(val)}
+            onRequestClose={() => history.push("/login")}
             {...props}
           />
         );
       case 1:
-        return <MainMercantSigninScreen {...props} />;
+        return (
+          <MainMercantSigninScreen
+            onRequestClose={() => history.push("/login")}
+            {...props}
+          />
+        );
       default:
     }
   };
 
-  return (
-    <StyledModal closeTimeoutMS={200} style={customStyles} {...props}>
-      {RouteSigningProcess()}
-    </StyledModal>
-  );
+  return <MainContainer>{RouteSigningProcess()}</MainContainer>;
 }
