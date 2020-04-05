@@ -38,14 +38,14 @@ const SubTitle = styled.div`
   margin-top: 16px;
   font-size: 14px;
   text-align: center;
-  color: ${props => props.theme.color.gray1};
+  color: ${(props) => props.theme.color.gray1};
   span {
-    color: ${props => props.theme.color.linkBlue};
+    color: ${(props) => props.theme.color.linkBlue};
     cursor: pointer;
   }
 `;
 
-function VerificationCode({ header, onVerification }) {
+function VerificationCode({ header, onVerification, onFinishVerification }) {
   const [isVerified, setIsVerified] = useState(false);
 
   const NotVerified = () => (
@@ -63,22 +63,27 @@ function VerificationCode({ header, onVerification }) {
         size='small'
         label='Verify'
         style={{ marginTop: 64 }}
-        onClick={onVerification}
+        onClick={() => {
+          setIsVerified(true);
+          onVerification();
+        }}
       />
     </ContentWrapper>
   );
   const Verified = () => (
     <ContentWrapper>
-      <StyledLock src={require("assets/verificationDanger.png")} />
-      <Title>Verification</Title>
-      <SubTitle>hello</SubTitle>
-      <VerificationInput />
+      <StyledLock src={require("assets/verificationSuccess.png")} />
+      <Title>Success!</Title>
+      <SubTitle style={{ width: "100%" }}>
+        Click the button below if this page doesn’t automatically redirect in a
+        couple of seconds
+      </SubTitle>
       <Button
         buttonStyle='dark'
         size='small'
         label='Verify'
         style={{ marginTop: 64 }}
-        onClick={onVerification}
+        onClick={onFinishVerification}
       />
     </ContentWrapper>
   );

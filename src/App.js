@@ -1,8 +1,9 @@
-import React, { useContext } from "react";
+import React, { useEffect, useContext } from "react";
 
 import { ThemeProvider, createGlobalStyle } from "styled-components";
 import theme from "./theme";
 import { ApolloProvider } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import MainRouter from "./lib/MainRouter";
 import client from "./lib/apollo";
@@ -33,7 +34,47 @@ export const AppRoot = createGlobalStyle`
   }
 `;
 
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      isVendor
+      isPromoter
+    }
+  }
+`;
+
 function App() {
+  useEffect(() => {
+    getInitialProps();
+  }, []);
+
+  const getInitialProps = async () => {
+    if (
+      localStorage.getItem("jwtToken") ||
+      sessionStorage.getItem("jwtToken")
+    ) {
+      try {
+        await client
+          .query({
+            query: GET_SELF,
+          })
+          .then((result) => console.log(result));
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  };
+
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>

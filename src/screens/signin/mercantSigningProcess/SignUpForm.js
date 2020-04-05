@@ -59,17 +59,26 @@ const FormWrapper = styled.div`
   max-width: 552px;
 `;
 
-export default function SignUpForm({ setHandleSubmit, setValidationModal }) {
+export default function SignUpForm({
+  setHandleSubmit,
+  setValidationModal,
+  setIsLoading,
+}) {
   const [createUser, { data }] = useMutation(CREATE_USER);
 
   const handleSubmit = (props) => {
+    setIsLoading(true);
     createUser({ variables: { ...props, isVendor: true } })
       .then((request) => {
         console.log(request.data);
         localStorage.setItem("jwtToken", request.data.createUser.token);
         setValidationModal(true);
+        setIsLoading(false);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setIsLoading(false);
+      });
   };
 
   return (

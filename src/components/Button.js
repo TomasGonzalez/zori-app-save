@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { withTheme } from "styled-components";
 
-import Loading from "components/Loading";
+import BeatLoader from "react-spinners/BeatLoader";
 
 const StyledButton = styled.div`
   width: ${(props) => (props.size === "small" ? 184 : 296)}px;
@@ -33,9 +33,20 @@ const Label = styled.div`
 
 const Button = (props) => {
   return (
-    <StyledButton {...props} buttonStyle={props.buttonStyle}>
+    <StyledButton
+      {...props}
+      onClick={!props.isLoading && props.onClick}
+      buttonStyle={props.buttonStyle}
+    >
       {props.isLoading ? (
-        <Loading />
+        <BeatLoader
+          size={8}
+          color={
+            props.buttonStyle === "dark"
+              ? props.theme.color.background
+              : props.theme.color.black1
+          }
+        />
       ) : (
         <Label buttonStyle={props.buttonStyle}>{props.label}</Label>
       )}
@@ -43,4 +54,4 @@ const Button = (props) => {
   );
 };
 
-export default Button;
+export default withTheme(Button);

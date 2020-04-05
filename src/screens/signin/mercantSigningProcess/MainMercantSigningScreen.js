@@ -109,42 +109,41 @@ const ProgressBar = (props) => {
 
 function MainMercantSigninScreen(props) {
   const [progress, setProgress] = useState(0);
+  const [isLoading, setIsLoading] = useState(false);
+
   const [validationModal, setValidationModal] = useState(
     localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken")
       ? true
-      : false
+      : true
   );
-
   const [onHandleSubmit, setHandleSubmit] = useState(null);
-
   const history = useHistory();
 
   const formSteps = [
     <SignUpForm
       setHandleSubmit={(values) => setHandleSubmit(values)}
       setValidationModal={(value) => setValidationModal(value)}
+      setIsLoading={(value) => setIsLoading(value)}
     />,
     <TellUsMore />,
-    <SignUpForm />,
+    <SignUpForm
+      setHandleSubmit={(values) => setHandleSubmit(values)}
+      setValidationModal={(value) => setValidationModal(value)}
+      setIsLoading={(value) => setIsLoading(value)}
+    />,
   ];
 
-  const HeaderComponent = ({ close }) => {
-    return (
+  return (
+    <MainContainer>
       <div style={{ width: "100%" }}>
         <Header>
           <Logo src={require("assets/zori-logo.png")} />
           <Close>
-            <MdClose onClick={close} size={20} />
+            <MdClose onClick={() => history.push("/login")} size={20} />
           </Close>
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />
       </div>
-    );
-  };
-
-  return (
-    <MainContainer>
-      <HeaderComponent close={() => history.push("/login")} />
       <SwitchTransition mode={"out-in"}>
         <CSSTransition
           classNames={"container"}
@@ -158,11 +157,11 @@ function MainMercantSigninScreen(props) {
       </SwitchTransition>
       <Footer>
         <Button
-          onClick={onHandleSubmit}
+          onClick={() => setProgress(progress + 1)}
           buttonStyle='dark'
           size='small'
           label='Next'
-          isLoading
+          isLoading={isLoading}
         />
         <PageCount>{progress} / 4</PageCount>
       </Footer>
@@ -178,9 +177,24 @@ function MainMercantSigninScreen(props) {
         <VerificationCode
           onVerification={() => {
             setProgress(progress + 1);
-            //setValidationModal(false);
           }}
-          header={<HeaderComponent close={() => setValidationModal(false)} />}
+          onFinishVerification={() => {
+            setValidationModal(false);
+          }}
+          header={
+            <div style={{ width: "100%" }}>
+              <Header>
+                <Logo src={require("assets/zori-logo.png")} />
+                <Close>
+                  <MdClose
+                    onClick={() => setValidationModal(false)}
+                    size={20}
+                  />
+                </Close>
+              </Header>
+              <ProgressBar progress={(progress / 4) * 100} {...props} />
+            </div>
+          }
         />
       </BaseModal>
     </MainContainer>

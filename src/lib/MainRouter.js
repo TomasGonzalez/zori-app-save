@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -7,28 +7,12 @@ import {
 } from "react-router-dom";
 
 import { useQuery } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 
 import Login from "screens/Login";
 import MainSigningScreen from "screens/signin/MainSigninScreen";
 import Test from "screens/test";
 
-const GET_ME = gql`
-  {
-    me {
-      id
-      email
-    }
-  }
-`;
-
 export default function MainRouter() {
-  const { loading, error, data } = useQuery(GET_ME);
-
-  if (!loading) {
-    console.log(data, error);
-  }
-
   const PrivateRoute = ({ children, ...rest }) => {
     return (
       <Route
