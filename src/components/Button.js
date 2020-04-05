@@ -1,12 +1,14 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+import Loading from "components/Loading";
+
 const StyledButton = styled.div`
-  width: ${props => (props.size === "small" ? 184 : 296)}px;
+  width: ${(props) => (props.size === "small" ? 184 : 296)}px;
   height: 48px;
   border-radius: 6px;
   border: solid 1px rgba(0, 0, 0, 0.35);
-  background-color: ${props =>
+  background-color: ${(props) =>
     props.buttonStyle !== "dark"
       ? props.theme.color.background
       : props.theme.color.black1};
@@ -23,16 +25,20 @@ const StyledButton = styled.div`
 const Label = styled.div`
   font-size: 14px;
   font-weight: 500;
-  color: ${props =>
+  color: ${(props) =>
     props.buttonStyle !== "dark"
       ? props.theme.color.gray1
       : props.theme.color.background};
 `;
 
-const Button = props => {
+const Button = (props) => {
   return (
     <StyledButton {...props} buttonStyle={props.buttonStyle}>
-      <Label buttonStyle={props.buttonStyle}>{props.label}</Label>
+      {props.isLoading ? (
+        <Loading />
+      ) : (
+        <Label buttonStyle={props.buttonStyle}>{props.label}</Label>
+      )}
     </StyledButton>
   );
 };

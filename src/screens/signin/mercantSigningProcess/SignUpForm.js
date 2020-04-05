@@ -2,9 +2,17 @@ import React from "react";
 
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
-import { TextInput, PasswordInput } from "components/forms/inputs";
+import { PhoneInput, TextInput, PasswordInput } from "components/forms/inputs";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
-import { EmailValidator } from "lib/formValidation";
+import {
+  composeValidators,
+  NotEmptyValidator,
+  EmailValidator,
+  PasswordValidator,
+  VerifyPasswordValidator,
+} from "lib/formValidation";
 import Title from "components/Title";
 
 const MainContainer = styled.div`
@@ -28,7 +36,7 @@ const FormContaienr = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${(props) => props.theme.color.white};
   overflow: auto;
 
   ::-webkit-scrollbar {
@@ -38,7 +46,7 @@ const FormContaienr = styled.div`
 `;
 
 const StyledForm = styled.form`
-  padding: 80px;
+  padding: 0px 80px;
 `;
 
 const NamesWrapper = styled.div`
@@ -51,7 +59,19 @@ const FormWrapper = styled.div`
   max-width: 552px;
 `;
 
-export default function SignUpForm({ setSignupData }) {
+export default function SignUpForm({ setHandleSubmit, setValidationModal }) {
+  const [createUser, { data }] = useMutation(CREATE_USER);
+
+  const handleSubmit = (props) => {
+    createUser({ variables: { ...props, isVendor: true } })
+      .then((request) => {
+        console.log(request.data);
+        localStorage.setItem("jwtToken", request.data.createUser.token);
+        setValidationModal(true);
+      })
+      .catch((err) => console.log(err));
+  };
+
   return (
     <MainContainer>
       <ImageContainer
@@ -60,11 +80,14 @@ export default function SignUpForm({ setSignupData }) {
       />
       <FormContaienr>
         <Form
-          onSubmit={() => null}
-          render={({ values }) => (
+          onSubmit={handleSubmit}
+          render={({ handleSubmit, values, invalid }) => (
             <StyledForm
+              id='myForm'
               subscription={{ values: true, valid: true }}
-              onChange={() => setSignupData(values)}
+              onChange={() => {
+                setHandleSubmit(() => handleSubmit);
+              }}
             >
               <Title
                 style={{ marginBottom: 56 }}
@@ -78,29 +101,39 @@ export default function SignUpForm({ setSignupData }) {
                     component={TextInput}
                     style={{ marginBottom: 64, width: "42%" }}
                     placeholder='Enter your first name'
+                    validate={NotEmptyValidator}
                   />
                   <Field
                     name='lastName'
                     component={TextInput}
                     style={{ marginBottom: 64, width: "42%" }}
                     placeholder='Enter your last name'
+                    validate={NotEmptyValidator}
                   />
                 </NamesWrapper>
                 <Field
                   name='email'
                   component={TextInput}
-                  validate={EmailValidator}
+                  validate={composeValidators(
+                    NotEmptyValidator,
+                    EmailValidator
+                  )}
                   style={{ marginBottom: 64, width: "100%" }}
                   placeholder='Enter your e-mail address'
                 />
                 <Field
                   name='phone'
-                  component={TextInput}
+                  component={PhoneInput}
                   style={{ marginBottom: 64, width: "100%" }}
                   placeholder='Enter your phone number'
+                  validate={composeValidators(NotEmptyValidator)}
                 />
                 <Field
                   name='password'
+                  validate={composeValidators(
+                    NotEmptyValidator,
+                    PasswordValidator
+                  )}
                   component={PasswordInput}
                   style={{ marginBottom: 64, width: "100%" }}
                   placeholder='Create your password'
@@ -108,6 +141,7 @@ export default function SignUpForm({ setSignupData }) {
                 <Field
                   name='verifyPassword'
                   component={PasswordInput}
+                  validate={VerifyPasswordValidator}
                   style={{ marginBottom: 64, width: "100%" }}
                   placeholder='Verify your password'
                 />
@@ -119,3 +153,29 @@ export default function SignUpForm({ setSignupData }) {
     </MainContainer>
   );
 }
+const CREATE_USER = gql`
+  mutation CreateUser(
+    $email: String!
+    $firstName: String!
+    $isVendor: Boolean!
+    $lastName: String!
+    $password: String!
+    $phone: String!
+  ) {
+    createUser(
+      email: $email
+      password: $password
+      firstName: $firstName
+      lastName: $lastName
+      isVendor: $isVendor
+      phoneNumber: $phone
+    ) {
+      user {
+        dateJoined
+        id
+        email
+      }
+      token
+    }
+  }
+`;

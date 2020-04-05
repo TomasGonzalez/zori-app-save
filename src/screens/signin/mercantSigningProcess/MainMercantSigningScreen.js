@@ -4,8 +4,6 @@ import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import { useMutation } from "@apollo/react-hooks";
-import { gql } from "apollo-boost";
 import { useHistory } from "react-router-dom";
 
 import Button from "components/Button";
@@ -81,7 +79,7 @@ const MainFormContainer = styled.div`
   }
 `;
 
-const ProgressBar = props => {
+const ProgressBar = (props) => {
   return (
     <div>
       <div
@@ -90,7 +88,7 @@ const ProgressBar = props => {
           height: 3,
           top: 14,
           width: "100%",
-          backgroundColor: props.theme.color.lightGray
+          backgroundColor: props.theme.color.lightGray,
         }}
       />
       <Progress
@@ -98,7 +96,7 @@ const ProgressBar = props => {
           height: 3,
           top: 0,
           position: "relative",
-          boxShadow: "transparent"
+          boxShadow: "transparent",
         }}
         color={props.theme.color.green1}
         height={3}
@@ -111,30 +109,23 @@ const ProgressBar = props => {
 
 function MainMercantSigninScreen(props) {
   const [progress, setProgress] = useState(0);
-  const [validationModal, setValidationModal] = useState(false);
-  const [signupData, setSignupData] = useState(null);
+  const [validationModal, setValidationModal] = useState(
+    localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken")
+      ? true
+      : false
+  );
 
-  const [createUser, { data }] = useMutation(CREATE_USER);
+  const [onHandleSubmit, setHandleSubmit] = useState(null);
 
   const history = useHistory();
 
-  const Signup = () => {
-    console.log({ ...signupData, isVendor: true }, "signupData");
-    createUser({ variables: { ...signupData, isVendor: true } })
-      .then(request => {
-        console.log(request);
-        setValidationModal(true);
-      })
-      .catch(err => console.log(err));
-  };
-
   const formSteps = [
     <SignUpForm
-      setSignupData={values => setSignupData(values)}
-      nextAction={Signup}
+      setHandleSubmit={(values) => setHandleSubmit(values)}
+      setValidationModal={(value) => setValidationModal(value)}
     />,
     <TellUsMore />,
-    <SignUpForm />
+    <SignUpForm />,
   ];
 
   const HeaderComponent = ({ close }) => {
@@ -167,10 +158,11 @@ function MainMercantSigninScreen(props) {
       </SwitchTransition>
       <Footer>
         <Button
-          onClick={formSteps[progress].props.nextAction}
+          onClick={onHandleSubmit}
           buttonStyle='dark'
           size='small'
           label='Next'
+          isLoading
         />
         <PageCount>{progress} / 4</PageCount>
       </Footer>
@@ -180,7 +172,7 @@ function MainMercantSigninScreen(props) {
         style={{
           alignItems: "center",
           justifyContent: "center",
-          display: "flex"
+          display: "flex",
         }}
       >
         <VerificationCode
@@ -194,27 +186,5 @@ function MainMercantSigninScreen(props) {
     </MainContainer>
   );
 }
-
-const CREATE_USER = gql`
-  mutation CreateUser(
-    $email: String!
-    $firstName: String!
-    $isVendor: Boolean!
-    $lastName: String!
-    $password: String!
-  ) {
-    createUser(
-      email: $email
-      password: $password
-      firstName: $firstName
-      lastName: $lastName
-      isVendor: $isVendor
-    ) {
-      user {
-        dateJoined
-      }
-    }
-  }
-`;
 
 export default withTheme(MainMercantSigninScreen);

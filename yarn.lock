@@ -1141,7 +1141,7 @@
     "@emotion/utils" "0.11.3"
     "@emotion/weak-memoize" "0.2.5"
 
-"@emotion/core@^10.0.9":
+"@emotion/core@^10.0.15", "@emotion/core@^10.0.9":
   version "10.0.28"
   resolved "https://registry.yarnpkg.com/@emotion/core/-/core-10.0.28.tgz#bb65af7262a234593a9e952c041d0f1c9b9bef3d"
   integrity sha512-pH8UueKYO5jgg0Iq+AmCLxBsvuGtvlmiDCOuv8fGNYn3cowFpLN98L8zO56U0H1PjDIyAlXymgL3Wu7u7v6hbA==
@@ -2190,6 +2190,14 @@ apollo-client@^2.6.7, apollo-client@^2.6.8:
     ts-invariant "^0.4.0"
     tslib "^1.10.0"
     zen-observable "^0.8.0"
+
+apollo-link-context@^1.0.19:
+  version "1.0.19"
+  resolved "https://registry.yarnpkg.com/apollo-link-context/-/apollo-link-context-1.0.19.tgz#3c9ba5bf75ed5428567ce057b8837ef874a58987"
+  integrity sha512-TUi5TyufU84hEiGkpt+5gdH5HkB3Gx46npNfoxR4of3DKBCMuItGERt36RCaryGcU/C3u2zsICU3tJ+Z9LjFoQ==
+  dependencies:
+    apollo-link "^1.2.13"
+    tslib "^1.9.3"
 
 apollo-link-error@^1.0.3:
   version "1.1.12"
@@ -9277,6 +9285,13 @@ react-select@^3.1.0:
     prop-types "^15.6.0"
     react-input-autosize "^2.2.2"
     react-transition-group "^4.3.0"
+
+react-spinners@^0.8.1:
+  version "0.8.1"
+  resolved "https://registry.yarnpkg.com/react-spinners/-/react-spinners-0.8.1.tgz#210521e9d5b8be70e4c447d547919c1afb609209"
+  integrity sha512-jWp9gTurv6A1saXyqaqWx3dp2ZCi5eMaa0Y/0h8KdN+3QC7n7aITFKtT4BSX/ufVbvumtGLvheZDdczbgPPLtA==
+  dependencies:
+    "@emotion/core" "^10.0.15"
 
 react-transition-group@^4.3.0:
   version "4.3.0"
