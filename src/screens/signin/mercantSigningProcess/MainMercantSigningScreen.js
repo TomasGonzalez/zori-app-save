@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useContext } from "react";
 
 import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
@@ -11,6 +11,8 @@ import SignUpForm from "./SignUpForm";
 import VerificationCode from "./VerificationCode";
 import TellUsMore from "./TellUsMore";
 import BaseModal from "components/BaseModal";
+import { Self } from "lib/context";
+import Logout from "lib/logout";
 
 const Header = styled.div`
   width: 100%;
@@ -108,15 +110,15 @@ const ProgressBar = (props) => {
 };
 
 function MainMercantSigninScreen(props) {
+  const { self } = useContext(Self);
+
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-
   const [validationModal, setValidationModal] = useState(
-    localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken")
-      ? true
-      : true
+    self && self.isVerified ? false : true
   );
   const [onHandleSubmit, setHandleSubmit] = useState(null);
+
   const history = useHistory();
 
   const formSteps = [
@@ -167,7 +169,7 @@ function MainMercantSigninScreen(props) {
       </Footer>
       <BaseModal
         isOpen={validationModal}
-        onRequestClose={() => setValidationModal(false)}
+        onRequestClose={() => Logout()}
         style={{
           alignItems: "center",
           justifyContent: "center",
@@ -186,10 +188,7 @@ function MainMercantSigninScreen(props) {
               <Header>
                 <Logo src={require("assets/zori-logo.png")} />
                 <Close>
-                  <MdClose
-                    onClick={() => setValidationModal(false)}
-                    size={20}
-                  />
+                  <MdClose onClick={() => Logout()} size={20} />
                 </Close>
               </Header>
               <ProgressBar progress={(progress / 4) * 100} {...props} />

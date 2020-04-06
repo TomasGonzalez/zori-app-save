@@ -1,3 +1,3 @@
-// import React from "react";
+import { createContext } from "react";
 
-// export const Self = React.createContext(null);
+export const Self = createContext({ self: null, setSelf: () => {} });

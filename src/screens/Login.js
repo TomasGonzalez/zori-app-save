@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useHistory } from "react-router-dom";
 
+import { Self } from "lib/context";
 import { EmailValidator } from "../lib/formValidation";
 import { TextInput, PasswordInput } from "../components/forms/inputs";
 import Checkbox from "../components/Checkbox";
@@ -31,7 +32,7 @@ const FormContaienr = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: ${props => props.theme.color.white};
+  background-color: ${(props) => props.theme.color.white};
 `;
 
 const StyledForm = styled.form`
@@ -51,7 +52,7 @@ const TempLink = styled.div`
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  color: ${props => props.theme.color.green1};
+  color: ${(props) => props.theme.color.green1};
 `;
 
 const ButtonsWrappers = styled.div`
@@ -69,21 +70,20 @@ const FormWrapper = styled.div`
 function Login() {
   const [errorMessage, setErrorMessage] = useState();
 
+  const { self, populateSelf } = useContext(Self);
+
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
 
   const history = useHistory();
 
-  const handleSubmit = async params => {
+  const handleSubmit = async (params) => {
     if (params.email && params.password) {
       try {
         await tokenAuth({
-          variables: { ...params }
-        }).then(request => {
-          if (params.checkbox) {
-            localStorage.setItem("jwtToken", request.data.tokenAuth.token);
-          }
-          sessionStorage.setItem("jwtToken", request.data.tokenAuth.token);
-          history.push("/test");
+          variables: { ...params },
+        }).then(async (request) => {
+          populateSelf();
+          history.push("/");
         });
       } catch (err) {
         console.log(err);

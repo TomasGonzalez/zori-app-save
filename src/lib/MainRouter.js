@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -6,21 +6,30 @@ import {
   Redirect,
 } from "react-router-dom";
 
-import { useQuery } from "@apollo/react-hooks";
-
+import { Self } from "lib/context";
 import Login from "screens/Login";
 import MainSigningScreen from "screens/signin/MainSigninScreen";
 import Test from "screens/test";
 
 export default function MainRouter() {
+  const { self } = useContext(Self);
+
   const PrivateRoute = ({ children, ...rest }) => {
+    if (self && self.isVerified) {
+      return <Route {...rest} render={() => children} />;
+    }
+
     return (
       <Route
         {...rest}
         render={({ location }) =>
-          localStorage.getItem("jwtToken") ||
-          sessionStorage.getItem("jwtToken") ? (
-            children
+          self ? (
+            <Redirect
+              to={{
+                pathname: "/signin",
+                state: { from: location },
+              }}
+            />
           ) : (
             <Redirect
               to={{
@@ -40,8 +49,7 @@ export default function MainRouter() {
         {...rest}
         exact
         render={() =>
-          localStorage.getItem("jwtToken") ||
-          sessionStorage.getItem("jwtToken") ? (
+          self && self.isVerified ? (
             <Redirect
               to={{
                 pathname: "/",
@@ -63,11 +71,10 @@ export default function MainRouter() {
             exact
             path='/'
             render={() =>
-              localStorage.getItem("jwtToken") ||
-              sessionStorage.getItem("jwtToken") ? (
+              self && self.isVerified ? (
                 <Redirect to='/test' />
               ) : (
-                <Redirect to='/login' />
+                <Redirect to='/signin' />
               )
             }
           />
