@@ -15,9 +15,19 @@ const MainContainer = styled.div`
   justify-content: center;
 `;
 
+const SubTitle = styled.div`
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: ${(props) => props.theme.color.gray2};
+`;
+
 const ImageContainer = styled.img`
-  height: 370.4px;
-  width: 400px;
+  height: 489.5px;
+  width: 640px;
 
   @media (max-width: 1024px) {
     display: none;
@@ -45,10 +55,12 @@ const FormWrapper = styled.div`
   max-width: 440px;
 `;
 
-const boolOptions = [
-  { value: "true", label: "Yes" },
-  { value: "false", label: "No" },
-];
+const HorizontalInput = styled.div`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 const brandRoleOptions = [
   { value: "Sales Manager", label: "Sales Manager" },
   { value: "Operations Manager", label: "Operations Manager" },
@@ -56,7 +68,13 @@ const brandRoleOptions = [
   { value: "Brand Strategist", label: "Brand Strategist" },
 ];
 
-export default function TellUsMore({
+const WHAOptions = [
+  { value: "Google", label: "Google" },
+  { value: "Facebook", label: "Facebook" },
+  { value: "Instagram", label: "Instagram" },
+];
+
+export default function TellUsMore2({
   onVerification,
   setHandleSubmit,
   ...props
@@ -66,19 +84,11 @@ export default function TellUsMore({
     onVerification();
   };
 
-  const Condition = ({ when, is, children }) => (
-    <Field name={when} subscription={{ value: true }}>
-      {({ input: { value } }) => {
-        return (value.value || value) === is ? children : null;
-      }}
-    </Field>
-  );
-
   return (
     <MainContainer>
       <ImageContainer
         alt='People working'
-        src={require("assets/people-talking.png")}
+        src={require("assets/people-talking-2.png")}
       />
       <FormContainer>
         <Form
@@ -91,41 +101,52 @@ export default function TellUsMore({
                 }}
               >
                 <Title
-                  style={{ marginBottom: 56 }}
+                  style={{ marginBottom: 35 }}
                   fontSize={33}
                   errorMessage={""}
                   label={"Tell us a little bit more about your brand"}
                 />
+                <SubTitle style={{ marginBottom: 32 }}>
+                  Where are you based? <br />
+                  <span style={{ fontSize: 11 }}>
+                    We’re only accepting applications from brands based in the
+                    United States at this time.
+                  </span>
+                </SubTitle>
                 <FormWrapper>
-                  <Field
-                    name='brandName'
-                    component={TextInput}
-                    style={{ marginBottom: 64, width: "100%" }}
-                    placeholder='What’s the name of your brand?'
-                    validate={NotEmptyValidator}
-                  />
-                  <Field
-                    name='brandOwnership'
-                    options={boolOptions}
-                    component={Dropdown}
-                    placeholder={"Is this a brand you created or own?"}
-                    style={{ marginBottom: 64, width: "100%" }}
-                    validate={NotEmptyValidator}
-                  />
-                  <Condition when='brandOwnership' is={"false"}>
+                  <HorizontalInput>
                     <Field
-                      name='brandRole'
-                      options={brandRoleOptions}
-                      component={Dropdown}
-                      placeholder={"What’s your role at this brand?"}
-                      style={{ marginBottom: 64, width: "100%" }}
+                      name='city'
+                      component={TextInput}
+                      style={{ marginBottom: 64, width: "45%" }}
+                      placeholder='City'
                       validate={NotEmptyValidator}
                     />
-                  </Condition>
+                    <Field
+                      name='state'
+                      component={TextInput}
+                      style={{ marginBottom: 64, width: "45%" }}
+                      placeholder='State'
+                      validate={NotEmptyValidator}
+                    />
+                  </HorizontalInput>
                   <Field
-                    name='url'
-                    placeholder='If you don’t mind, please enter your website URL or Intagram handle'
-                    component={TextInput}
+                    name='brandRole'
+                    options={brandRoleOptions}
+                    component={Dropdown}
+                    placeholder={
+                      "Which other platforms do you currently sell your products on?"
+                    }
+                    help={"Feel free to make more than one selection"}
+                    style={{ marginBottom: 64, width: "100%" }}
+                    validate={NotEmptyValidator}
+                  />
+                  <Field
+                    name='WHA'
+                    options={WHAOptions}
+                    component={Dropdown}
+                    placeholder={"How’d you hear about ZORI?"}
+                    style={{ marginBottom: 64, width: "100%" }}
                     validate={NotEmptyValidator}
                   />
                 </FormWrapper>

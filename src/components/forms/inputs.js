@@ -89,6 +89,17 @@ const ErrorMessage = styled.div`
   color: ${(props) => props.theme.color.lightDanger};
 `;
 
+const StyledBigInput = styled.textarea`
+  border-radius: 6px;
+  border: solid 1px rgba(0, 0, 0, 0.35);
+  background-color: #ffffff;
+  outline: none;
+  width: 100%;
+  height: 111px;
+  padding: 16px;
+  resize: none;
+`;
+
 export const TextInput = (props) => {
   return (
     <MainWrapper {...props}>
@@ -136,6 +147,18 @@ export const PhoneInput = (props) => {
         <ErrorMessage>{props.meta.error}</ErrorMessage>
       )}
     </MainWrapper>
+  );
+};
+
+export const BigInput = (props) => {
+  return (
+    <StyledBigInput
+      type={props.type}
+      {...props.input}
+      meta={props.meta}
+      placeholder={props.placeholder}
+      rows='4'
+    />
   );
 };
 

@@ -31,8 +31,11 @@ const GET_SELF = gql`
       dateJoined
       isActive
       avatar
-      isVendor
       isPromoter
+      completedSteps
+      vendor {
+        isApproved
+      }
     }
   }
 `;

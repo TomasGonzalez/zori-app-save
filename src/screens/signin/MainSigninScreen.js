@@ -14,8 +14,8 @@ const customStyles = {
     top: "0",
     bottom: "0",
     left: "0",
-    right: "0"
-  }
+    right: "0",
+  },
 };
 
 const MainContainer = styled.div`
@@ -24,7 +24,7 @@ const MainContainer = styled.div`
 `;
 
 export default function MainSigningScreen(props) {
-  const [typeOfSigning, setTypeOfSigning] = useState(1); //this shuld be 0 when deployed
+  const [typeOfSigning, setTypeOfSigning] = useState(0); //this shuld be 0 when deployed
   const history = useHistory();
 
   const RouteSigningProcess = () => {
@@ -32,7 +32,7 @@ export default function MainSigningScreen(props) {
       case 0:
         return (
           <SigninUserSelectionScreen
-            onSigningProcessSeleected={val => setTypeOfSigning(val)}
+            onSigningProcessSeleected={(val) => setTypeOfSigning(val)}
             onRequestClose={() => history.push("/login")}
             {...props}
           />

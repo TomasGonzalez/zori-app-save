@@ -10,6 +10,9 @@ import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
 import VerificationCode from "./VerificationCode";
 import TellUsMore from "./TellUsMore";
+import TellUsMore2 from "./TellUsMore2";
+import TellUsProduct from "./TellUsProduct";
+
 import BaseModal from "components/BaseModal";
 import { Self } from "lib/context";
 import Logout from "lib/logout";
@@ -114,9 +117,8 @@ function MainMercantSigninScreen(props) {
 
   const [progress, setProgress] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [validationModal, setValidationModal] = useState(
-    self && self.isVerified ? false : true
-  );
+
+  const [showNextButton, setShowNextButton] = useState(true);
   const [onHandleSubmit, setHandleSubmit] = useState(null);
 
   const history = useHistory();
@@ -124,14 +126,45 @@ function MainMercantSigninScreen(props) {
   const formSteps = [
     <SignUpForm
       setHandleSubmit={(values) => setHandleSubmit(values)}
-      setValidationModal={(value) => setValidationModal(value)}
+      onVerification={() => {
+        setProgress(progress + 1);
+        setHandleSubmit(null);
+      }}
       setIsLoading={(value) => setIsLoading(value)}
     />,
-    <TellUsMore />,
-    <SignUpForm
+    <VerificationCode
+      onVerification={() => {
+        setHandleSubmit(null);
+      }}
+      onComponentMount={() => setShowNextButton(false)}
+      onFinishVerification={() => {
+        setProgress(progress + 1);
+        setShowNextButton(true);
+      }}
+    />,
+    <TellUsMore
       setHandleSubmit={(values) => setHandleSubmit(values)}
-      setValidationModal={(value) => setValidationModal(value)}
-      setIsLoading={(value) => setIsLoading(value)}
+      onVerification={() => {
+        setProgress(progress + 1);
+        setHandleSubmit(null);
+      }}
+      onFinishVerification={() => {}}
+    />,
+    <TellUsMore2
+      setHandleSubmit={(values) => setHandleSubmit(values)}
+      onVerification={() => {
+        setProgress(progress + 1);
+        setHandleSubmit(null);
+      }}
+      onFinishVerification={() => {}}
+    />,
+    <TellUsProduct
+      setHandleSubmit={(values) => setHandleSubmit(values)}
+      onVerification={() => {
+        setProgress(progress + 1);
+        setHandleSubmit(null);
+      }}
+      onFinishVerification={() => {}}
     />,
   ];
 
@@ -158,44 +191,19 @@ function MainMercantSigninScreen(props) {
         </CSSTransition>
       </SwitchTransition>
       <Footer>
-        <Button
-          onClick={() => setProgress(progress + 1)}
-          buttonStyle='dark'
-          size='small'
-          label='Next'
-          isLoading={isLoading}
-        />
-        <PageCount>{progress} / 4</PageCount>
+        {showNextButton && (
+          <>
+            <Button
+              onClick={onHandleSubmit}
+              buttonStyle='dark'
+              size='small'
+              label='Next'
+              isLoading={isLoading}
+            />
+            <PageCount>{progress} / 4</PageCount>
+          </>
+        )}
       </Footer>
-      <BaseModal
-        isOpen={validationModal}
-        onRequestClose={() => Logout()}
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          display: "flex",
-        }}
-      >
-        <VerificationCode
-          onVerification={() => {
-            setProgress(progress + 1);
-          }}
-          onFinishVerification={() => {
-            setValidationModal(false);
-          }}
-          header={
-            <div style={{ width: "100%" }}>
-              <Header>
-                <Logo src={require("assets/zori-logo.png")} />
-                <Close>
-                  <MdClose onClick={() => Logout()} size={20} />
-                </Close>
-              </Header>
-              <ProgressBar progress={(progress / 4) * 100} {...props} />
-            </div>
-          }
-        />
-      </BaseModal>
     </MainContainer>
   );
 }

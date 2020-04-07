@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
 
@@ -45,8 +45,16 @@ const SubTitle = styled.div`
   }
 `;
 
-function VerificationCode({ header, onVerification, onFinishVerification }) {
+function VerificationCode({
+  onComponentMount,
+  onVerification,
+  onFinishVerification,
+}) {
   const [isVerified, setIsVerified] = useState(false);
+
+  useEffect(() => {
+    onComponentMount();
+  }, []);
 
   const NotVerified = () => (
     <ContentWrapper>
@@ -87,13 +95,7 @@ function VerificationCode({ header, onVerification, onFinishVerification }) {
       />
     </ContentWrapper>
   );
-  return (
-    <MainWrapper>
-      {header}
-      {isVerified ? Verified() : NotVerified()}
-      <div />
-    </MainWrapper>
-  );
+  return <MainWrapper>{isVerified ? Verified() : NotVerified()}</MainWrapper>;
 }
 
 export default VerificationCode;

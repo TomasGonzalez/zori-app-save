@@ -22,7 +22,7 @@ const MainContainer = styled.div`
 const ImageContainer = styled.img`
   height: 100vh;
 
-  @media (max-width: 1024px) {
+  @media (max-width: 1350px) {
     display: none;
   }
 `;
@@ -38,12 +38,24 @@ const FormContaienr = styled.div`
 const StyledForm = styled.form`
   min-width: 650px;
   padding: 48px;
+
+  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+    min-width: 100px;
+  }
 `;
 
 const CheckboxWrapper = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+    flex-direction: column;
+    align-items: flex-start;
+    height: 60px;
+    justify-content: space-around;
+    padding-top: 20px;
+  }
 `;
 
 const TempLink = styled.div`
@@ -59,12 +71,21 @@ const ButtonsWrappers = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+
+  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+    flex-direction: column;
+    align-items: center;
+    height: 120px;
+  }
 `;
 
 const FormWrapper = styled.div`
   max-width: 616px;
   display: flex;
   flex-direction: column;
+  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+    max-width: 298px;
+  }
 `;
 
 function Login() {

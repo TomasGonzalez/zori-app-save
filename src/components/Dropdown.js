@@ -1,6 +1,7 @@
 import React from "react";
 
 import Select, { components } from "react-select";
+import styled from "styled-components";
 
 import theme from "theme";
 import BaseInput from "components/BaseInput";
@@ -8,7 +9,7 @@ import BaseInput from "components/BaseInput";
 const groupStyles = {
   display: "flex",
   alignItems: "center",
-  justifyContent: "space-between"
+  justifyContent: "space-between",
 };
 
 const customStyles = {
@@ -16,7 +17,7 @@ const customStyles = {
     return {
       ...provided,
       ":active": {
-        backgroundColor: theme.color.green2
+        backgroundColor: theme.color.green2,
       },
       backgroundColor: isDisabled
         ? null
@@ -27,7 +28,7 @@ const customStyles = {
         : null,
       color: theme.color.black,
       position: "relative",
-      height: "100%"
+      height: "100%",
     };
   },
   control: (provided, state) => {
@@ -39,22 +40,24 @@ const customStyles = {
       borderRadius: 0,
       boxShadow: "none",
       ":hover": {
-        borderColor: theme.color.gray1
+        borderColor: theme.color.gray1,
       },
-      borderBottom: `1px solid ${theme.color.danger}`
+      borderBottom: `1px solid ${
+        state.hasValue ? theme.color.gray1 : theme.color.danger
+      }`,
     };
   },
-  valueContainer: provided => {
+  valueContainer: (provided) => {
     return {
       ...provided,
       alignItems: "flex-start",
-      padding: 0
+      padding: 0,
     };
   },
-  indicatorSeparator: provided => {
+  indicatorSeparator: (provided) => {
     return {
       ...provided,
-      display: "none"
+      display: "none",
     };
   },
   placeholder: (provided, state) => {
@@ -64,7 +67,7 @@ const customStyles = {
       marginLeft: 0,
       marginRight: 0,
       bottom: 7,
-      fontSize: 14
+      fontSize: 14,
     };
   },
   dropdownIndicator: (provided, state) => {
@@ -72,16 +75,16 @@ const customStyles = {
       ...provided,
       padding: "0px",
       paddingBottom: 3,
-      alignItems: "flex-end"
+      alignItems: "flex-end",
     };
   },
   indicatorsContainer: (provided, state) => {
     return {
       ...provided,
       padding: "0px",
-      alignItems: "flex-end"
+      alignItems: "flex-end",
     };
-  }
+  },
 };
 
 const groupBadgeStyles = {
@@ -93,10 +96,16 @@ const groupBadgeStyles = {
   fontWeight: "normal",
   lineHeight: "1",
   minWidth: 1,
-  textAlign: "center"
+  textAlign: "center",
 };
 
-const DropdownIndicator = props => {
+const ErrorMessage = styled.div`
+  margin-top: 8px;
+  font-size: 12px;
+  color: ${(props) => props.theme.color.lightDanger};
+`;
+
+const DropdownIndicator = (props) => {
   return (
     <components.DropdownIndicator {...props}>
       <img

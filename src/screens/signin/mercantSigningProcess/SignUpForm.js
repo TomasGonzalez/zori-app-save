@@ -13,6 +13,7 @@ import {
   PasswordValidator,
   VerifyPasswordValidator,
 } from "lib/formValidation";
+
 import Title from "components/Title";
 
 const MainContainer = styled.div`
@@ -61,8 +62,8 @@ const FormWrapper = styled.div`
 
 export default function SignUpForm({
   setHandleSubmit,
-  setValidationModal,
   setIsLoading,
+  onVerification,
 }) {
   const [createUser, { data }] = useMutation(CREATE_USER);
 
@@ -72,7 +73,7 @@ export default function SignUpForm({
       .then((request) => {
         console.log(request.data);
         localStorage.setItem("jwtToken", request.data.createUser.token);
-        setValidationModal(true);
+        onVerification();
         setIsLoading(false);
       })
       .catch((err) => {
@@ -184,7 +185,6 @@ const CREATE_USER = gql`
         id
         email
       }
-      token
     }
   }
 `;
