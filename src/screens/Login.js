@@ -103,6 +103,11 @@ function Login() {
         await tokenAuth({
           variables: { ...params },
         }).then(async (request) => {
+          console.log(params, request);
+          if (params.checkbox) {
+            localStorage.setItem("jwtToken", request.data.tokenAuth.token);
+          }
+          sessionStorage.setItem("jwtToken", request.data.tokenAuth.token);
           populateSelf();
           history.push("/");
         });

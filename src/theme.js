@@ -18,6 +18,6 @@ export default {
     getRem(px) {
       return `${px / 16}rem`;
     },
-    mobileWidth: `800px`,
+    mobileWidth: `600px`,
   },
 };

@@ -18,7 +18,7 @@ export default function MainRouter() {
     if (self && self.isVerified) {
       return <Route {...rest} render={() => children} />;
     }
-
+    console.log(self, "self");
     return (
       <Route
         {...rest}
@@ -44,12 +44,27 @@ export default function MainRouter() {
   };
 
   const PublicRoute = ({ children, ...rest }) => {
+    if (self && !self.isVerified) {
+      return (
+        <Route
+          {...rest}
+          render={() => (
+            <Redirect
+              to={{
+                pathname: "/signin",
+              }}
+            />
+          )}
+        />
+      );
+    }
+
     return (
       <Route
         {...rest}
         exact
         render={() =>
-          self && self.isVerified ? (
+          self ? (
             <Redirect
               to={{
                 pathname: "/",
@@ -74,16 +89,16 @@ export default function MainRouter() {
               self && self.isVerified ? (
                 <Redirect to='/test' />
               ) : (
-                <Redirect to='/signin' />
+                <Redirect to='/login' />
               )
             }
           />
           <PublicRoute path='/login'>
             <Login />
           </PublicRoute>
-          <PublicRoute path='/signin'>
+          <Route path='/signin'>
             <MainSigningScreen />
-          </PublicRoute>
+          </Route>
           <PrivateRoute path='/test'>
             <Test />
           </PrivateRoute>

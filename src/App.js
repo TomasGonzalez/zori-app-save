@@ -32,7 +32,11 @@ const GET_SELF = gql`
       isActive
       avatar
       isPromoter
-      completedSteps
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
       vendor {
         isApproved
       }

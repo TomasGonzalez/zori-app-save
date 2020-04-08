@@ -1,22 +1,12 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
 import styled from "styled-components";
 
-import SigninUserSelectionScreen from "screens/signin/SigninUserSelectionScreen";
-import MainMercantSigninScreen from "screens/signin/mercantSigningProcess/MainMercantSigningScreen";
 import { useHistory } from "react-router-dom";
 
-const customStyles = {
-  content: {
-    overflow: "auto",
-    backgroundColor: "white",
-    padding: 0,
-    top: "0",
-    bottom: "0",
-    left: "0",
-    right: "0",
-  },
-};
+import SigninUserSelectionScreen from "screens/signin/SigninUserSelectionScreen";
+import MainMercantSigninScreen from "screens/signin/mercantSigningProcess/MainMercantSigningScreen";
+import { Self } from "lib/context";
 
 const MainContainer = styled.div`
   height: 100vh;
@@ -24,9 +14,14 @@ const MainContainer = styled.div`
 `;
 
 export default function MainSigningScreen(props) {
-  const [typeOfSigning, setTypeOfSigning] = useState(0); //this shuld be 0 when deployed
-  const history = useHistory();
+  const { self } = useContext(Self);
 
+  const [typeOfSigning, setTypeOfSigning] = useState(
+    self ? (self.vendor ? 1 : 2) : 0
+  ); //this shuld be 0 when deployed
+
+  const history = useHistory();
+  console.log(self ? (self.isVendor ? 1 : 2) : 0);
   const RouteSigningProcess = () => {
     switch (typeOfSigning) {
       case 0:

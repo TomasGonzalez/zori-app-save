@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
@@ -122,6 +122,12 @@ function MainMercantSigninScreen(props) {
   const [onHandleSubmit, setHandleSubmit] = useState(null);
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (self) {
+      console.log(self, "self in main MeracntSigningScreen");
+    }
+  }, [self]);
 
   const formSteps = [
     <SignUpForm
