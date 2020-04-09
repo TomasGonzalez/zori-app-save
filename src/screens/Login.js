@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
@@ -12,8 +12,9 @@ import { TextInput, PasswordInput } from "../components/forms/inputs";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import Title from "components/Title";
+import { ScreenLoader } from "components/Loading";
 
-import LoginImage from "../assets/login-side-image.png";
+import LoadingImage from "../assets/login-side-image.png";
 
 const MainContainer = styled.div`
   display: flex;
@@ -92,12 +93,22 @@ const FormWrapper = styled.div`
 
 function Login() {
   const [errorMessage, setErrorMessage] = useState();
+  const [loading, setLoading] = useState(true);
 
   const { self, populateSelf } = useContext(Self);
 
   const [tokenAuth, { data }] = useMutation(AUTH_TOKEN);
 
   const history = useHistory();
+
+  useEffect(() => {
+    const mainImage = new Image();
+    mainImage.onload = () => {
+      console.log(setLoading(false));
+    };
+
+    mainImage.src = LoadingImage;
+  }, [LoadingImage]);
 
   const handleSubmit = async (params) => {
     if (params.email && params.password) {
@@ -120,9 +131,33 @@ function Login() {
     }
   };
 
+  if (loading) {
+    return (
+      <div
+        style={{
+          height: "100vh",
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <ScreenLoader />
+      </div>
+    );
+  }
+
   return (
     <MainContainer>
-      <ImageContainer alt='Office Deskt' src={LoginImage} />
+      <ImageContainer
+        id='image'
+        // onLoad={() => {
+        //   console.log("setLoading");
+        //   setLoading(false);
+        // }}
+        alt='Office Deskt'
+        src={LoadingImage}
+      />
       <FormContaienr>
         <Form
           onSubmit={handleSubmit}
