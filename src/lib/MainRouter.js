@@ -14,11 +14,17 @@ import Test from "screens/test";
 export default function MainRouter() {
   const { self } = useContext(Self);
 
+  const isProfileCompleted = () => {
+    const completedSteps = self.completedSteps.filter((step) => step.isFilled);
+    console.log(self.completedSteps);
+    console.log(completedSteps.length);
+    return completedSteps.length === 5;
+  };
+
   const PrivateRoute = ({ children, ...rest }) => {
-    if (self && self.isVerified) {
+    if (self && isProfileCompleted()) {
       return <Route {...rest} render={() => children} />;
     }
-    console.log(self, "self");
     return (
       <Route
         {...rest}
@@ -44,7 +50,7 @@ export default function MainRouter() {
   };
 
   const PublicRoute = ({ children, ...rest }) => {
-    if (self && !self.isVerified) {
+    if (self && !isProfileCompleted()) {
       return (
         <Route
           {...rest}
@@ -86,7 +92,7 @@ export default function MainRouter() {
             exact
             path='/'
             render={() =>
-              self && self.isVerified ? (
+              self && isProfileCompleted() ? (
                 <Redirect to='/test' />
               ) : (
                 <Redirect to='/login' />

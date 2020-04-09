@@ -2,7 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput } from "components/forms/inputs";
+import { useMutation } from "@apollo/react-hooks";
 
+import { gql } from "apollo-boost";
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
 
@@ -21,7 +23,6 @@ const ImageContainer = styled.img`
 
   @media (max-width: 1024px) {
     display: none;
-  
 `;
 
 const FormContainer = styled.div`
@@ -61,9 +62,17 @@ export default function TellUsMore({
   setHandleSubmit,
   ...props
 }) {
+  const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
+
   const handleSubmit = (submitProps) => {
     console.log(submitProps);
-    onVerification();
+    updateVendor({ ...submitProps })
+      .then(() => {
+        onVerification();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const Condition = ({ when, is, children }) => (
@@ -98,7 +107,7 @@ export default function TellUsMore({
                 />
                 <FormWrapper>
                   <Field
-                    name='brandName'
+                    name='brandname'
                     component={TextInput}
                     style={{ marginBottom: 64, width: "100%" }}
                     placeholder='What’s the name of your brand?'
@@ -114,7 +123,7 @@ export default function TellUsMore({
                   />
                   <Condition when='brandOwnership' is={"false"}>
                     <Field
-                      name='brandRole'
+                      name='applicantTitle'
                       options={brandRoleOptions}
                       component={Dropdown}
                       placeholder={"What’s your role at this brand?"}
@@ -123,7 +132,7 @@ export default function TellUsMore({
                     />
                   </Condition>
                   <Field
-                    name='url'
+                    name='website'
                     placeholder='If you don’t mind, please enter your website URL or Intagram handle'
                     component={TextInput}
                     validate={NotEmptyValidator}
@@ -137,3 +146,26 @@ export default function TellUsMore({
     </MainContainer>
   );
 }
+
+const UPDATE_VENDOR = gql`
+  mutation UpdateVendor(
+    $brandname: String
+    $website: String
+    $applicantTitle: String
+  ) {
+    updateVendor(
+      applicantTitle: $applicantTitle
+      brandname: $brandname
+      website: $website
+    ) {
+      vendor {
+        user {
+          id
+          isVerified
+          username
+          email
+        }
+      }
+    }
+  }
+`;

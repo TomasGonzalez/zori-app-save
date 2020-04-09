@@ -13,6 +13,8 @@ import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import Title from "components/Title";
 
+import LoginImage from "../assets/login-side-image.png";
+
 const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -120,10 +122,7 @@ function Login() {
 
   return (
     <MainContainer>
-      <ImageContainer
-        alt='Office Deskt'
-        src={require("../assets/login-side-image.png")}
-      />
+      <ImageContainer alt='Office Deskt' src={LoginImage} />
       <FormContaienr>
         <Form
           onSubmit={handleSubmit}

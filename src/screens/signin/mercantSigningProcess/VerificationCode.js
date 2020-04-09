@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import { VerificationInput } from "components/forms/inputs";
 import Button from "components/Button";
@@ -51,6 +53,9 @@ function VerificationCode({
   onFinishVerification,
 }) {
   const [isVerified, setIsVerified] = useState(false);
+  const [code, setCode] = useState(false);
+
+  const [verifyCode, { data }] = useMutation(VERIFY_CODE);
 
   useEffect(() => {
     onComponentMount();
@@ -65,15 +70,24 @@ function VerificationCode({
         below to proceed.
         <br /> Didn’t get it? <span>Have it resent</span>
       </SubTitle>
-      <VerificationInput />
+      <VerificationInput
+        onChange={(value) => {
+          setCode(parseInt(value.target.value));
+        }}
+      />
       <Button
         buttonStyle='dark'
         size='small'
         label='Verify'
         style={{ marginTop: 64 }}
         onClick={() => {
-          setIsVerified(true);
-          onVerification();
+          verifyCode({ variables: { code: code } })
+            .then(() => {
+              console.log(isVerified, "isVerified");
+              setIsVerified(true);
+              onVerification();
+            })
+            .catch((err) => console.log(err));
         }}
       />
     </ContentWrapper>
@@ -97,5 +111,33 @@ function VerificationCode({
   );
   return <MainWrapper>{isVerified ? Verified() : NotVerified()}</MainWrapper>;
 }
+
+const VERIFY_CODE = gql`
+  mutation VerifyCode($code: Int!) {
+    verifyCode(code: $code) {
+      user {
+        id
+        isVerified
+        username
+        email
+        phoneNumber
+        firstName
+        lastName
+        dateJoined
+        isActive
+        avatar
+        isPromoter
+        completedSteps {
+          stepId
+          label
+          isFilled
+        }
+        vendor {
+          brandname
+        }
+      }
+    }
+  }
+`;
 
 export default VerificationCode;

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import { ThemeProvider, createGlobalStyle } from "styled-components";
-import theme from "./theme";
+import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import { ApolloProvider } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
+import theme from "./theme";
 import { Self } from "lib/context";
 import MainRouter from "./lib/MainRouter";
 import client from "./lib/apollo";
@@ -44,10 +44,19 @@ const GET_SELF = gql`
   }
 `;
 
+const LoadingWrapper = styled.div`
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+`;
+
 function App() {
   const [self, setSelf] = useState(null);
+  const [isLoading, setLoading] = useState(false);
 
   const populateSelf = async () => {
+    setLoading(true);
     try {
       await client
         .query({
@@ -55,10 +64,11 @@ function App() {
         })
         .then((result) => {
           setSelf(result.data.me);
-          console.log(result.data.me);
+          setLoading(false);
         });
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -67,6 +77,10 @@ function App() {
   useEffect(() => {
     populateSelf();
   }, []);
+
+  if (isLoading) {
+    return <LoadingWrapper />;
+  }
 
   return (
     <ApolloProvider client={client}>

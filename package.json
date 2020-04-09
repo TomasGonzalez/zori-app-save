@@ -20,6 +20,7 @@
     "js-cookie": "^2.2.1",
     "react": "^16.13.1",
     "react-cookie": "^4.0.3",
+    "react-custom-password-mask": "^1.0.10",
     "react-dom": "^16.13.1",
     "react-final-form": "^6.3.5",
     "react-icons": "^3.9.0",

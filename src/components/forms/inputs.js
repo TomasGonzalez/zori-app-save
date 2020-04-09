@@ -2,6 +2,7 @@ import React from "react";
 
 import InputMask from "react-input-mask";
 import styled from "styled-components";
+import CustomMaskedPassword from "react-custom-password-mask";
 
 const MainWrapper = styled.div``;
 
@@ -33,15 +34,11 @@ const StyledPasswordInput = styled.input`
       : props.theme.color.gray1};
   outline: none;
   width: 100%;
-  font-size: 30px;
-  padding-bottom: ${(props) => (props.value ? 7 : 12)}px;
-  padding-top: 6px;
-  height: 10px;
+  font-size: 14px;
+  padding: 4.5px 0px;
 
   ::placeholder {
     font-size: 14px;
-    padding-bottom: 20px;
-    height: 30px;
     color: ${(props) =>
       props.meta && props.meta.error && props.meta.touched
         ? props.theme.color.danger
@@ -120,8 +117,9 @@ export const PasswordInput = (props) => {
   return (
     <MainWrapper {...props}>
       <StyledPasswordInput
-        type={"password"}
         {...props.input}
+        mask='⬤'
+        type='password'
         meta={props.meta}
         placeholder={props.placeholder}
       />

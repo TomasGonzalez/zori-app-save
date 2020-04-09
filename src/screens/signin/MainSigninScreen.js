@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 
 import styled from "styled-components";
 
@@ -18,10 +18,15 @@ export default function MainSigningScreen(props) {
 
   const [typeOfSigning, setTypeOfSigning] = useState(
     self ? (self.vendor ? 1 : 2) : 0
-  ); //this shuld be 0 when deployed
+  );
+
+  useEffect(() => {
+    if (self) {
+      setTypeOfSigning(self ? (self.vendor ? 1 : 2) : 0);
+    }
+  }, [self]);
 
   const history = useHistory();
-  console.log(self ? (self.isVendor ? 1 : 2) : 0);
   const RouteSigningProcess = () => {
     switch (typeOfSigning) {
       case 0:

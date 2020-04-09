@@ -15,7 +15,8 @@ import TellUsProduct from "./TellUsProduct";
 
 import BaseModal from "components/BaseModal";
 import { Self } from "lib/context";
-import Logout from "lib/logout";
+import logout from "lib/logout";
+import { ScreenLoader } from "components/Loading";
 
 const Header = styled.div`
   width: 100%;
@@ -113,9 +114,9 @@ const ProgressBar = (props) => {
 };
 
 function MainMercantSigninScreen(props) {
-  const { self } = useContext(Self);
+  const { self, populateSelf } = useContext(Self);
 
-  const [progress, setProgress] = useState(0);
+  const [progress, setProgress] = useState("loading");
   const [isLoading, setIsLoading] = useState(false);
 
   const [showNextButton, setShowNextButton] = useState(true);
@@ -124,9 +125,14 @@ function MainMercantSigninScreen(props) {
   const history = useHistory();
 
   useEffect(() => {
-    if (self) {
-      console.log(self, "self in main MeracntSigningScreen");
-    }
+    const calculateProgress = () => {
+      if (self) {
+        return self.completedSteps.filter((step) => step.isFilled).length + 1;
+      }
+      return 0;
+    };
+
+    setProgress(calculateProgress());
   }, [self]);
 
   const formSteps = [
@@ -141,6 +147,7 @@ function MainMercantSigninScreen(props) {
     <VerificationCode
       onVerification={() => {
         setHandleSubmit(null);
+        //populateSelf();
       }}
       onComponentMount={() => setShowNextButton(false)}
       onFinishVerification={() => {
@@ -151,6 +158,7 @@ function MainMercantSigninScreen(props) {
     <TellUsMore
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
+        console.log("onVerification");
         setProgress(progress + 1);
         setHandleSubmit(null);
       }}
@@ -174,13 +182,29 @@ function MainMercantSigninScreen(props) {
     />,
   ];
 
+  if (progress === "loading") {
+    return (
+      <div
+        style={{
+          display: "flex",
+          width: "100%",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <ScreenLoader />
+      </div>
+    );
+  }
+
   return (
     <MainContainer>
       <div style={{ width: "100%" }}>
         <Header>
           <Logo src={require("assets/zori-logo.png")} />
           <Close>
-            <MdClose onClick={() => history.push("/login")} size={20} />
+            <MdClose onClick={() => logout()} size={20} />
           </Close>
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />

@@ -1,8 +1,10 @@
 import Cookies from "js-cookie";
 
 async function logout() {
-  Cookies.remove("JWT");
-  //window.location = "/login";
+  await sessionStorage.removeItem("jwtToken");
+  await localStorage.removeItem("jwtToken");
+
+  window.location = "/login";
 }
 
 export default logout;
