@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import InputMask from "react-input-mask";
 import styled from "styled-components";
@@ -7,6 +7,14 @@ import CustomMaskedPassword from "react-custom-password-mask";
 const MainWrapper = styled.div``;
 
 const StyledInput = styled.input`
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+  }
+
   border-width: 0px 0px 1px 0px;
   border-color: ${(props) =>
     (props.meta && props.meta.error) || !props.value
@@ -26,12 +34,33 @@ const StyledInput = styled.input`
   }
 `;
 
-const StyledPasswordInput = styled.input`
+const PasswordWrapper = styled.div`
   border-width: 0px 0px 1px 0px;
+  border-style: solid;
   border-color: ${(props) =>
     (props.meta && props.meta.error) || !props.value
       ? props.theme.color.danger
       : props.theme.color.gray1};
+  outline: none;
+  font-size: 14px;
+  padding: 4.5px 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+`;
+
+const StyledPasswordInput = styled.input`
+  border-width: 0px 0px 0px 0px;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+  }
+
   outline: none;
   width: 100%;
   font-size: 14px;
@@ -43,6 +72,17 @@ const StyledPasswordInput = styled.input`
       props.meta && props.meta.error && props.meta.touched
         ? props.theme.color.danger
         : props.theme.color.gray1};
+  }
+`;
+
+const ShowPasswordButton = styled.div`
+  width: 120px;
+  font-size: 14px;
+  color: ${(props) => props.theme.color.gray1};
+  cursor: pointer;
+
+  &:hover {
+    color: ${(props) => props.theme.color.gray2};
   }
 `;
 
@@ -114,15 +154,21 @@ export const TextInput = (props) => {
 };
 
 export const PasswordInput = (props) => {
+  const [showPassword, setShowPassword] = useState(false);
+
   return (
     <MainWrapper {...props}>
-      <StyledPasswordInput
-        {...props.input}
-        mask='⬤'
-        type='password'
-        meta={props.meta}
-        placeholder={props.placeholder}
-      />
+      <PasswordWrapper>
+        <StyledPasswordInput
+          {...props.input}
+          type={!showPassword && "password"}
+          meta={props.meta}
+          placeholder={props.placeholder}
+        />
+        <ShowPasswordButton onClick={() => setShowPassword(!showPassword)}>
+          {!showPassword ? "show" : "hide"} password
+        </ShowPasswordButton>
+      </PasswordWrapper>
       {props.meta.error && props.meta.touched && (
         <ErrorMessage>{props.meta.error}</ErrorMessage>
       )}
