@@ -8,7 +8,6 @@ import { gql } from "apollo-boost";
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
 import { ScreenLoader } from "components/Loading";
-
 import { NotEmptyValidator } from "lib/formValidation";
 
 const MainContainer = styled.div`
@@ -94,7 +93,7 @@ export default function TellUsMore2({
     console.log(platforms, hyhuField);
     updateVendor({
       variables: {
-        state: submitProps.state,
+        state: submitProps.state.value,
         city: submitProps.city,
         platforms: platforms,
         hyhuField: hyhuField,
@@ -116,8 +115,6 @@ export default function TellUsMore2({
       </MainContainer>
     );
   }
-
-  console.log(data);
 
   return (
     <MainContainer>
@@ -189,7 +186,10 @@ export default function TellUsMore2({
                   </HorizontalInput>
                   <Field
                     name='platforms'
-                    options={brandRoleOptions}
+                    options={data.signup.map((val) => ({
+                      value: val.id,
+                      label: val.label,
+                    }))}
                     isMulti
                     component={Dropdown}
                     placeholder={
@@ -202,7 +202,10 @@ export default function TellUsMore2({
                   <Field
                     name='hyhuField'
                     isMulti
-                    options={HYHUOptions}
+                    options={data.hyhu.map((val) => ({
+                      value: val.id,
+                      label: val.label,
+                    }))}
                     component={Dropdown}
                     placeholder={"How’d you hear about ZORI?"}
                     style={{ marginBottom: 64, width: "100%" }}
@@ -267,7 +270,11 @@ const UPDATE_VENDOR = gql`
 const QUERY = gql`
   {
     usStates
-    platformOptions(platformType: "hyhuPlatforms") {
+    signup: platformOptions(platformType: "signupPlatforms") {
+      id
+      label
+    }
+    hyhu: platformOptions(platformType: "hyhuPlatforms") {
       id
       label
     }

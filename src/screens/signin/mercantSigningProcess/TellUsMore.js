@@ -52,12 +52,6 @@ const boolOptions = [
   { value: "true", label: "Yes" },
   { value: "false", label: "No" },
 ];
-const brandRoleOptions = [
-  { value: 1, label: "Sales Manager" },
-  { value: 1, label: "Operations Manager" },
-  { value: 1, label: "Marketing Manager" },
-  { value: 1, label: "Brand Strategist" },
-];
 
 export default function TellUsMore({
   onVerification,
@@ -71,7 +65,7 @@ export default function TellUsMore({
     updateVendor({
       variables: {
         ...submitProps,
-        applicantTitle: _.get(submitProps, "applicantTitle.value", 0),
+        applicantTitle: _.get(submitProps, "applicantTitle.value", null),
       },
     })
       .then(() => {

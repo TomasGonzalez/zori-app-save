@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import styled, { withTheme } from "styled-components";
-import { MdClose } from "react-icons/md";
+import { MdClose, MdKeyboardArrowLeft } from "react-icons/md";
 import Progress from "react-progress";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useHistory } from "react-router-dom";
@@ -13,6 +13,7 @@ import TellUsMore from "./TellUsMore";
 import TellUsMore2 from "./TellUsMore2";
 import TellUsProduct from "./TellUsProduct";
 
+import Back from "assets/close.png";
 import BaseModal from "components/BaseModal";
 import { Self } from "lib/context";
 import logout from "lib/logout";
@@ -83,6 +84,13 @@ const MainFormContainer = styled.div`
     transform: translateX(-800px);
     transition: opacity 200ms ease, transform 200ms ease;
   }
+`;
+
+const BackButton = styled.img`
+  transform: rotate(90deg);
+  height: 25px;
+  width: 25px;
+  padding: 16px;
 `;
 
 const ProgressBar = (props) => {
@@ -209,6 +217,13 @@ function MainMercantSigninScreen(props) {
           </Close>
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />
+        {progress > 2 && (
+          <BackButton
+            onClick={() => setProgress(progress - 1)}
+            alt='back'
+            src={Back}
+          />
+        )}
       </div>
       <SwitchTransition mode={"out-in"}>
         <CSSTransition
@@ -231,7 +246,7 @@ function MainMercantSigninScreen(props) {
               label='Next'
               isLoading={isLoading}
             />
-            <PageCount>{progress + 1} / 4</PageCount>
+            <PageCount>{progress > 1 ? progress : progress + 1} / 4</PageCount>
           </>
         )}
       </Footer>

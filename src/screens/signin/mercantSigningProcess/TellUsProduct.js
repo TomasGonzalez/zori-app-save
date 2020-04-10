@@ -2,13 +2,14 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput, BigInput } from "components/forms/inputs";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
 
 import { NotEmptyValidator } from "lib/formValidation";
+import { ScreenLoader } from "components/Loading";
 
 const MainContainer = styled.div`
   display: flex;
@@ -55,12 +56,6 @@ const StyledForm = styled.form`
 
 const FormWrapper = styled.div``;
 
-const HorizontalInput = styled.div`
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-`;
-
 const brandRoleOptions = [
   { value: 1, label: "Sales Manager" },
   { value: 1, label: "Operations Manager" },
@@ -79,7 +74,8 @@ export default function TellUsMore2({
   setHandleSubmit,
   ...props
 }) {
-  const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
+  const [updateVendor] = useMutation(UPDATE_VENDOR);
+  const { loading, error, data } = useQuery(QUERY);
 
   const handleSubmit = (submitProps) => {
     console.log(submitProps);
@@ -100,7 +96,15 @@ export default function TellUsMore2({
         console.log(err);
       });
   };
+  if (loading) {
+    return (
+      <MainContainer>
+        <ScreenLoader />
+      </MainContainer>
+    );
+  }
 
+  console.log(data);
   return (
     <MainContainer>
       <FormContainer>
@@ -142,7 +146,10 @@ export default function TellUsMore2({
                   />
                   <Field
                     name='howAreSustainable'
-                    options={brandRoleOptions}
+                    options={data.sustainableOptions.map((val) => ({
+                      value: val.id,
+                      label: val.label,
+                    }))}
                     component={Dropdown}
                     isMulti
                     placeholder={
@@ -209,6 +216,15 @@ const UPDATE_VENDOR = gql`
           }
         }
       }
+    }
+  }
+`;
+
+const QUERY = gql`
+  {
+    sustainableOptions {
+      label
+      id
     }
   }
 `;

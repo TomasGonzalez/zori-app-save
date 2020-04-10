@@ -141,6 +141,7 @@ const StyledBigInput = styled.textarea`
   height: 111px;
   padding: 16px;
   resize: none;
+  box-sizing: border-box;
 `;
 
 export const TextInput = (props) => {
