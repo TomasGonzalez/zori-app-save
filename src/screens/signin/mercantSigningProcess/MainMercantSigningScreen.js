@@ -91,6 +91,11 @@ const BackButton = styled.img`
   height: 25px;
   width: 25px;
   padding: 16px;
+  cursor: pointer;
+
+  &:hover {
+    filter: invert(48%);
+  }
 `;
 
 const ProgressBar = (props) => {
@@ -217,9 +222,13 @@ function MainMercantSigninScreen(props) {
           </Close>
         </Header>
         <ProgressBar progress={(progress / 4) * 100} {...props} />
-        {progress > 2 && (
+        {(progress > 2 || progress === 0) && (
           <BackButton
-            onClick={() => setProgress(progress - 1)}
+            onClick={() =>
+              progress === 0
+                ? props.backToSelection()
+                : setProgress(progress - 1)
+            }
             alt='back'
             src={Back}
           />

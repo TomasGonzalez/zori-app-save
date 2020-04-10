@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
@@ -25,8 +25,8 @@ const MainContainer = styled.div`
 `;
 
 const ImageContainer = styled.img`
-  height: 370.4px;
-  width: 400px;
+  height: 518.5px;
+  width: 560px;
 
   @media (max-width: 1024px) {
     display: none;
@@ -66,6 +66,8 @@ export default function SignUpForm({
   onVerification,
 }) {
   const [createUser, { data }] = useMutation(CREATE_USER);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [warningModal, setWarningModal] = useState(false);
 
   const handleSubmit = (props) => {
     setIsLoading(true);
@@ -78,6 +80,12 @@ export default function SignUpForm({
       })
       .catch((err) => {
         console.log(err);
+        console.log(err.message);
+        if (err.message.includes("Duplicate entry")) {
+          setWarningModal(true);
+        } else {
+          setErrorMessage(err.message);
+        }
         setIsLoading(false);
       });
   };
@@ -101,7 +109,7 @@ export default function SignUpForm({
             >
               <Title
                 style={{ marginBottom: 56 }}
-                errorMessage={""}
+                errorMessage={errorMessage}
                 label={"Sign up and change how you sell online with ZORI"}
               />
               <FormWrapper>
@@ -160,7 +168,10 @@ export default function SignUpForm({
           )}
         />
       </FormContaienr>
-      <WarningModal isOpen={true} />
+      <WarningModal
+        onRequestClose={() => setWarningModal(false)}
+        isOpen={warningModal}
+      />
     </MainContainer>
   );
 }

@@ -6,7 +6,7 @@ import BeatLoader from "react-spinners/BeatLoader";
 const AnimatedBackground = styled.div`
   background-color: transparent;
   position: absolute;
-  width: 0px;
+  width: 30px;
   height: 0px;
   border-radius: 600px;
   border: solid 1px rgba(0, 0, 0, 0);

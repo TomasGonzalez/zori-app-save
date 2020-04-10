@@ -4,6 +4,7 @@ import Modal from "react-modal";
 import _ from "lodash";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
+import { useHistory } from "react-router-dom";
 
 import Image from "assets/Oops-face.png";
 
@@ -29,7 +30,7 @@ const ImageBackground = styled.div`
   background-color: #ffd056;
   width: 112px;
   height: 112px;
-  top: 102px;
+  top: 65px;
   border-radius: 500px;
 `;
 
@@ -41,13 +42,36 @@ const OopsFace = styled.img`
 `;
 
 const Title = styled.div`
-  margin-top: 32.2px;
+  margin-top: 120.2px;
+  font-size: 24px;
+  font-weight: 500;
+  color: ${(props) => props.theme.color.black};
+`;
+
+const SubTitle = styled.div`
+  font-size: 14px;
+  margin-top: 16px;
+  width: 346px;
+  height: 37px;
+  text-align: center;
+
+  span {
+    width: 48px;
+    height: 16px;
+    font-size: 12px;
+    padding: 1px 4px 1px 4px;
+    border-radius: 2px;
+    cursor: pointer;
+    background-color: ${(props) => props.theme.color.linkBlue};
+  }
 `;
 
 export default function WarningModal({ style, isOpen, onRequestClose }) {
+  const history = useHistory();
+
   return (
     <Modal
-      isOpen={false}
+      isOpen={isOpen}
       onRequestClose={onRequestClose}
       style={{
         overlay: {
@@ -72,13 +96,17 @@ export default function WarningModal({ style, isOpen, onRequestClose }) {
       }}
     >
       <Header>
-        <CloseIcon onClick={() => onRequestClose} size={28} />
+        <CloseIcon onClick={onRequestClose} size={28} />
       </Header>
       <MainWrapper>
         <ImageBackground>
           <OopsFace alt={"Oops face"} src={Image} />
         </ImageBackground>
-        <Title>Oops</Title>
+        <Title>OOPS!</Title>
+        <SubTitle onClick={() => history.push("/login")}>
+          This email address is already linked to an account. <br /> Go ahead
+          and <span>Log In</span> or use a different email address.{" "}
+        </SubTitle>
       </MainWrapper>
     </Modal>
   );

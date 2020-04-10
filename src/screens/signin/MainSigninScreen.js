@@ -41,6 +41,7 @@ export default function MainSigningScreen(props) {
       case 1:
         return (
           <MainMercantSigninScreen
+            backToSelection={() => setTypeOfSigning(0)}
             onRequestClose={() => history.push("/login")}
             {...props}
           />
