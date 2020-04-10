@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput, BigInput } from "components/forms/inputs";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
@@ -60,16 +62,16 @@ const HorizontalInput = styled.div`
 `;
 
 const brandRoleOptions = [
-  { value: "Sales Manager", label: "Sales Manager" },
-  { value: "Operations Manager", label: "Operations Manager" },
-  { value: "Marketing Manager", label: "Marketing Manager" },
-  { value: "Brand Strategist", label: "Brand Strategist" },
+  { value: 1, label: "Sales Manager" },
+  { value: 1, label: "Operations Manager" },
+  { value: 1, label: "Marketing Manager" },
+  { value: 1, label: "Brand Strategist" },
 ];
 
 const WHAOptions = [
-  { value: "Google", label: "Google" },
-  { value: "Facebook", label: "Facebook" },
-  { value: "Instagram", label: "Instagram" },
+  { value: 1, label: "Google" },
+  { value: 1, label: "Facebook" },
+  { value: 1, label: "Instagram" },
 ];
 
 export default function TellUsMore2({
@@ -77,9 +79,26 @@ export default function TellUsMore2({
   setHandleSubmit,
   ...props
 }) {
+  const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
+
   const handleSubmit = (submitProps) => {
     console.log(submitProps);
-    onVerification();
+    const productType = submitProps.whatYouMake.map((val) => val.value);
+    const sustainable = submitProps.howAreSustainable.map((val) => val.value);
+
+    updateVendor({
+      variables: {
+        ...submitProps,
+        productType: productType,
+        sustainable: sustainable,
+      },
+    })
+      .then(() => {
+        onVerification();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -113,6 +132,7 @@ export default function TellUsMore2({
                     name='whatYouMake'
                     options={brandRoleOptions}
                     component={Dropdown}
+                    isMulti
                     placeholder={"What do you make?"}
                     help={
                       "we’re currently only accepting applications from independent brands that make essentials in personal, household and baby care "
@@ -121,9 +141,10 @@ export default function TellUsMore2({
                     validate={NotEmptyValidator}
                   />
                   <Field
-                    name='HowAreSustainable'
+                    name='howAreSustainable'
                     options={brandRoleOptions}
                     component={Dropdown}
+                    isMulti
                     placeholder={
                       "How do you keep your products ethical, sustainable or clean?"
                     }
@@ -149,3 +170,45 @@ export default function TellUsMore2({
     </MainContainer>
   );
 }
+
+const UPDATE_VENDOR = gql`
+  mutation UpdateVendor(
+    $productType: [ID]
+    $applicationText: String
+    $sustainable: [ID]
+  ) {
+    updateVendor(
+      productType: $productType
+      applicationText: $applicationText
+      sustainable: $sustainable
+    ) {
+      vendor {
+        businessAddr {
+          address1
+          address2
+          state
+          city
+          zipcode
+        }
+        user {
+          id
+          isVerified
+          username
+          email
+          phoneNumber
+          firstName
+          lastName
+          dateJoined
+          isActive
+          avatar
+          isPromoter
+          completedSteps {
+            stepId
+            label
+            isFilled
+          }
+        }
+      }
+    }
+  }
+`;

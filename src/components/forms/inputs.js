@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import InputMask from "react-input-mask";
 import styled from "styled-components";
-import CustomMaskedPassword from "react-custom-password-mask";
 
 const MainWrapper = styled.div``;
 
@@ -64,7 +63,6 @@ const StyledPasswordInput = styled.input`
   outline: none;
   width: 100%;
   font-size: 14px;
-  padding: 4.5px 0px;
 
   ::placeholder {
     font-size: 14px;
@@ -102,6 +100,14 @@ const StyledPhoneInput = styled(InputMask)`
       props.meta && props.meta.error && props.meta.touched
         ? props.theme.color.danger
         : props.theme.color.gray1};
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
   }
 `;
 

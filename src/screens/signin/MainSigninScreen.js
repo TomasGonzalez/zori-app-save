@@ -11,6 +11,7 @@ import { Self } from "lib/context";
 const MainContainer = styled.div`
   height: 100vh;
   width: 100%;
+  overflow: hidden;
 `;
 
 export default function MainSigningScreen(props) {

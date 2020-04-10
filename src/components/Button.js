@@ -22,6 +22,7 @@ const AnimatedBackground = styled.div`
 `;
 
 const StyledButton = styled.div`
+  position: relative;
   width: ${(props) => (props.size === "small" ? 184 : 296)}px;
   height: 48px;
   border-radius: 6px;
@@ -68,7 +69,20 @@ const Button = (props) => {
       onClick={!props.isLoading && props.onClick}
       buttonStyle={props.buttonStyle}
     >
-      <AnimatedBackground {...props}>{props.label}</AnimatedBackground>
+      <AnimatedBackground>
+        {props.isLoading ? (
+          <BeatLoader
+            size={8}
+            color={
+              props.buttonStyle === "dark"
+                ? props.theme.color.black1
+                : props.theme.color.background
+            }
+          />
+        ) : (
+          props.label
+        )}
+      </AnimatedBackground>
       {props.isLoading ? (
         <BeatLoader
           size={8}

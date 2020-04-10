@@ -122,6 +122,7 @@ export default function Dropdown({ options, ...props }) {
     <BaseInput {...props}>
       <Select
         {...props.input}
+        isMulti={props.isMulti}
         placeholder={props.placeholder}
         styles={customStyles}
         options={options}

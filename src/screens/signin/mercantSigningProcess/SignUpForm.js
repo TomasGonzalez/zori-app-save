@@ -6,6 +6,8 @@ import { PhoneInput, TextInput, PasswordInput } from "components/forms/inputs";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
+import WarningModal from "components/WarningModal";
+import Title from "components/Title";
 import {
   composeValidators,
   NotEmptyValidator,
@@ -13,8 +15,6 @@ import {
   PasswordValidator,
   VerifyPasswordValidator,
 } from "lib/formValidation";
-
-import Title from "components/Title";
 
 const MainContainer = styled.div`
   height: 100%;
@@ -72,7 +72,7 @@ export default function SignUpForm({
     createUser({ variables: { ...props, isVendor: true } })
       .then((request) => {
         console.log(request.data);
-        localStorage.setItem("jwtToken", request.data.createUser.token);
+        sessionStorage.setItem("jwtToken", request.data.createUser.token);
         onVerification();
         setIsLoading(false);
       })
@@ -160,6 +160,7 @@ export default function SignUpForm({
           )}
         />
       </FormContaienr>
+      <WarningModal isOpen={true} />
     </MainContainer>
   );
 }
@@ -180,6 +181,7 @@ const CREATE_USER = gql`
       isVendor: $isVendor
       phoneNumber: $phone
     ) {
+      token
       user {
         dateJoined
         id

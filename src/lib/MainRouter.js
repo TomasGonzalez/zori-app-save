@@ -16,9 +16,7 @@ export default function MainRouter() {
 
   const isProfileCompleted = () => {
     const completedSteps = self.completedSteps.filter((step) => step.isFilled);
-    console.log(self.completedSteps);
-    console.log(completedSteps.length);
-    return completedSteps.length === 5;
+    return completedSteps.length >= 4;
   };
 
   const PrivateRoute = ({ children, ...rest }) => {
@@ -47,6 +45,24 @@ export default function MainRouter() {
         }
       />
     );
+  };
+
+  const OnboardingRoute = ({ children, ...rest }) => {
+    if (self && isProfileCompleted()) {
+      return (
+        <Route
+          {...rest}
+          render={() => (
+            <Redirect
+              to={{
+                pathname: "/",
+              }}
+            />
+          )}
+        />
+      );
+    }
+    return <Route {...rest} render={() => children} />;
   };
 
   const PublicRoute = ({ children, ...rest }) => {
@@ -102,9 +118,9 @@ export default function MainRouter() {
           <PublicRoute path='/login'>
             <Login />
           </PublicRoute>
-          <Route path='/signin'>
+          <OnboardingRoute path='/signin'>
             <MainSigningScreen />
-          </Route>
+          </OnboardingRoute>
           <PrivateRoute path='/test'>
             <Test />
           </PrivateRoute>

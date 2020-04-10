@@ -5,7 +5,7 @@ export const composeValidators = (...validators) => (value) =>
 
 export const EmailValidator = (value) => {
   if (!EMAIL_REGEX.test(value)) {
-    return "Please enter a valid email address";
+    return "Please enter a valid email and try again. ";
   }
 };
 
@@ -18,7 +18,7 @@ export const NotEmptyValidator = (value) => {
 export const PasswordValidator = (value) => {
   // console.log(!/\d/.test(value));
   if (value && (value.length < 8 || !/\d/.test(value))) {
-    return "Selected password is invalid. Make sure to have at least 8 characters that include one number then confirm and try again";
+    return "Make sure to have at least 8 characters (including one number) in your password.";
   }
 };
 

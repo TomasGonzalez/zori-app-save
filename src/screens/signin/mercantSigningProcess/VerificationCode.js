@@ -83,7 +83,6 @@ function VerificationCode({
         onClick={() => {
           verifyCode({ variables: { code: code } })
             .then(() => {
-              console.log(isVerified, "isVerified");
               setIsVerified(true);
               onVerification();
             })

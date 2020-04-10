@@ -2,6 +2,8 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput } from "components/forms/inputs";
+import { useMutation } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
@@ -62,16 +64,16 @@ const HorizontalInput = styled.div`
 `;
 
 const brandRoleOptions = [
-  { value: "Sales Manager", label: "Sales Manager" },
-  { value: "Operations Manager", label: "Operations Manager" },
-  { value: "Marketing Manager", label: "Marketing Manager" },
-  { value: "Brand Strategist", label: "Brand Strategist" },
+  { value: 1, label: "Sales Manager" },
+  { value: 1, label: "Operations Manager" },
+  { value: 1, label: "Marketing Manager" },
+  { value: 1, label: "Brand Strategist" },
 ];
 
-const WHAOptions = [
-  { value: "Google", label: "Google" },
-  { value: "Facebook", label: "Facebook" },
-  { value: "Instagram", label: "Instagram" },
+const HYHUOptions = [
+  { value: 1, label: "Google" },
+  { value: 1, label: "Facebook" },
+  { value: 1, label: "Instagram" },
 ];
 
 export default function TellUsMore2({
@@ -79,9 +81,30 @@ export default function TellUsMore2({
   setHandleSubmit,
   ...props
 }) {
+  const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
+
   const handleSubmit = (submitProps) => {
     console.log(submitProps);
-    onVerification();
+    const platforms = submitProps.platforms.map((val) => val.value);
+    const hyhuField = submitProps.hyhuField.map((val) => val.value);
+    const address1 = `${submitProps.number} ${submitProps.street}`;
+
+    console.log(platforms, hyhuField);
+    updateVendor({
+      variables: {
+        state: submitProps.state,
+        city: submitProps.city,
+        platforms: platforms,
+        hyhuField: hyhuField,
+        address1: address1,
+      },
+    })
+      .then(() => {
+        onVerification();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -114,6 +137,20 @@ export default function TellUsMore2({
                   </span>
                 </SubTitle>
                 <FormWrapper>
+                  <Field
+                    name='street'
+                    component={TextInput}
+                    style={{ marginBottom: 64 }}
+                    placeholder='Street'
+                    validate={NotEmptyValidator}
+                  />
+                  <Field
+                    name='number'
+                    component={TextInput}
+                    style={{ marginBottom: 64 }}
+                    placeholder='Apt, Suite, Room #'
+                    validate={NotEmptyValidator}
+                  />
                   <HorizontalInput>
                     <Field
                       name='city'
@@ -131,8 +168,9 @@ export default function TellUsMore2({
                     />
                   </HorizontalInput>
                   <Field
-                    name='brandRole'
+                    name='platforms'
                     options={brandRoleOptions}
+                    isMulti
                     component={Dropdown}
                     placeholder={
                       "Which other platforms do you currently sell your products on?"
@@ -142,8 +180,9 @@ export default function TellUsMore2({
                     validate={NotEmptyValidator}
                   />
                   <Field
-                    name='WHA'
-                    options={WHAOptions}
+                    name='hyhuField'
+                    isMulti
+                    options={HYHUOptions}
                     component={Dropdown}
                     placeholder={"How’d you hear about ZORI?"}
                     style={{ marginBottom: 64, width: "100%" }}
@@ -158,3 +197,49 @@ export default function TellUsMore2({
     </MainContainer>
   );
 }
+
+const UPDATE_VENDOR = gql`
+  mutation UpdateVendor(
+    $state: String
+    $address1: String
+    $city: String
+    $platforms: [ID]
+    $hyhuField: [ID]
+  ) {
+    updateVendor(
+      city: $city
+      state: $state
+      address1: $address1
+      platforms: $platforms
+      hyhuField: $hyhuField
+    ) {
+      vendor {
+        businessAddr {
+          address1
+          address2
+          state
+          city
+          zipcode
+        }
+        user {
+          id
+          isVerified
+          username
+          email
+          phoneNumber
+          firstName
+          lastName
+          dateJoined
+          isActive
+          avatar
+          isPromoter
+          completedSteps {
+            stepId
+            label
+            isFilled
+          }
+        }
+      }
+    }
+  }
+`;

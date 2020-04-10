@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput } from "components/forms/inputs";
 import { useMutation } from "@apollo/react-hooks";
+import _ from "lodash";
 
 import { gql } from "apollo-boost";
 import Title from "components/Title";
@@ -18,8 +19,8 @@ const MainContainer = styled.div`
 `;
 
 const ImageContainer = styled.img`
-  height: 370.4px;
-  width: 400px;
+  height: 486.8px;
+  width: 560px;
 
   @media (max-width: 1024px) {
     display: none;
@@ -38,7 +39,7 @@ const FormContainer = styled.div`
 `;
 
 const StyledForm = styled.form`
-  padding: 80px;
+  padding: 72px;
   max-width: 440px;
 `;
 
@@ -51,10 +52,10 @@ const boolOptions = [
   { value: "false", label: "No" },
 ];
 const brandRoleOptions = [
-  { value: "Sales Manager", label: "Sales Manager" },
-  { value: "Operations Manager", label: "Operations Manager" },
-  { value: "Marketing Manager", label: "Marketing Manager" },
-  { value: "Brand Strategist", label: "Brand Strategist" },
+  { value: 1, label: "Sales Manager" },
+  { value: 1, label: "Operations Manager" },
+  { value: 1, label: "Marketing Manager" },
+  { value: 1, label: "Brand Strategist" },
 ];
 
 export default function TellUsMore({
@@ -65,8 +66,12 @@ export default function TellUsMore({
   const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
 
   const handleSubmit = (submitProps) => {
-    console.log(submitProps);
-    updateVendor({ ...submitProps })
+    updateVendor({
+      variables: {
+        ...submitProps,
+        aplicationTitle: _.get(submitProps, "aplicationTitle.value", 0),
+      },
+    })
       .then(() => {
         onVerification();
       })
@@ -151,7 +156,7 @@ const UPDATE_VENDOR = gql`
   mutation UpdateVendor(
     $brandname: String
     $website: String
-    $applicantTitle: String
+    $applicantTitle: ID
   ) {
     updateVendor(
       applicantTitle: $applicantTitle
@@ -164,6 +169,21 @@ const UPDATE_VENDOR = gql`
           isVerified
           username
           email
+          phoneNumber
+          firstName
+          lastName
+          dateJoined
+          isActive
+          avatar
+          isPromoter
+          completedSteps {
+            stepId
+            label
+            isFilled
+          }
+          vendor {
+            brandname
+          }
         }
       }
     }

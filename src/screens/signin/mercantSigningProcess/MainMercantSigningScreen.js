@@ -175,7 +175,8 @@ function MainMercantSigninScreen(props) {
     <TellUsProduct
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
-        setProgress(progress + 1);
+        //history.push("/");
+        populateSelf();
         setHandleSubmit(null);
       }}
       onFinishVerification={() => {}}
@@ -230,7 +231,7 @@ function MainMercantSigninScreen(props) {
               label='Next'
               isLoading={isLoading}
             />
-            <PageCount>{progress} / 4</PageCount>
+            <PageCount>{progress + 1} / 4</PageCount>
           </>
         )}
       </Footer>

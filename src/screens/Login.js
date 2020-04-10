@@ -62,7 +62,6 @@ const CheckboxWrapper = styled.div`
 `;
 
 const TempLink = styled.div`
-  width: 204px;
   height: 17px;
   font-size: 14px;
   font-weight: 500;
@@ -104,7 +103,7 @@ function Login() {
   useEffect(() => {
     const mainImage = new Image();
     mainImage.onload = () => {
-      console.log(setLoading(false));
+      setLoading(false);
     };
 
     mainImage.src = LoadingImage;
@@ -149,15 +148,7 @@ function Login() {
 
   return (
     <MainContainer>
-      <ImageContainer
-        id='image'
-        // onLoad={() => {
-        //   console.log("setLoading");
-        //   setLoading(false);
-        // }}
-        alt='Office Deskt'
-        src={LoadingImage}
-      />
+      <ImageContainer id='image' alt='Office Deskt' src={LoadingImage} />
       <FormContaienr>
         <Form
           onSubmit={handleSubmit}
