@@ -2,11 +2,12 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput } from "components/forms/inputs";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
+import { ScreenLoader } from "components/Loading";
 
 import { NotEmptyValidator } from "lib/formValidation";
 
@@ -81,7 +82,8 @@ export default function TellUsMore2({
   setHandleSubmit,
   ...props
 }) {
-  const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
+  const [updateVendor] = useMutation(UPDATE_VENDOR);
+  const { loading, error, data } = useQuery(QUERY);
 
   const handleSubmit = (submitProps) => {
     console.log(submitProps);
@@ -106,6 +108,16 @@ export default function TellUsMore2({
         console.log(err);
       });
   };
+
+  if (loading) {
+    return (
+      <MainContainer>
+        <ScreenLoader />
+      </MainContainer>
+    );
+  }
+
+  console.log(data);
 
   return (
     <MainContainer>
@@ -155,13 +167,21 @@ export default function TellUsMore2({
                     <Field
                       name='city'
                       component={TextInput}
-                      style={{ marginBottom: 64, width: "45%" }}
+                      style={{
+                        marginBottom: 64,
+                        width: "45%",
+                        paddingTop: 11.5,
+                      }}
                       placeholder='City'
                       validate={NotEmptyValidator}
                     />
                     <Field
                       name='state'
-                      component={TextInput}
+                      options={data.usStates.map((state) => ({
+                        value: state,
+                        label: state,
+                      }))}
+                      component={Dropdown}
                       style={{ marginBottom: 64, width: "45%" }}
                       placeholder='State'
                       validate={NotEmptyValidator}
@@ -240,6 +260,16 @@ const UPDATE_VENDOR = gql`
           }
         }
       }
+    }
+  }
+`;
+
+const QUERY = gql`
+  {
+    usStates
+    platformOptions(platformType: "hyhuPlatforms") {
+      id
+      label
     }
   }
 `;

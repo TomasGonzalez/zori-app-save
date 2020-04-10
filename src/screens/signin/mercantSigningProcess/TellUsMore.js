@@ -2,10 +2,11 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput } from "components/forms/inputs";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import _ from "lodash";
-
 import { gql } from "apollo-boost";
+
+import { ScreenLoader } from "components/Loading";
 import Title from "components/Title";
 import Dropdown from "components/Dropdown";
 
@@ -63,13 +64,14 @@ export default function TellUsMore({
   setHandleSubmit,
   ...props
 }) {
-  const [updateVendor, { data }] = useMutation(UPDATE_VENDOR);
+  const [updateVendor] = useMutation(UPDATE_VENDOR);
+  const { loading, error, data } = useQuery(APLICATION_TITLE);
 
   const handleSubmit = (submitProps) => {
     updateVendor({
       variables: {
         ...submitProps,
-        aplicationTitle: _.get(submitProps, "aplicationTitle.value", 0),
+        applicantTitle: _.get(submitProps, "applicantTitle.value", 0),
       },
     })
       .then(() => {
@@ -87,6 +89,14 @@ export default function TellUsMore({
       }}
     </Field>
   );
+
+  if (loading) {
+    return (
+      <MainContainer>
+        <ScreenLoader />
+      </MainContainer>
+    );
+  }
 
   return (
     <MainContainer>
@@ -129,7 +139,15 @@ export default function TellUsMore({
                   <Condition when='brandOwnership' is={"false"}>
                     <Field
                       name='applicantTitle'
-                      options={brandRoleOptions}
+                      options={
+                        data.applicantTitles &&
+                        data.applicantTitles.map((titleObjects) => {
+                          return {
+                            value: titleObjects.id,
+                            label: titleObjects.label,
+                          };
+                        })
+                      }
                       component={Dropdown}
                       placeholder={"What’s your role at this brand?"}
                       style={{ marginBottom: 64, width: "100%" }}
@@ -151,6 +169,15 @@ export default function TellUsMore({
     </MainContainer>
   );
 }
+
+const APLICATION_TITLE = gql`
+  {
+    applicantTitles {
+      id
+      label
+    }
+  }
+`;
 
 const UPDATE_VENDOR = gql`
   mutation UpdateVendor(

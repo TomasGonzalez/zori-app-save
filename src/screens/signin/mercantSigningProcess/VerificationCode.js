@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import styled from "styled-components";
-import { useMutation } from "@apollo/react-hooks";
+import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import { VerificationInput } from "components/forms/inputs";
@@ -47,13 +47,19 @@ const SubTitle = styled.div`
   }
 `;
 
+const ErrorTest = styled.div`
+  font-size: 14px;
+  color: ${(props) => props.theme.color.danger};
+`;
+
 function VerificationCode({
   onComponentMount,
   onVerification,
   onFinishVerification,
 }) {
   const [isVerified, setIsVerified] = useState(false);
-  const [code, setCode] = useState(false);
+  const [code, setCode] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
 
   const [verifyCode, { data }] = useMutation(VERIFY_CODE);
 
@@ -75,22 +81,31 @@ function VerificationCode({
           setCode(parseInt(value.target.value));
         }}
       />
+      {errorMessage && (
+        <ErrorTest>{errorMessage.replace("GraphQL error: ", "")}</ErrorTest>
+      )}
       <Button
         buttonStyle='dark'
         size='small'
         label='Verify'
         style={{ marginTop: 64 }}
         onClick={() => {
-          verifyCode({ variables: { code: code } })
-            .then(() => {
-              setIsVerified(true);
-              onVerification();
-            })
-            .catch((err) => console.log(err));
+          console.log(code && code.toString().length);
+          if (code && code.toString().length > 5) {
+            verifyCode({ variables: { code: code } })
+              .then(() => {
+                setIsVerified(true);
+                onVerification();
+              })
+              .catch((err) => setErrorMessage(err.message));
+          } else {
+            setErrorMessage("Verification code must have 6 digits!");
+          }
         }}
       />
     </ContentWrapper>
   );
+
   const Verified = () => (
     <ContentWrapper>
       <StyledLock src={require("assets/verificationSuccess.png")} />
