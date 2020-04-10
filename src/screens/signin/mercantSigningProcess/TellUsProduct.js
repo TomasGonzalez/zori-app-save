@@ -134,7 +134,10 @@ export default function TellUsMore2({
                 <FormWrapper>
                   <Field
                     name='whatYouMake'
-                    options={brandRoleOptions}
+                    options={data.productOptions.map((val) => ({
+                      value: val.id,
+                      label: val.label,
+                    }))}
                     component={Dropdown}
                     isMulti
                     placeholder={"What do you make?"}
@@ -223,6 +226,10 @@ const UPDATE_VENDOR = gql`
 const QUERY = gql`
   {
     sustainableOptions {
+      label
+      id
+    }
+    productOptions {
       label
       id
     }
