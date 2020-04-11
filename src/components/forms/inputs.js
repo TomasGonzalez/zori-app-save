@@ -140,7 +140,7 @@ const StyledBigInput = styled.textarea`
   outline: none;
   width: 100%;
   height: 111px;
-  padding: 16px;
+  padding: 8px;
   resize: none;
   box-sizing: border-box;
 `;

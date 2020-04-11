@@ -42,7 +42,7 @@ const FormContainer = styled.div`
 
 const StyledForm = styled.form`
   padding: 80px;
-  max-width: 983px;
+  max-width: 592px;
 `;
 
 const FormWrapper = styled.div``;
