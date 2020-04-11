@@ -63,19 +63,6 @@ const HorizontalInput = styled.div`
   justify-content: space-between;
 `;
 
-const brandRoleOptions = [
-  { value: 1, label: "Sales Manager" },
-  { value: 1, label: "Operations Manager" },
-  { value: 1, label: "Marketing Manager" },
-  { value: 1, label: "Brand Strategist" },
-];
-
-const HYHUOptions = [
-  { value: 1, label: "Google" },
-  { value: 1, label: "Facebook" },
-  { value: 1, label: "Instagram" },
-];
-
 export default function TellUsMore2({
   onVerification,
   setHandleSubmit,
@@ -167,7 +154,6 @@ export default function TellUsMore2({
                       style={{
                         marginBottom: 64,
                         width: "45%",
-                        paddingTop: 11.5,
                       }}
                       placeholder='City'
                       validate={NotEmptyValidator}
@@ -179,7 +165,7 @@ export default function TellUsMore2({
                         label: state,
                       }))}
                       component={Dropdown}
-                      style={{ marginBottom: 64, width: "45%" }}
+                      style={{ marginBottom: 64, width: "45%", paddingTop: 6 }}
                       placeholder='State'
                       validate={NotEmptyValidator}
                     />

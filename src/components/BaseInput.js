@@ -8,14 +8,15 @@ const Wrapper = styled.div`
 const Help = styled.div`
   font-size: 12px;
   color: rgba(0, 0, 0, 0.2);
-  margin-top: 8px;
+  margin-top: 4px;
 `;
 
 const ErrorMessage = styled.div`
-  margin-top: 8px;
+  margin-top: 4px;
   font-size: 12px;
   color: ${(props) => props.theme.color.lightDanger};
 `;
+
 function BaseInput({ children, ...props }) {
   return (
     <Wrapper {...props}>

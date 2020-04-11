@@ -128,7 +128,7 @@ const StyledVerificationInput = styled.input`
 `;
 
 const ErrorMessage = styled.div`
-  margin-top: 8px;
+  margin-top: 4px;
   font-size: 12px;
   color: ${(props) => props.theme.color.lightDanger};
 `;
