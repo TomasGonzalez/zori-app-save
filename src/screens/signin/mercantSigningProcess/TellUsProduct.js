@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
-import { TextInput, PasswordInput, BigInput } from "components/forms/inputs";
+import { BigInput } from "components/forms/inputs";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
@@ -28,15 +28,6 @@ const SubTitle = styled.div`
   color: ${(props) => props.theme.color.gray2};
 `;
 
-const ImageContainer = styled.img`
-  height: 489.5px;
-  width: 640px;
-
-  @media (max-width: 1024px) {
-    display: none;
-  
-`;
-
 const FormContainer = styled.div`
   display: flex;
   align-items: center;
@@ -56,19 +47,6 @@ const StyledForm = styled.form`
 
 const FormWrapper = styled.div``;
 
-const brandRoleOptions = [
-  { value: 1, label: "Sales Manager" },
-  { value: 1, label: "Operations Manager" },
-  { value: 1, label: "Marketing Manager" },
-  { value: 1, label: "Brand Strategist" },
-];
-
-const WHAOptions = [
-  { value: 1, label: "Google" },
-  { value: 1, label: "Facebook" },
-  { value: 1, label: "Instagram" },
-];
-
 export default function TellUsMore2({
   onVerification,
   setHandleSubmit,
@@ -78,7 +56,6 @@ export default function TellUsMore2({
   const { loading, error, data } = useQuery(QUERY);
 
   const handleSubmit = (submitProps) => {
-    console.log(submitProps);
     const productType = submitProps.whatYouMake.map((val) => val.value);
     const sustainable = submitProps.howAreSustainable.map((val) => val.value);
 
@@ -104,7 +81,6 @@ export default function TellUsMore2({
     );
   }
 
-  console.log(data);
   return (
     <MainContainer>
       <FormContainer>

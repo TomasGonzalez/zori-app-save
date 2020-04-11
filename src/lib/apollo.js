@@ -14,7 +14,6 @@ const authLink = setContext((_, { headers }) => {
   const token =
     localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken");
   // return the headers to the context so httpLink can read them
-  console.log(token, "the token");
   return {
     headers: {
       ...headers,

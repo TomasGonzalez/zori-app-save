@@ -160,7 +160,6 @@ function MainMercantSigninScreen(props) {
     <VerificationCode
       onVerification={() => {
         setHandleSubmit(null);
-        //populateSelf();
       }}
       onComponentMount={() => setShowNextButton(false)}
       onFinishVerification={() => {
@@ -171,7 +170,6 @@ function MainMercantSigninScreen(props) {
     <TellUsMore
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
-        console.log("onVerification");
         setProgress(progress + 1);
         setHandleSubmit(null);
       }}
@@ -188,7 +186,6 @@ function MainMercantSigninScreen(props) {
     <TellUsProduct
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
-        //history.push("/");
         populateSelf();
         setHandleSubmit(null);
       }}

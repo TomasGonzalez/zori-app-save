@@ -93,14 +93,17 @@ function VerificationCode({
         label='Verify'
         style={{ marginTop: 64, marginBottom: 50 }}
         onClick={() => {
-          console.log(code && code.toString().length);
           if (code && code.toString().length > 5) {
             verifyCode({ variables: { code: code } })
-              .then(() => {
-                setIsVerified(true);
-                onVerification();
+              .then(({ data }) => {
+                if (!data.verifyCode.errorMessage) {
+                  setIsVerified(true);
+                  onVerification();
+                } else {
+                  setErrorMessage(data.verifyCode.errorMessage);
+                }
               })
-              .catch((err) => setErrorMessage(err.message));
+              .catch((err) => console.log(err));
           } else {
             setErrorMessage("Verification code must have 6 digits!");
           }
@@ -113,10 +116,10 @@ function VerificationCode({
     <ContentWrapper>
       <StyledLock src={require("assets/verificationSuccess.png")} />
       <Title>Success!</Title>
-      <SubTitle style={{ width: "100%" }}>
+      {/* <SubTitle style={{ width: "100%" }}>
         Click the button below if this page doesn’t automatically redirect in a
         couple of seconds
-      </SubTitle>
+      </SubTitle> */}
       <Button
         buttonStyle='dark'
         size='small'
@@ -132,6 +135,7 @@ function VerificationCode({
 const VERIFY_CODE = gql`
   mutation VerifyCode($code: Int!) {
     verifyCode(code: $code) {
+      errorMessage
       user {
         id
         isVerified

@@ -16,7 +16,6 @@ export const NotEmptyValidator = (value) => {
 };
 
 export const PasswordValidator = (value) => {
-  // console.log(!/\d/.test(value));
   if (value && (value.length < 8 || !/\d/.test(value))) {
     return "Make sure to have at least 8 characters (including one number) in your password.";
   }
