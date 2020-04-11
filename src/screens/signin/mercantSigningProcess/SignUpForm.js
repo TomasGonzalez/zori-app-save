@@ -71,7 +71,13 @@ export default function SignUpForm({
 
   const handleSubmit = (props) => {
     setIsLoading(true);
-    createUser({ variables: { ...props, isVendor: true } })
+    createUser({
+      variables: {
+        ...props,
+        isVendor: true,
+        phone: `+1${props.phone}`.replace(/-/g, ""),
+      },
+    })
       .then((request) => {
         console.log(request.data);
         sessionStorage.setItem("jwtToken", request.data.createUser.token);

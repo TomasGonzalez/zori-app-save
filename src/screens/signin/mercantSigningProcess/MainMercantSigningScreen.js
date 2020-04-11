@@ -1,10 +1,9 @@
 import React, { useEffect, useState, useContext } from "react";
 
 import styled, { withTheme } from "styled-components";
-import { MdClose, MdKeyboardArrowLeft } from "react-icons/md";
+import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import { useHistory } from "react-router-dom";
 
 import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
@@ -14,7 +13,6 @@ import TellUsMore2 from "./TellUsMore2";
 import TellUsProduct from "./TellUsProduct";
 
 import Back from "assets/close.png";
-import BaseModal from "components/BaseModal";
 import { Self } from "lib/context";
 import logout from "lib/logout";
 import { ScreenLoader } from "components/Loading";
@@ -134,8 +132,6 @@ function MainMercantSigninScreen(props) {
 
   const [showNextButton, setShowNextButton] = useState(true);
   const [onHandleSubmit, setHandleSubmit] = useState(null);
-
-  const history = useHistory();
 
   useEffect(() => {
     const calculateProgress = () => {
