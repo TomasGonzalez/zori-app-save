@@ -169,6 +169,7 @@ function MainMercantSigninScreen(props) {
         setProgress(progress + 1);
         setHandleSubmit(null);
       }}
+      setIsLoading={(value) => setIsLoading(value)}
       onFinishVerification={() => {}}
     />,
     <TellUsMore2

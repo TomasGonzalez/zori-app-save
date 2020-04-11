@@ -29,7 +29,7 @@ const customStyles = {
     return {
       ...provided,
       top: null,
-      bottom: -8,
+      bottom: -5,
       fontSize: 14,
     };
   },
@@ -47,6 +47,7 @@ const customStyles = {
       borderBottom: `1px solid ${
         state.hasValue ? theme.color.gray1 : theme.color.danger
       }`,
+      minHeight: null,
     };
   },
   valueContainer: (provided) => {
@@ -54,6 +55,8 @@ const customStyles = {
       ...provided,
       alignItems: "flex-start",
       padding: 0,
+      height: 19,
+      position: null,
     };
   },
   indicatorSeparator: (provided) => {
@@ -70,6 +73,7 @@ const customStyles = {
       marginRight: 0,
       bottom: 7,
       fontSize: 14,
+      height: 20,
     };
   },
   dropdownIndicator: (provided, state) => {

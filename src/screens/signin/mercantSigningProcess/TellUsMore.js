@@ -56,12 +56,15 @@ const boolOptions = [
 export default function TellUsMore({
   onVerification,
   setHandleSubmit,
+  setIsLoading,
   ...props
 }) {
   const [updateVendor] = useMutation(UPDATE_VENDOR);
+
   const { loading, error, data } = useQuery(APLICATION_TITLE);
 
   const handleSubmit = (submitProps) => {
+    setIsLoading(true);
     updateVendor({
       variables: {
         ...submitProps,
@@ -69,9 +72,11 @@ export default function TellUsMore({
       },
     })
       .then(() => {
+        setIsLoading(false);
         onVerification();
       })
       .catch((err) => {
+        setIsLoading(false);
         console.log(err);
       });
   };
