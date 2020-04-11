@@ -32,6 +32,7 @@ const Title = styled.div`
   font-size: 30px;
   font-weight: bold;
   margin-top: 56.8px;
+  height: 30px;
 `;
 
 const SubTitle = styled.div`
@@ -41,6 +42,7 @@ const SubTitle = styled.div`
   font-size: 14px;
   text-align: center;
   color: ${(props) => props.theme.color.gray1};
+  line-height: 1.6;
   span {
     color: ${(props) => props.theme.color.linkBlue};
     cursor: pointer;
@@ -74,7 +76,8 @@ function VerificationCode({
       <SubTitle>
         We’ve sent a code to the email and phone number you provided. Enter it
         below to proceed.
-        <br /> Didn’t get it? <span>Have it resent</span>
+        <br />
+        Didn’t get it? <span>Have it resent</span>
       </SubTitle>
       <VerificationInput
         onChange={(value) => {
@@ -88,7 +91,7 @@ function VerificationCode({
         buttonStyle='dark'
         size='small'
         label='Verify'
-        style={{ marginTop: 64 }}
+        style={{ marginTop: 64, marginBottom: 50 }}
         onClick={() => {
           console.log(code && code.toString().length);
           if (code && code.toString().length > 5) {

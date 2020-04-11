@@ -114,15 +114,16 @@ const StyledPhoneInput = styled(InputMask)`
 const StyledVerificationInput = styled.input`
   font-size: 72px;
   letter-spacing: 32px;
-  top: 10px;
+  margin-top: 35px;
   width: 434px;
   border-width: 0px;
   outline: none;
   padding-left: 30px;
-  color: ${(props) => props.theme.color.lightGray};
+  color: ${(props) => props.theme.color.gray1};
+  height: 60px;
 
   ::placeholder {
-    color: ${(props) => props.theme.color.lightGray};
+    color: ${(props) => props.theme.color.gray1};
   }
 `;
 
@@ -188,7 +189,6 @@ export const PhoneInput = (props) => {
     <MainWrapper {...props}>
       <StyledPhoneInput
         mask='999-999-9999'
-        maskChar=' '
         type={props.type}
         {...props.input}
         meta={props.meta}
