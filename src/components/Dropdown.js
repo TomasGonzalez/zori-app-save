@@ -6,12 +6,6 @@ import styled from "styled-components";
 import theme from "theme";
 import BaseInput from "components/BaseInput";
 
-const groupStyles = {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
-};
-
 const customStyles = {
   option: (provided, { data, isDisabled, isFocused, isSelected }) => {
     return {
@@ -29,6 +23,14 @@ const customStyles = {
       color: theme.color.black,
       position: "relative",
       height: "100%",
+    };
+  },
+  singleValue: (provided, state) => {
+    return {
+      ...provided,
+      top: null,
+      bottom: -8,
+      fontSize: 14,
     };
   },
   control: (provided, state) => {
@@ -98,12 +100,6 @@ const groupBadgeStyles = {
   minWidth: 1,
   textAlign: "center",
 };
-
-const ErrorMessage = styled.div`
-  margin-top: 8px;
-  font-size: 12px;
-  color: ${(props) => props.theme.color.lightDanger};
-`;
 
 const DropdownIndicator = (props) => {
   return (
