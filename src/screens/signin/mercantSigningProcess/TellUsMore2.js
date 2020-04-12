@@ -66,10 +66,10 @@ const HorizontalInput = styled.div`
 export default function TellUsMore2({
   onVerification,
   setHandleSubmit,
+  data,
   ...props
 }) {
   const [updateVendor] = useMutation(UPDATE_VENDOR);
-  const { loading, error, data } = useQuery(QUERY);
 
   const handleSubmit = (submitProps) => {
     console.log(submitProps);
@@ -94,14 +94,6 @@ export default function TellUsMore2({
         console.log(err);
       });
   };
-
-  if (loading) {
-    return (
-      <MainContainer>
-        <ScreenLoader />
-      </MainContainer>
-    );
-  }
 
   return (
     <MainContainer>
@@ -249,20 +241,6 @@ const UPDATE_VENDOR = gql`
           }
         }
       }
-    }
-  }
-`;
-
-const QUERY = gql`
-  {
-    usStates
-    signup: platformOptions(platformType: "signupPlatforms") {
-      id
-      label
-    }
-    hyhu: platformOptions(platformType: "hyhuPlatforms") {
-      id
-      label
     }
   }
 `;

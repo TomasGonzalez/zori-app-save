@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { TextInput, PasswordInput } from "components/forms/inputs";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import _ from "lodash";
 import { gql } from "apollo-boost";
 
@@ -57,11 +57,10 @@ export default function TellUsMore({
   onVerification,
   setHandleSubmit,
   setIsLoading,
+  data,
   ...props
 }) {
   const [updateVendor] = useMutation(UPDATE_VENDOR);
-
-  const { loading, error, data } = useQuery(APLICATION_TITLE);
 
   const handleSubmit = (submitProps) => {
     setIsLoading(true);
@@ -88,14 +87,6 @@ export default function TellUsMore({
       }}
     </Field>
   );
-
-  if (loading) {
-    return (
-      <MainContainer>
-        <ScreenLoader />
-      </MainContainer>
-    );
-  }
 
   return (
     <MainContainer>
@@ -168,15 +159,6 @@ export default function TellUsMore({
     </MainContainer>
   );
 }
-
-const APLICATION_TITLE = gql`
-  {
-    applicantTitles {
-      id
-      label
-    }
-  }
-`;
 
 const UPDATE_VENDOR = gql`
   mutation UpdateVendor(

@@ -1,9 +1,11 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 
 import styled, { withTheme } from "styled-components";
 import { MdClose } from "react-icons/md";
 import Progress from "react-progress";
+import { useQuery } from "@apollo/react-hooks";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { gql } from "apollo-boost";
 
 import Button from "components/Button";
 import SignUpForm from "./SignUpForm";
@@ -62,7 +64,7 @@ const MainContainer = styled.div`
 
 const MainFormContainer = styled.div`
   &.container-enter {
-    transform: translateX(800px);
+    transform: translateX(${(props) => props.animationDirection * 800}px);
     opacity: 0;
   }
 
@@ -79,7 +81,7 @@ const MainFormContainer = styled.div`
 
   &.container-exit-active {
     opacity: 0;
-    transform: translateX(-800px);
+    transform: translateX(${(props) => props.animationDirection * -800}px);
     transition: opacity 200ms ease, transform 200ms ease;
   }
 `;
@@ -129,9 +131,12 @@ function MainMercantSigninScreen(props) {
 
   const [progress, setProgress] = useState("loading");
   const [isLoading, setIsLoading] = useState(false);
-
   const [showNextButton, setShowNextButton] = useState(true);
   const [onHandleSubmit, setHandleSubmit] = useState(null);
+
+  const { loading, error, data } = useQuery(QUERY);
+
+  const animationDirection = useRef(1);
 
   useEffect(() => {
     const calculateProgress = () => {
@@ -164,6 +169,7 @@ function MainMercantSigninScreen(props) {
       }}
     />,
     <TellUsMore
+      data={data}
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
         setProgress(progress + 1);
@@ -173,6 +179,7 @@ function MainMercantSigninScreen(props) {
       onFinishVerification={() => {}}
     />,
     <TellUsMore2
+      data={data}
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
         setProgress(progress + 1);
@@ -181,6 +188,7 @@ function MainMercantSigninScreen(props) {
       onFinishVerification={() => {}}
     />,
     <TellUsProduct
+      data={data}
       setHandleSubmit={(values) => setHandleSubmit(values)}
       onVerification={() => {
         populateSelf();
@@ -190,7 +198,13 @@ function MainMercantSigninScreen(props) {
     />,
   ];
 
-  if (progress === "loading") {
+  const goBack = () => {
+    animationDirection.current = -1;
+    setProgress(progress - 1);
+    setHandleSubmit(null);
+  };
+
+  if (progress === "loading" || loading) {
     return (
       <div
         style={{
@@ -219,9 +233,7 @@ function MainMercantSigninScreen(props) {
         {(progress > 2 || progress === 0) && (
           <BackButton
             onClick={() =>
-              progress === 0
-                ? props.backToSelection()
-                : setProgress(progress - 1)
+              progress === 0 ? props.backToSelection() : goBack()
             }
             alt='back'
             src={Back}
@@ -236,14 +248,19 @@ function MainMercantSigninScreen(props) {
             node.addEventListener("transitionend", done, false);
           }}
         >
-          <MainFormContainer>{formSteps[progress]}</MainFormContainer>
+          <MainFormContainer animationDirection={animationDirection.current}>
+            {formSteps[progress]}
+          </MainFormContainer>
         </CSSTransition>
       </SwitchTransition>
       <Footer>
         {showNextButton && (
           <>
             <Button
-              onClick={onHandleSubmit}
+              onClick={() => {
+                animationDirection.current = 1;
+                onHandleSubmit && onHandleSubmit();
+              }}
               buttonStyle='dark'
               size='small'
               label='Next'
@@ -256,5 +273,31 @@ function MainMercantSigninScreen(props) {
     </MainContainer>
   );
 }
+
+const QUERY = gql`
+  {
+    applicantTitles {
+      id
+      label
+    }
+    sustainableOptions {
+      label
+      id
+    }
+    productOptions {
+      label
+      id
+    }
+    usStates
+    signup: platformOptions(platformType: "signupPlatforms") {
+      id
+      label
+    }
+    hyhu: platformOptions(platformType: "hyhuPlatforms") {
+      id
+      label
+    }
+  }
+`;
 
 export default withTheme(MainMercantSigninScreen);

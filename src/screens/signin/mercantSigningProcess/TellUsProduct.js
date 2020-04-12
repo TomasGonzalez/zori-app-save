@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Form, Field } from "react-final-form";
 import { BigInput } from "components/forms/inputs";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import Title from "components/Title";
@@ -50,10 +50,10 @@ const FormWrapper = styled.div``;
 export default function TellUsMore2({
   onVerification,
   setHandleSubmit,
+  data,
   ...props
 }) {
   const [updateVendor] = useMutation(UPDATE_VENDOR);
-  const { loading, error, data } = useQuery(QUERY);
 
   const handleSubmit = (submitProps) => {
     const productType = submitProps.whatYouMake.map((val) => val.value);
@@ -73,13 +73,6 @@ export default function TellUsMore2({
         console.log(err);
       });
   };
-  if (loading) {
-    return (
-      <MainContainer>
-        <ScreenLoader />
-      </MainContainer>
-    );
-  }
 
   return (
     <MainContainer>
@@ -195,19 +188,6 @@ const UPDATE_VENDOR = gql`
           }
         }
       }
-    }
-  }
-`;
-
-const QUERY = gql`
-  {
-    sustainableOptions {
-      label
-      id
-    }
-    productOptions {
-      label
-      id
     }
   }
 `;
