@@ -1,0 +1,1 @@
+export const VENDOR_SIGNUP_STEPS_AMOUNT = 5;

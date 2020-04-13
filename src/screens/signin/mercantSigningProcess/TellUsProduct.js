@@ -10,22 +10,13 @@ import Dropdown from "components/Dropdown";
 
 import { NotEmptyValidator } from "lib/formValidation";
 import { ScreenLoader } from "components/Loading";
+import SubTitle from "components/SubTitle";
 
 const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-`;
-
-const SubTitle = styled.div`
-  font-size: 14px;
-  font-weight: normal;
-  font-stretch: normal;
-  font-style: normal;
-  line-height: normal;
-  letter-spacing: normal;
-  color: ${(props) => props.theme.color.gray2};
 `;
 
 const FormContainer = styled.div`

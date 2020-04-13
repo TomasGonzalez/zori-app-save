@@ -10,13 +10,14 @@ import { Self } from "lib/context";
 import Login from "screens/Login";
 import MainSigningScreen from "screens/signin/MainSigninScreen";
 import Test from "screens/test";
+import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 
 export default function MainRouter() {
   const { self } = useContext(Self);
 
   const isProfileCompleted = () => {
     const completedSteps = self.completedSteps.filter((step) => step.isFilled);
-    return completedSteps.length >= 4;
+    return completedSteps.length >= VENDOR_SIGNUP_STEPS_AMOUNT;
   };
 
   const PrivateRoute = ({ children, ...rest }) => {

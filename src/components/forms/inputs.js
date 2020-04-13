@@ -145,6 +145,39 @@ const StyledBigInput = styled.textarea`
   box-sizing: border-box;
 `;
 
+// &:-webkit-autofill,
+// &:-webkit-autofill:hover,
+// &:-webkit-autofill:focus,
+// &:-webkit-autofill:active {
+//   -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+//   -webkit-transition-delay: 9999s;
+// }
+
+const StyledAAQInput = styled.input`
+  border-width: 1px 1px 1px 1px;
+  border-radius: 3px;
+
+  border: 1px solid ${(props) => props.theme.color.gray1};
+  border-radius: 3px;
+  border-color: ${(props) =>
+    (props.meta && props.meta.error) || !props.value
+      ? props.theme.color.danger
+      : props.theme.color.underlineColor};
+
+  outline: none;
+  width: 100%;
+  font-size: 14px;
+  padding: 11px 8px;
+  box-sizing: border-box;
+  ::placeholder {
+    font-size: 14px;
+    color: ${(props) =>
+      props.meta && props.meta.error && props.meta.touched
+        ? props.theme.color.danger
+        : props.theme.color.gray1};
+  }
+`;
+
 export const TextInput = (props) => {
   return (
     <MainWrapper {...props}>
@@ -177,6 +210,22 @@ export const PasswordInput = (props) => {
           {!showPassword ? "show" : "hide"} password
         </ShowPasswordButton>
       </PasswordWrapper>
+      {props.meta.error && props.meta.touched && (
+        <ErrorMessage>{props.meta.error}</ErrorMessage>
+      )}
+    </MainWrapper>
+  );
+};
+
+export const AAQInput = (props) => {
+  return (
+    <MainWrapper {...props}>
+      <StyledAAQInput
+        type={props.type}
+        {...props.input}
+        meta={props.meta}
+        placeholder={props.placeholder}
+      />
       {props.meta.error && props.meta.touched && (
         <ErrorMessage>{props.meta.error}</ErrorMessage>
       )}

@@ -72,12 +72,10 @@ export default function TellUsMore2({
   const [updateVendor] = useMutation(UPDATE_VENDOR);
 
   const handleSubmit = (submitProps) => {
-    console.log(submitProps);
     const platforms = submitProps.platforms.map((val) => val.value);
     const hyhuField = submitProps.hyhuField.map((val) => val.value);
     const address1 = `${submitProps.number} ${submitProps.street}`;
 
-    console.log(platforms, hyhuField);
     updateVendor({
       variables: {
         state: submitProps.state.value,

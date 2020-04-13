@@ -13,11 +13,13 @@ import VerificationCode from "./VerificationCode";
 import TellUsMore from "./TellUsMore";
 import TellUsMore2 from "./TellUsMore2";
 import TellUsProduct from "./TellUsProduct";
+import SecurityQuestions from "./SecurityQuestions";
 
 import Back from "assets/close.png";
 import { Self } from "lib/context";
 import logout from "lib/logout";
 import { ScreenLoader } from "components/Loading";
+import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 
 const Header = styled.div`
   width: 100%;
@@ -168,6 +170,16 @@ function MainMercantSigninScreen(props) {
         setShowNextButton(true);
       }}
     />,
+    <SecurityQuestions
+      onComponentMount={() => setShowNextButton(false)}
+      onVerification={() => {
+        setProgress(progress + 1);
+        setHandleSubmit(null);
+      }}
+      setHandleSubmit={(values) => setHandleSubmit(values)}
+      setIsLoading={(value) => setIsLoading(value)}
+      data={data}
+    />,
     <TellUsMore
       data={data}
       setHandleSubmit={(values) => setHandleSubmit(values)}
@@ -229,7 +241,10 @@ function MainMercantSigninScreen(props) {
             <MdClose onClick={() => logout()} size={20} />
           </Close>
         </Header>
-        <ProgressBar progress={(progress / 4) * 100} {...props} />
+        <ProgressBar
+          progress={(progress / VENDOR_SIGNUP_STEPS_AMOUNT) * 100}
+          {...props}
+        />
         {(progress > 2 || progress === 0) && (
           <BackButton
             onClick={() =>
@@ -266,7 +281,10 @@ function MainMercantSigninScreen(props) {
               label='Next'
               isLoading={isLoading}
             />
-            <PageCount>{progress > 1 ? progress : progress + 1} / 4</PageCount>
+            <PageCount>
+              {progress > 1 ? progress : progress + 1} /{" "}
+              {VENDOR_SIGNUP_STEPS_AMOUNT}
+            </PageCount>
           </>
         )}
       </Footer>
@@ -279,6 +297,10 @@ const QUERY = gql`
     applicantTitles {
       id
       label
+    }
+    securityQuestions {
+      id
+      question
     }
     sustainableOptions {
       label

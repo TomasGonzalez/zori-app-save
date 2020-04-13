@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 
 import Select, { components } from "react-select";
 import styled from "styled-components";
@@ -129,5 +129,19 @@ export default function Dropdown({ options, ...props }) {
         components={{ DropdownIndicator }}
       />
     </BaseInput>
+  );
+}
+
+//Answer And Question (AAQ) Dropdown
+export function AAQDropdown({ options, ...props }) {
+  return (
+    <Select
+      {...props.input}
+      isMulti={props.isMulti}
+      placeholder={props.placeholder}
+      styles={customStyles}
+      options={options}
+      components={{ DropdownIndicator }}
+    />
   );
 }
