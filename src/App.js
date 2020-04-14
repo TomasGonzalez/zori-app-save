@@ -11,7 +11,7 @@ import client from "./lib/apollo";
 
 export const AppRoot = createGlobalStyle`
 @import url('https://fonts.googleapis.com/css?family=Rubik&display=swap);
-
+  
   *{
     font-family: 'Rubik', sans-serif;
   }

@@ -23,7 +23,7 @@ const AnimatedBackground = styled.div`
 
 const StyledButton = styled.div`
   position: relative;
-  width: ${(props) => (props.size === "small" ? 184 : 296)}px;
+  width: ${(props) => (props.size === "small" ? 184 : props.size || 296)}px;
   height: 48px;
   border-radius: 6px;
   border: solid 1px rgba(0, 0, 0, 0.35);
@@ -43,7 +43,7 @@ const StyledButton = styled.div`
       : props.theme.color.background};
 
   &:hover ${AnimatedBackground} {
-    width: ${(props) => (props.size === "small" ? 184 : 296)}px;
+    width: ${(props) => (props.size === "small" ? 184 : props.size || 296)}px;
     color: ${(props) =>
       props.buttonStyle !== "dark"
         ? props.theme.color.background

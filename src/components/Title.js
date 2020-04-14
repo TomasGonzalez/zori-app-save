@@ -4,7 +4,7 @@ import styled from "styled-components";
 const TitleWrapper = styled.div``;
 
 const TitleUnderline = styled.div`
-  width: 18px;
+  width: ${(props) => (props.size ? props.size : 18)}px;
   height: 3px;
   margin-top: 5px;
 
@@ -21,11 +21,21 @@ const ErrorMessage = styled.div`
   font-size: 12px;
 `;
 
-export default function (props) {
+export function TitleCenter(props) {
   return (
     <TitleWrapper {...props}>
       <Title fontSize={props.fontSize}>{props.label}</Title>
       <TitleUnderline />
+      {props.errorMessage && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
+    </TitleWrapper>
+  );
+}
+
+export default function (props) {
+  return (
+    <TitleWrapper {...props}>
+      <Title fontSize={props.fontSize}>{props.label}</Title>
+      <TitleUnderline size={props.underlineSize} />
       {props.errorMessage && <ErrorMessage>{props.errorMessage}</ErrorMessage>}
     </TitleWrapper>
   );

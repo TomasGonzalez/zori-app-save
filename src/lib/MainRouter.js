@@ -7,9 +7,12 @@ import {
 } from "react-router-dom";
 
 import { Self } from "lib/context";
+
 import Login from "screens/Login";
 import MainSigningScreen from "screens/signin/MainSigninScreen";
 import Test from "screens/test";
+import MainResetPasswordScreen from "screens/resetPasswordProcess/MainResetPasswordScreen";
+
 import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 
 export default function MainRouter() {
@@ -125,6 +128,9 @@ export default function MainRouter() {
           <PrivateRoute path='/test'>
             <Test />
           </PrivateRoute>
+          <PublicRoute>
+            <MainResetPasswordScreen path='/reset-password' />
+          </PublicRoute>
         </Switch>
       </div>
     </Router>

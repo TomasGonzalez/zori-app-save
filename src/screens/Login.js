@@ -8,7 +8,7 @@ import { useHistory } from "react-router-dom";
 
 import { Self } from "lib/context";
 import { EmailValidator } from "../lib/formValidation";
-import { TextInput, PasswordInput } from "../components/forms/inputs";
+import { TextInput, PasswordInput } from "components/forms/inputs";
 import Checkbox from "../components/Checkbox";
 import Button from "../components/Button";
 import Title from "components/Title";
@@ -175,7 +175,11 @@ function Login() {
                   {({ input }) => (
                     <CheckboxWrapper style={{ marginTop: 8 }}>
                       <Checkbox input={input} label='stay signed in' />
-                      <TempLink>did you forget your password?</TempLink>
+                      <TempLink
+                        onClick={() => history.push("/reset-password-email")}
+                      >
+                        did you forget your password?
+                      </TempLink>
                     </CheckboxWrapper>
                   )}
                 </Field>

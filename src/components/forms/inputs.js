@@ -145,15 +145,14 @@ const StyledBigInput = styled.textarea`
   box-sizing: border-box;
 `;
 
-// &:-webkit-autofill,
-// &:-webkit-autofill:hover,
-// &:-webkit-autofill:focus,
-// &:-webkit-autofill:active {
-//   -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
-//   -webkit-transition-delay: 9999s;
-// }
-
 const StyledAAQInput = styled.input`
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+  }
   border-width: 1px 1px 1px 1px;
   border-radius: 3px;
 
