@@ -53,10 +53,8 @@ const LoadingWrapper = styled.div`
 
 function App() {
   const [self, setSelf] = useState(null);
-  const [isLoading, setLoading] = useState(false);
 
   const populateSelf = async () => {
-    setLoading(true);
     try {
       await client
         .query({
@@ -64,24 +62,24 @@ function App() {
         })
         .then((result) => {
           setSelf(result.data.me);
-          setLoading(false);
         });
     } catch (err) {
       console.log(err);
-      setLoading(false);
     }
   };
-
-  const selfValue = { self, populateSelf, setSelf };
 
   useEffect(() => {
     populateSelf();
   }, []);
 
-  if (isLoading) {
+  if (
+    (localStorage.getItem("jwtToken") || sessionStorage.getItem("jwtToken")) &&
+    !self
+  ) {
     return <LoadingWrapper />;
   }
 
+  const selfValue = { self, populateSelf, setSelf };
   return (
     <ApolloProvider client={client}>
       <ThemeProvider theme={theme}>

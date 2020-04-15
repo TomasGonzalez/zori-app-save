@@ -175,9 +175,7 @@ function Login() {
                   {({ input }) => (
                     <CheckboxWrapper style={{ marginTop: 8 }}>
                       <Checkbox input={input} label='stay signed in' />
-                      <TempLink
-                        onClick={() => history.push("/reset-password-email")}
-                      >
+                      <TempLink onClick={() => history.push("/reset-password")}>
                         did you forget your password?
                       </TempLink>
                     </CheckboxWrapper>

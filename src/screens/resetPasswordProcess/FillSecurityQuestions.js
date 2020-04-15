@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState, useContext } from "react";
 import styled from "styled-components";
 import { MdClose } from "react-icons/md";
 import { Form, Field } from "react-final-form";
 import { useHistory } from "react-router-dom";
-import { useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
+import { Self } from "lib/context";
 import Title from "components/Title";
 import SubTitle from "components/SubTitle";
 import { AAQInput } from "components/forms/inputs";
@@ -75,10 +76,47 @@ const Footer = styled.div`
   padding: 32px;
 `;
 
-export default function FillSecurityQuestions({ securityQuestions, nextStep }) {
+export default function FillSecurityQuestions({
+  email,
+  securityQuestions,
+  nextStep,
+}) {
   const history = useHistory();
 
-  const handleSubmit = (values) => {};
+  const [verifySecurityQuestions] = useMutation(QUERY);
+
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const { self, populateSelf, setSelf } = useContext(Self);
+
+  const handleSubmit = (values) => {
+    const questionsIds = Object.keys(values).map((key) =>
+      key.replace("id:", "")
+    );
+    const questionsAnswers = Object.values(values);
+    const payload = questionsIds.map((id, index) => ({
+      questionId: id,
+      answer: questionsAnswers[index],
+    }));
+    verifySecurityQuestions({
+      variables: { email: email, questions: payload },
+    })
+      .then(async ({ data }) => {
+        if (!data.verifySecurityQuestions.errorMessage) {
+          await sessionStorage.setItem(
+            "jwtToken",
+            data.verifySecurityQuestions.token
+          );
+          populateSelf();
+          history.push("/change-password");
+        } else {
+          setErrorMessage(data.verifySecurityQuestions.errorMessage);
+        }
+      })
+      .catch((err) => console.log(err));
+  };
+
+  let submit;
   return (
     <MainWrapper>
       <Header>
@@ -92,12 +130,13 @@ export default function FillSecurityQuestions({ securityQuestions, nextStep }) {
         <Form
           onSubmit={handleSubmit}
           render={({ handleSubmit, values }) => {
+            submit = handleSubmit;
             return (
-              <StyledForm>
+              <StyledForm id={"myForm"} onChange={() => handleSubmit}>
                 <Title
                   style={{ marginBottom: 35 }}
                   fontSize={30}
-                  errorMessage={""}
+                  errorMessage={errorMessage}
                   label={
                     "Answer your security questions to reset your password "
                   }
@@ -113,7 +152,7 @@ export default function FillSecurityQuestions({ securityQuestions, nextStep }) {
                         {val.securityQuestion.question}
                       </Label>
                       <Field
-                        name={`question${val.securityQuestion.id}`}
+                        name={`id:${val.securityQuestion.id}`}
                         component={AAQInput}
                         style={{
                           width: "100%",
@@ -128,34 +167,27 @@ export default function FillSecurityQuestions({ securityQuestions, nextStep }) {
         />
       </FormContainer>
       <Footer>
-        <Button label='Reset Password' size='small' buttonStyle='dark' />
+        <Button
+          onClick={(event) => {
+            submit(event);
+          }}
+          label='Reset Password'
+          size='small'
+          buttonStyle='dark'
+        />
       </Footer>
     </MainWrapper>
   );
 }
 
-// const QUERY = gql`
-//   query(id) {
-//     user() {
-//       id
-//       isVerified
-//       username
-//       email
-//       phoneNumber
-//       firstName
-//       lastName
-//       dateJoined
-//       isActive
-//       avatar
-//       isPromoter
-//       completedSteps {
-//         stepId
-//         label
-//         isFilled
-//       }
-//       vendor {
-//         isApproved
-//       }
-//     }
-//   }
-// `;
+const QUERY = gql`
+  mutation VerifySecurityQuestions(
+    $questions: [SecurityQuestionInput]
+    $email: String!
+  ) {
+    verifySecurityQuestions(email: $email, questions: $questions) {
+      errorMessage
+      token
+    }
+  }
+`;

@@ -12,6 +12,7 @@ import Login from "screens/Login";
 import MainSigningScreen from "screens/signin/MainSigninScreen";
 import Test from "screens/test";
 import MainResetPasswordScreen from "screens/resetPasswordProcess/MainResetPasswordScreen";
+import ChangePassword from "screens/ResetPasswordScreen";
 
 import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 
@@ -27,6 +28,7 @@ export default function MainRouter() {
     if (self && isProfileCompleted()) {
       return <Route {...rest} render={() => children} />;
     }
+
     return (
       <Route
         {...rest}
@@ -106,33 +108,34 @@ export default function MainRouter() {
 
   return (
     <Router>
-      <div>
-        <Switch>
-          <Route
-            exact
-            path='/'
-            render={() =>
-              self && isProfileCompleted() ? (
-                <Redirect to='/test' />
-              ) : (
-                <Redirect to='/login' />
-              )
-            }
-          />
-          <PublicRoute path='/login'>
-            <Login />
-          </PublicRoute>
-          <OnboardingRoute path='/signin'>
-            <MainSigningScreen />
-          </OnboardingRoute>
-          <PrivateRoute path='/test'>
-            <Test />
-          </PrivateRoute>
-          <PublicRoute>
-            <MainResetPasswordScreen path='/reset-password' />
-          </PublicRoute>
-        </Switch>
-      </div>
+      <Switch>
+        <Route
+          exact
+          path='/'
+          render={() =>
+            self && isProfileCompleted() ? (
+              <Redirect to='/test' />
+            ) : (
+              <Redirect to='/login' />
+            )
+          }
+        />
+        <PublicRoute path='/login'>
+          <Login />
+        </PublicRoute>
+        <OnboardingRoute path='/signin'>
+          <MainSigningScreen />
+        </OnboardingRoute>
+        <PrivateRoute path='/test'>
+          <Test />
+        </PrivateRoute>
+        <PublicRoute path='/reset-password'>
+          <MainResetPasswordScreen />
+        </PublicRoute>
+        <PrivateRoute path='/change-password'>
+          <ChangePassword />
+        </PrivateRoute>
+      </Switch>
     </Router>
   );
 }
