@@ -24,11 +24,14 @@ const MainContainer = styled.div`
 
 const ImageContainer = styled.img`
   height: 100vh;
-
+  image-rendering: crisp-edges;
   @media (max-width: 1350px) {
     display: none;
   }
 `;
+// image-rendering: auto;
+// image-rendering: crisp-edges;
+// image-rendering: pixelated;
 
 const FormContaienr = styled.div`
   display: flex;
