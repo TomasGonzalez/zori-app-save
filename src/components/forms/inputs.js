@@ -36,10 +36,12 @@ const StyledInput = styled.input`
 const PasswordWrapper = styled.div`
   border-width: 0px 0px 1px 0px;
   border-style: solid;
-  border-color: ${(props) =>
-    (props.meta && props.meta.error) || !props.value
+
+  border-color: ${(props) => {
+    return (props.meta && props.meta.error) || !props.input.value
       ? props.theme.color.danger
-      : props.theme.color.gray1};
+      : props.theme.color.gray1;
+  }};
   outline: none;
   font-size: 14px;
   padding: 4.5px 0px;
@@ -75,6 +77,8 @@ const StyledPasswordInput = styled.input`
 
 const ShowPasswordButton = styled.div`
   width: 120px;
+  min-width: 130px;
+  text-align: end;
   font-size: 14px;
   color: ${(props) => props.theme.color.gray1};
   cursor: pointer;
@@ -120,8 +124,8 @@ const StyledVerificationInput = styled.input`
   outline: none;
   padding-left: 30px;
   color: ${(props) => props.theme.color.gray1};
-  height: 60px;
-
+  height: 70px;
+  align-items: center;
   ::placeholder {
     color: ${(props) => props.theme.color.gray1};
   }
@@ -198,7 +202,7 @@ export const PasswordInput = (props) => {
 
   return (
     <MainWrapper {...props}>
-      <PasswordWrapper>
+      <PasswordWrapper {...props}>
         <StyledPasswordInput
           {...props.input}
           type={!showPassword && "password"}

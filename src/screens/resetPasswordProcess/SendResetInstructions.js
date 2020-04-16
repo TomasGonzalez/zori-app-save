@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MdClose } from "react-icons/md";
-import { useHistory } from "react-router-dom";
 import { Form, Field } from "react-final-form";
 import { EmailValidator } from "lib/formValidation";
 import { useMutation } from "@apollo/react-hooks";
@@ -12,17 +10,10 @@ import Title from "components/Title";
 import SubTitle from "components/SubTitle";
 import { TextInput } from "components/forms/inputs";
 
-const MainContainer = styled.div`
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
 const Logo = styled.img`
   width: 100px;
   height: 98.7px;
+  image-rendering: crisp-edges;
 `;
 
 const ErrorMessage = styled.div`
@@ -30,22 +21,6 @@ const ErrorMessage = styled.div`
   height: 33px;
   font-size: 12px;
   color: ${(props) => props.theme.color.danger};
-`;
-
-const Header = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-`;
-
-const Close = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 24px;
-  margin-right: 24px;
-  cursor: pointer;
 `;
 
 const FormWrapper = styled.div`
@@ -74,7 +49,6 @@ const Link = styled.span`
 `;
 
 export default function SendResetInstructions({ nextStep, setEmail }) {
-  const history = useHistory();
   const [sendPasswordReset] = useMutation(SEND_PASSWORD_RESET);
   const [errorMessage, setErrorMessage] = useState();
 
@@ -92,12 +66,7 @@ export default function SendResetInstructions({ nextStep, setEmail }) {
   };
 
   return (
-    <MainContainer>
-      <Header>
-        <Close>
-          <MdClose onClick={() => history.push("/login")} size={20} />
-        </Close>
-      </Header>
+    <div style={{ marginBottom: 70 }}>
       <FormWrapper>
         <Logo
           style={{ paddingBottom: 40.3 }}
@@ -109,11 +78,10 @@ export default function SendResetInstructions({ nextStep, setEmail }) {
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            marginBottom: 16,
           }}
           label={"Reset Password"}
         />
-        <SubTitle style={{ width: 585, marginBottom: 16 }}>
+        <SubTitle style={{ width: 585, marginBottom: 103 }}>
           To reset your password, please provide the email address tied to your
           ZORI vendor account
         </SubTitle>
@@ -149,8 +117,7 @@ export default function SendResetInstructions({ nextStep, setEmail }) {
           )}
         />
       </FormWrapper>
-      <div style={{ height: 80 }} />
-    </MainContainer>
+    </div>
   );
 }
 

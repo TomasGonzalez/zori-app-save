@@ -14,38 +14,6 @@ import Button from "components/Button";
 
 import { NotEmptyValidator } from "lib/formValidation";
 
-const Header = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: absolute;
-`;
-
-const Close = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 24px;
-  margin-right: 24px;
-  cursor: pointer;
-`;
-
-const Logo = styled.img`
-  height: 34.6px;
-  width: 35px;
-  padding-left: 16px;
-  padding-top: 16px;
-`;
-
-const MainWrapper = styled.div`
-  display: flex;
-  height: 100vh;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
 const FormContainer = styled.div`
   display: flex;
   align-items: center;
@@ -68,12 +36,26 @@ const Label = styled.div`
   color: ${(props) => props.theme.color.gray1};
 `;
 
+const ContatctUs = styled.div`
+  font-size: 11px;
+  text-align: end;
+
+  color: ${(props) => props.theme.color.black};
+`;
+
 const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
-  box-sizing: border-box;
-  padding: 32px;
+  position: fixed;
+
+  bottom: 32px;
+  right: 32px;
+`;
+
+const Link = styled.span`
+  cursor: pointer;
+  color: ${(props) => props.theme.color.linkBlue};
 `;
 
 export default function FillSecurityQuestions({
@@ -87,7 +69,7 @@ export default function FillSecurityQuestions({
 
   const [errorMessage, setErrorMessage] = useState("");
 
-  const { self, populateSelf, setSelf } = useContext(Self);
+  const { populateSelf } = useContext(Self);
 
   const handleSubmit = (values) => {
     const questionsIds = Object.keys(values).map((key) =>
@@ -118,14 +100,7 @@ export default function FillSecurityQuestions({
 
   let submit;
   return (
-    <MainWrapper>
-      <Header>
-        <Logo src={require("assets/zori-logo.png")} />
-        <Close>
-          <MdClose onClick={() => history.push("/login")} size={20} />
-        </Close>
-      </Header>
-      <div />
+    <div>
       <FormContainer>
         <Form
           onSubmit={handleSubmit}
@@ -134,7 +109,6 @@ export default function FillSecurityQuestions({
             return (
               <StyledForm id={"myForm"} onChange={() => handleSubmit}>
                 <Title
-                  style={{ marginBottom: 35 }}
                   fontSize={30}
                   errorMessage={errorMessage}
                   label={
@@ -147,7 +121,7 @@ export default function FillSecurityQuestions({
                 </SubTitle>
                 {securityQuestions &&
                   securityQuestions.map((val) => (
-                    <div style={{ marginBottom: 40 }}>
+                    <div style={{ marginTop: 40 }}>
                       <Label style={{ marginBottom: 6 }}>
                         {val.securityQuestion.question}
                       </Label>
@@ -161,6 +135,10 @@ export default function FillSecurityQuestions({
                       />
                     </div>
                   ))}
+                <ContatctUs>
+                  Can’t recall your answers? <Link> Contact </Link> us and we
+                  can help!
+                </ContatctUs>
               </StyledForm>
             );
           }}
@@ -176,7 +154,7 @@ export default function FillSecurityQuestions({
           buttonStyle='dark'
         />
       </Footer>
-    </MainWrapper>
+    </div>
   );
 }
 

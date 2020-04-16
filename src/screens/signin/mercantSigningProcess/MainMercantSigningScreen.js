@@ -242,7 +242,7 @@ function MainMercantSigninScreen(props) {
           </Close>
         </Header>
         <ProgressBar
-          progress={(progress / VENDOR_SIGNUP_STEPS_AMOUNT) * 100}
+          progress={(progress / VENDOR_SIGNUP_STEPS_AMOUNT) * 100 - 0.001}
           {...props}
         />
         {(progress > 2 || progress === 0) && (

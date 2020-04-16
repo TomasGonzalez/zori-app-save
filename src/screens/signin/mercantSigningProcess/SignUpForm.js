@@ -48,6 +48,7 @@ const FormContaienr = styled.div`
 
 const StyledForm = styled.form`
   padding: 0px 80px;
+  max-width: 552px;
 `;
 
 const NamesWrapper = styled.div`
