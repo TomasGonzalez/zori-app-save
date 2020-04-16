@@ -4,6 +4,7 @@ import { Form, Field } from "react-final-form";
 import { EmailValidator } from "lib/formValidation";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
+import { useHistory } from "react-router-dom";
 
 import Button from "components/Button";
 import Title from "components/Title";
@@ -51,6 +52,8 @@ const Link = styled.span`
 export default function SendResetInstructions({ nextStep, setEmail }) {
   const [sendPasswordReset] = useMutation(SEND_PASSWORD_RESET);
   const [errorMessage, setErrorMessage] = useState();
+
+  const history = useHistory();
 
   const handleSubmit = (values) => {
     setEmail(values.email);
@@ -102,8 +105,9 @@ export default function SendResetInstructions({ nextStep, setEmail }) {
                 placeholder='Email Address'
               />
               <InfoText style={{ marginTop: 24 }}>
-                Not a vendor on ZORI yet? <Link>Sign Up Now</Link> and change
-                how you sell online
+                Not a vendor on ZORI yet?{" "}
+                <Link onClick={() => history.push("/signin")}>Sign Up Now</Link>{" "}
+                and change how you sell online
               </InfoText>
               <Button
                 validate={EmailValidator}

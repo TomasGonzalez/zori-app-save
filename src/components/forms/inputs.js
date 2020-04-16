@@ -3,7 +3,9 @@ import React, { useState } from "react";
 import InputMask from "react-input-mask";
 import styled from "styled-components";
 
-const MainWrapper = styled.div``;
+const MainWrapper = styled.div`
+  position: relative;
+`;
 
 const StyledInput = styled.input`
   &:-webkit-autofill,
@@ -38,7 +40,7 @@ const PasswordWrapper = styled.div`
   border-style: solid;
 
   border-color: ${(props) => {
-    return (props.meta && props.meta.error) || !props.input.value
+    return (props.meta && props.meta.error) || !props.value
       ? props.theme.color.danger
       : props.theme.color.gray1;
   }};
@@ -135,6 +137,7 @@ const ErrorMessage = styled.div`
   margin-top: 4px;
   font-size: 12px;
   color: ${(props) => props.theme.color.lightDanger};
+  position: absolute;
 `;
 
 const StyledBigInput = styled.textarea`
@@ -202,7 +205,7 @@ export const PasswordInput = (props) => {
 
   return (
     <MainWrapper {...props}>
-      <PasswordWrapper {...props}>
+      <PasswordWrapper {...props.input}>
         <StyledPasswordInput
           {...props.input}
           type={!showPassword && "password"}

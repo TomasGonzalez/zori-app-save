@@ -6,7 +6,7 @@ import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import Title from "components/Title";
-import { AAQInput, PasswordInput } from "components/forms/inputs";
+import { AAQInput } from "components/forms/inputs";
 import Button from "components/Button";
 
 import {

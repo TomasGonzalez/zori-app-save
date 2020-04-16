@@ -29,9 +29,6 @@ const ImageContainer = styled.img`
     display: none;
   }
 `;
-// image-rendering: auto;
-// image-rendering: crisp-edges;
-// image-rendering: pixelated;
 
 const FormContaienr = styled.div`
   display: flex;
