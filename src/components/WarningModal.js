@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import Modal from "react-modal";
 import _ from "lodash";
 import styled from "styled-components";
-import { MdClose } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 
 import Image from "assets/Oops-face.png";
@@ -19,10 +18,6 @@ const Header = styled.div`
   display: flex;
   justify-content: flex-end;
   margin: 20px;
-`;
-
-const CloseIcon = styled(MdClose)`
-  cursor: pointer;
 `;
 
 const ImageBackground = styled.div`
@@ -96,7 +91,12 @@ export default function WarningModal({ style, isOpen, onRequestClose }) {
       }}
     >
       <Header>
-        <CloseIcon onClick={onRequestClose} size={28} />
+        <img
+          alt={"close"}
+          onClick={onRequestClose}
+          src={require("assets/close-icon.png")}
+          style={{ height: 20, width: 20, cursor: "pointer" }}
+        />
       </Header>
       <MainWrapper>
         <ImageBackground>

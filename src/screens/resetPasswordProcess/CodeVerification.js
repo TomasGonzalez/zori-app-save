@@ -3,8 +3,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
-import { MdClose } from "react-icons/md";
-import { useHistory } from "react-router-dom";
 
 import { VerificationInput } from "components/forms/inputs";
 import Button from "components/Button";
@@ -14,52 +12,11 @@ const StyledLock = styled.img`
   width: 164px;
 `;
 
-const MainWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-  width: 100%;
-`;
-
-const Header = styled.div`
-  width: 100%;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Close = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-top: 24px;
-  margin-right: 24px;
-  cursor: pointer;
-`;
-
-const ContentWrapper = styled.div`
-  display: flex;
-  height: 100vh;
-  width: 100%;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
 const Title = styled.div`
   font-size: 30px;
   font-weight: bold;
   margin-top: 56.8px;
   height: 30px;
-`;
-
-const Logo = styled.img`
-  height: 34.6px;
-  width: 35px;
-  padding-left: 16px;
-  padding-top: 16px;
 `;
 
 const SubTitle = styled.div`

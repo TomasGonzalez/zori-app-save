@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useRef } from "react";
 
 import styled, { withTheme } from "styled-components";
-import { MdClose } from "react-icons/md";
+import { MdClear } from "react-icons/md";
 import Progress from "react-progress";
 import { useQuery } from "@apollo/react-hooks";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
@@ -238,7 +238,12 @@ function MainMercantSigninScreen(props) {
         <Header>
           <Logo src={require("assets/zori-logo.png")} />
           <Close>
-            <MdClose onClick={() => logout()} size={20} />
+            <img
+              alt={"close"}
+              onClick={() => logout()}
+              src={require("assets/close-icon.png")}
+              style={{ height: 20, width: 20, cursor: "pointer" }}
+            />
           </Close>
         </Header>
         <ProgressBar

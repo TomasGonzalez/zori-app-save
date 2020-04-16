@@ -1,6 +1,5 @@
 import React, { useState, useContext } from "react";
 import styled from "styled-components";
-import { MdClose } from "react-icons/md";
 import { Form, Field } from "react-final-form";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";

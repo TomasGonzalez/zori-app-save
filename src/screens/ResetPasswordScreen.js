@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { MdClose } from "react-icons/md";
 import { useHistory } from "react-router-dom";
 import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
@@ -103,7 +102,12 @@ export default function ResertPasswordScreen() {
       <Header>
         <Logo src={require("assets/zori-logo.png")} />
         <Close>
-          <MdClose onClick={() => history.push("/")} size={20} />
+          <img
+            alt={"close"}
+            onClick={() => history.push("/")}
+            src={require("assets/close-icon.png")}
+            style={{ height: 20, width: 20, cursor: "pointer" }}
+          />
         </Close>
       </Header>
       <div />

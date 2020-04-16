@@ -2,7 +2,6 @@ import React from "react";
 
 import Title from "components/Title";
 import Button from "components/Button";
-import { MdClose } from "react-icons/md";
 
 import styled from "styled-components";
 
@@ -48,7 +47,12 @@ export default function SigninUserSelectionScreen(props) {
     <>
       <Header>
         <Close>
-          <MdClose onClick={props.onRequestClose} size={20} />
+          <img
+            alt={"close"}
+            onClick={props.onRequestClose}
+            src={require("assets/close-icon.png")}
+            style={{ height: 20, width: 20, cursor: "pointer" }}
+          />
         </Close>
       </Header>
       <FormWrapper>
