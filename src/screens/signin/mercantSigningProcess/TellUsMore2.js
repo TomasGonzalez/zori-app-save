@@ -98,7 +98,7 @@ export default function TellUsMore2({
   return (
     <MainContainer>
       <div>
-        <ImageContainer alt='People working' src={Image} />
+        <ImageContainer rel='preload' alt='People working' src={Image} />
       </div>
       <FormContainer>
         <Form

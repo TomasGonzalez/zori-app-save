@@ -100,6 +100,7 @@ export default function SignUpForm({
   return (
     <MainContainer>
       <ImageContainer
+        rel='preload'
         alt='People working'
         src={require("assets/people-working.png")}
       />

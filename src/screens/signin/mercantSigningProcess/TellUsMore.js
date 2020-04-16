@@ -92,6 +92,7 @@ export default function TellUsMore({
   return (
     <MainContainer>
       <ImageContainer
+        rel='preload'
         alt='People working'
         src={require("assets/people-talking.png")}
       />
