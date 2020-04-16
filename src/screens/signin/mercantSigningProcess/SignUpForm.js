@@ -30,7 +30,7 @@ const ImageContainer = styled.img`
 
   @media (max-width: 1024px) {
     display: none;
-  
+  }
 `;
 
 const FormContaienr = styled.div`

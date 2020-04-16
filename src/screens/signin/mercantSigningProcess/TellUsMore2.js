@@ -10,6 +10,8 @@ import Dropdown from "components/Dropdown";
 import { ScreenLoader } from "components/Loading";
 import { NotEmptyValidator } from "lib/formValidation";
 
+import Image from "assets/people-talking-2.png";
+
 const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
@@ -33,7 +35,7 @@ const ImageContainer = styled.img`
 
   @media (max-width: 1024px) {
     display: none;
-  
+  }
 `;
 
 const FormContainer = styled.div`
@@ -95,10 +97,9 @@ export default function TellUsMore2({
 
   return (
     <MainContainer>
-      <ImageContainer
-        alt='People working'
-        src={require("assets/people-talking-2.png")}
-      />
+      <div>
+        <ImageContainer alt='People working' src={Image} />
+      </div>
       <FormContainer>
         <Form
           onSubmit={handleSubmit}

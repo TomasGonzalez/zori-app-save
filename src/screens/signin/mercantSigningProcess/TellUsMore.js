@@ -25,6 +25,7 @@ const ImageContainer = styled.img`
 
   @media (max-width: 1024px) {
     display: none;
+  }
 `;
 
 const FormContainer = styled.div`
