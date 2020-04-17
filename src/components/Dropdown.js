@@ -56,7 +56,7 @@ const customStyles = {
     return {
       ...provided,
       display: "flex",
-      height: 30,
+      height: 33,
       alignItems: "center",
       justifyContent: "center",
     };
