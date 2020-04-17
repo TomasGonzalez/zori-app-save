@@ -138,12 +138,11 @@ export default function TellUsMore2({
                     placeholder='Apt, Suite, Room #'
                     validate={NotEmptyValidator}
                   />
-                  <HorizontalInput>
+                  <HorizontalInput style={{ marginBottom: 64 }}>
                     <Field
                       name='city'
                       component={TextInput}
                       style={{
-                        marginBottom: 64,
                         width: "45%",
                       }}
                       placeholder='City'
@@ -156,7 +155,7 @@ export default function TellUsMore2({
                         label: state,
                       }))}
                       component={Dropdown}
-                      style={{ marginBottom: 64, width: "45%", paddingTop: 6 }}
+                      style={{ width: "45%" }}
                       placeholder='State'
                       validate={NotEmptyValidator}
                     />

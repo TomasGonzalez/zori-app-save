@@ -41,13 +41,24 @@ const customStyles = {
       borderWidth: 0,
       borderRadius: 0,
       boxShadow: "none",
+      borderStyle: "solid",
+
       ":hover": {
-        borderColor: theme.color.gray1,
+        borderColor: theme.color.underlineColor,
       },
       borderBottom: `1px solid ${
-        state.hasValue ? theme.color.gray1 : theme.color.danger
+        state.hasValue ? theme.color.underlineColor : theme.color.danger
       }`,
       minHeight: null,
+    };
+  },
+  container: (provided) => {
+    return {
+      ...provided,
+      display: "flex",
+      height: 30,
+      alignItems: "center",
+      justifyContent: "center",
     };
   },
   valueContainer: (provided) => {

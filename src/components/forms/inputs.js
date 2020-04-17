@@ -15,7 +15,7 @@ const StyledInput = styled.input`
     -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
     -webkit-transition-delay: 9999s;
   }
-
+  border-style: solid;
   border-width: 0px 0px 1px 0px;
   border-color: ${(props) =>
     (props.meta && props.meta.error) || !props.value
@@ -24,8 +24,7 @@ const StyledInput = styled.input`
   outline: none;
   width: 100%;
   font-size: 14px;
-  padding: 4.5px 0px;
-
+  padding-bottom: 7px;
   ::placeholder {
     font-size: 14px;
     color: ${(props) =>
@@ -92,6 +91,7 @@ const ShowPasswordButton = styled.div`
 
 const StyledPhoneInput = styled(InputMask)`
   border-width: 0px 0px 1px 0px;
+  border-style: solid;
   border-color: ${(props) =>
     (props.meta && props.meta.error) || !props.value
       ? props.theme.color.danger
@@ -100,7 +100,7 @@ const StyledPhoneInput = styled(InputMask)`
   width: 100%;
   font-size: 14px;
   padding: 4.5px 0px;
-
+  border-style: solid;
   ::placeholder {
     color: ${(props) =>
       props.meta && props.meta.error && props.meta.touched
@@ -162,7 +162,7 @@ const StyledAAQInput = styled.input`
   }
   border-width: 1px 1px 1px 1px;
   border-radius: 3px;
-
+  border-style: solid;
   border: 1px solid ${(props) => props.theme.color.gray1};
   border-radius: 3px;
   border-color: ${(props) =>
