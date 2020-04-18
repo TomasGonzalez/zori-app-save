@@ -10,8 +10,7 @@ import MainRouter from "./lib/MainRouter";
 import client from "./lib/apollo";
 
 export const AppRoot = createGlobalStyle`
-@import url('https://fonts.googleapis.com/css?family=Rubik&display=swap);
-  
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');  
   *{
     font-family: 'Rubik', sans-serif;
   }

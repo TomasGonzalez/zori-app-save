@@ -33,6 +33,7 @@
     "react-select": "^3.1.0",
     "react-spinners": "^0.8.1",
     "react-transition-group": "^4.3.0",
+    "rubik": "^0.0.0",
     "styled-components": "^5.0.1"
   },
   "scripts": {

@@ -2,7 +2,7 @@ import React, { useState, useContext, useEffect } from "react";
 
 import { Form, Field } from "react-final-form";
 import styled from "styled-components";
-import { useMutation, useQuery } from "@apollo/react-hooks";
+import { useMutation } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 import { useHistory } from "react-router-dom";
 

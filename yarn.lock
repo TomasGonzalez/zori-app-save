@@ -9891,6 +9891,11 @@ rsvp@^4.8.4:
   resolved "https://registry.yarnpkg.com/rsvp/-/rsvp-4.8.5.tgz#c8f155311d167f68f21e168df71ec5b083113734"
   integrity sha512-nfMOlASu9OnRJo1mbEk2cz0D56a1MBNrJ7orjRZQG10XDyuvwksKbuXNp6qa+kbn839HwjwhBzhFmdsaEAfauA==
 
+rubik@^0.0.0:
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/rubik/-/rubik-0.0.0.tgz#9ae4c8538c4c2480a5dfe73adb6031f1bc801b57"
+  integrity sha1-muTIU4xMJICl3+c622Ax8byAG1c=
+
 run-async@^2.2.0, run-async@^2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/run-async/-/run-async-2.4.0.tgz#e59054a5b86876cfae07f431d18cbaddc594f1e8"
