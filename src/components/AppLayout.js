@@ -11,11 +11,11 @@ const MainContainer = styled.div`
   flex-direction: column;
 `;
 
-export default function AppLayout({ children }) {
+export default function AppLayout({ children, title }) {
   return (
     <MainContainer>
       <Drawer>
-        <Header>{children}</Header>
+        <Header title={title}>{children}</Header>
       </Drawer>
     </MainContainer>
   );

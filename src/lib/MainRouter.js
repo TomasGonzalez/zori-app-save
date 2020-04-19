@@ -125,7 +125,7 @@ export default function MainRouter() {
           <Login />
         </PublicRoute>
         <PrivateRoute path='/dashboard'>
-          <Dashboard />
+          <Dashboard title={"My Dashboard"} />
         </PrivateRoute>
         <OnboardingRoute path='/signin'>
           <MainSigningScreen />
