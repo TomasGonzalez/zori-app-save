@@ -99,11 +99,13 @@ export default function SignUpForm({
 
   return (
     <MainContainer>
-      <ImageContainer
-        rel='preload'
-        alt='People working'
-        src={require("assets/people-working.png")}
-      />
+      <div>
+        <ImageContainer
+          rel='preload'
+          alt='People working'
+          src={require("assets/people-working.png")}
+        />
+      </div>
       <FormContaienr>
         <Form
           onSubmit={handleSubmit}
