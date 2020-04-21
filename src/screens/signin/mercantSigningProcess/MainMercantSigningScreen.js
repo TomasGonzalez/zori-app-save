@@ -311,7 +311,7 @@ const QUERY = gql`
       label
       id
     }
-    productOptions {
+    productTypes {
       label
       id
     }

@@ -94,7 +94,7 @@ export default function TellUsMore2({
                 <FormWrapper>
                   <Field
                     name='whatYouMake'
-                    options={data.productOptions.map((val) => ({
+                    options={data.productTypes.map((val) => ({
                       value: val.id,
                       label: val.label,
                     }))}

@@ -115,7 +115,7 @@ export default function MainRouter() {
           path='/'
           render={() =>
             self && isProfileCompleted() ? (
-              <Redirect to='/test' />
+              <Redirect to='/dashboard' />
             ) : (
               <Redirect to='/login' />
             )
@@ -130,7 +130,7 @@ export default function MainRouter() {
         <OnboardingRoute path='/signin'>
           <MainSigningScreen />
         </OnboardingRoute>
-        <PrivateRoute path='/test'>
+        <PrivateRoute path='/dashboard'>
           <Test />
         </PrivateRoute>
         <PublicRoute path='/reset-password'>
