@@ -14,6 +14,7 @@ const MainContainer = styled.div`
   align-items: column;
   justify-content: center;
   align-items: center;
+  overflow: auto;
 `;
 
 const PanelContainer = styled.div`
@@ -55,6 +56,8 @@ const HeaderTabs = styled.div`
 `;
 
 const Title = styled.div`
+  display: flex;
+  align-self: flex-start;
   margin-top: 32px;
   font-size: 20px;
   font-weight: 600;
@@ -79,7 +82,7 @@ const ZoriTipsWrapper = styled.div`
   width: 100%;
   max-width: 624px;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: flex-end;
 `;
 
 const ZoriTipsContainer = styled.div`
@@ -90,6 +93,7 @@ const ZoriTipsContainer = styled.div`
   border-radius: 5px;
   box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.15);
   margin-bottom: 39px;
+  box-sizing: border-box;
 `;
 
 const ZoriTipsItems = styled.div`
@@ -100,6 +104,7 @@ const ZoriTipsItems = styled.div`
   border-width: 0px 0px 1px 0px;
   border-color: ${(props) => props.theme.color.lightGray};
   border-style: solid;
+
   &:last-child {
     border-style: none;
   }

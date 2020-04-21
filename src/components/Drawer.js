@@ -6,6 +6,7 @@ import ProfileIcon from "components/ProfileIcon";
 
 const MainContainer = styled.div`
   display: flex;
+  height: 100vh;
   flex: 1;
 `;
 
@@ -128,32 +129,36 @@ const LinkLabel = styled.div`
 const ImageIcon = styled.img`
   width: 12px;
   heigth: 12px;
+  &:hover {
+    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
+      brightness(104%) contrast(97%);
+  }
 `;
 
 const RoutesLinks = [
-  { iconUrl: require("assets/Icons/dashboard-1@3x.png"), title: "Dashboard" },
-  { iconUrl: require("assets/Icons/my-business-1@3x.png"), title: "My Brand" },
-  { iconUrl: require("assets/Icons/list-1@3x.png"), title: "Listings" },
+  { iconUrl: require("assets/Icons/dashboard-2.svg"), title: "Dashboard" },
+  { iconUrl: require("assets/Icons/my-business-2.svg"), title: "My Brand" },
+  { iconUrl: require("assets/Icons/list-text-1.svg"), title: "Listings" },
   {
-    iconUrl: require("assets/Icons/order-1@3x.png"),
+    iconUrl: require("assets/Icons/shopping-bag-1.svg"),
     title: "Orders and Shipping",
   },
   {
-    iconUrl: require("assets/Icons/chat-1@3x.png"),
+    iconUrl: require("assets/Icons/chat-1-1.svg"),
     title: "Conversations",
   },
-  { iconUrl: require("assets/Icons/report-1@3x.png"), title: "Brand Stats" },
-  { iconUrl: require("assets/Icons/museum-1@3x.png"), title: "My Finances" },
-  { iconUrl: require("assets/Icons/megaphone-1@3x.png"), title: "Marketing" },
+  { iconUrl: require("assets/Icons/statistics-1.svg"), title: "Brand Stats" },
+  { iconUrl: require("assets/Icons/museum-2.svg"), title: "My Finances" },
+  { iconUrl: require("assets/Icons/megaphone-2.svg"), title: "Marketing" },
   {
-    iconUrl: require("assets/Icons/box-1@3x.png"),
+    iconUrl: require("assets/Icons/distributed-1.svg"),
     title: "Integrations",
   },
   {
-    iconUrl: require("assets/Icons/info-1@3x.png"),
+    iconUrl: require("assets/Icons/information-1.svg"),
     title: "Community and Help",
   },
-  { iconUrl: require("assets/Icons/settings-1@3x.png"), title: "Settings" },
+  { iconUrl: require("assets/Icons/preference-1.svg"), title: "Settings" },
 ];
 
 export default function Drawer({ children }) {

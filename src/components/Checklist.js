@@ -19,6 +19,9 @@ const CheckBox = styled.div`
   margin-right: 9px;
   border-radius: 5px;
   border: solid 1px ${(props) => props.theme.color.gray3};
+  &:hover {
+    background-color: ${(props) => props.theme.color.lightGray};
+  }
 `;
 
 const ItemText = styled.div`
