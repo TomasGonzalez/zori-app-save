@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 
 import styled from "styled-components";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import { Self } from "lib/context";
 import Checklist from "components/Checklist";
@@ -138,6 +140,13 @@ const MoreTipsInfoContainer = styled.div`
 export default function Dashboard({ title }) {
   const self = useContext(Self);
 
+  const [vendorTutorial] = useMutation(MUTATION);
+  const { loading, error, data } = useQuery(GET_SELF);
+
+  if (loading) {
+    return <div>loading ..</div>;
+  }
+  console.log(data);
   return (
     <AppLayout title={title}>
       <MainContainer>
@@ -153,9 +162,13 @@ export default function Dashboard({ title }) {
           </Title>
           <ZoriChangesWrapper>
             <Checklist
-              listItems={self.self.vendor.tutorials.map((val) => ({
+              listItems={data.me.vendor.tutorials.map((val) => ({
                 ...val.tutorial,
+                isFilled: val.isFilled,
               }))}
+              onChecked={(id) => {
+                vendorTutorial({ variables: { id: id } });
+              }}
             />
           </ZoriChangesWrapper>
           <ZoriTipsWrapper>
@@ -236,3 +249,77 @@ export default function Dashboard({ title }) {
     </AppLayout>
   );
 }
+
+const MUTATION = gql`
+  mutation VendorTutorial($id: ID) {
+    vendorTutorial(tutorialId: $id) {
+      okay
+      errorMessage
+      vendor {
+        user {
+          id
+          isVerified
+          username
+          email
+          phoneNumber
+          firstName
+          lastName
+          dateJoined
+          isActive
+          avatar
+          isPromoter
+          completedSteps {
+            stepId
+            label
+            isFilled
+          }
+          vendor {
+            isApproved
+            tutorials {
+              tutorial {
+                id
+                text
+                link
+              }
+              isFilled
+            }
+          }
+        }
+      }
+    }
+  }
+`;
+
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      isPromoter
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
+      vendor {
+        isApproved
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
+      }
+    }
+  }
+`;
