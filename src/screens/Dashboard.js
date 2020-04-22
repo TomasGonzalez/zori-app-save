@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import styled from "styled-components";
 
+import { Self } from "lib/context";
 import Checklist from "components/Checklist";
 import AppLayout from "components/AppLayout";
 import Button from "components/Button";
@@ -135,6 +136,8 @@ const MoreTipsInfoContainer = styled.div`
 `;
 
 export default function Dashboard({ title }) {
+  const self = useContext(Self);
+
   return (
     <AppLayout title={title}>
       <MainContainer>
@@ -150,23 +153,9 @@ export default function Dashboard({ title }) {
           </Title>
           <ZoriChangesWrapper>
             <Checklist
-              listItems={[
-                {
-                  text:
-                    "Set up a powerful intuitive brand profile to enable users understand your brand without hopping through numerous different touchpoints.",
-                  link: "www.twitter.com",
-                },
-                {
-                  text:
-                    "Earn more revenue by selling to groups of retail customers simultaneously. Enhance customer acquisition by taking advantage of ZORI’s social ordering features. ",
-                  link: "www.twitter.com",
-                },
-                {
-                  text:
-                    "Leverage social commerce to increase efficiencies in customer acquisition, improve engagement, conversions and lower costs. ",
-                  link: "www.twitter.com",
-                },
-              ]}
+              listItems={self.self.vendor.tutorials.map((val) => ({
+                ...val.tutorial,
+              }))}
             />
           </ZoriChangesWrapper>
           <ZoriTipsWrapper>
@@ -205,6 +194,7 @@ export default function Dashboard({ title }) {
                     <Button
                       width={176}
                       buttonColor={[theme.color.green2, theme.color.background]}
+                      textColor={[theme.color.black1, theme.color.background]}
                       borderColor={"transparent"}
                       height={34}
                       label={"Get Started"}
@@ -218,7 +208,7 @@ export default function Dashboard({ title }) {
             <Title>Other guides and tips from ZORI </Title>
             <ZoriMoreTipsContainer>
               <TipsImage
-                src={require("assets/Icons/reading-illustration-1@2x.png")}
+                src={require("assets/reading-illustration-1@2x.png")}
               />
               <MoreTipsInfoContainer>
                 <div style={{ fontSize: 10, color: "#989797", width: 270 }}>

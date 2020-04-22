@@ -74,15 +74,15 @@ const Button = (props) => {
       onClick={!props.isLoading && props.onClick}
       buttonColor={
         props.buttonColor ||
-        (props.buttonStyle === "dark"
+        (props.buttonStyle !== "dark"
           ? [theme.color.background, theme.color.black1]
           : [theme.color.black1, theme.color.background])
       }
       textColor={
         props.textColor ||
-        (props.buttonStyle === "dark"
-          ? [theme.color.background, theme.color.black1]
-          : [theme.color.black1, theme.color.background])
+        (props.buttonStyle !== "dark"
+          ? [theme.color.background, theme.color.gray1]
+          : [theme.color.gray1, theme.color.background])
       }
     >
       <AnimatedBackground>

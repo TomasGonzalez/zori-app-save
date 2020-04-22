@@ -42,6 +42,14 @@ const GET_SELF = gql`
       }
       vendor {
         isApproved
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
       }
     }
   }
