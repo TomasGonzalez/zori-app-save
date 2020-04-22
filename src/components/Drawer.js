@@ -1,7 +1,10 @@
 import React from "react";
 
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
+import Hoverable from "components/Hoverable";
+import Icon from "components/Icon";
+import theme from "theme";
 import ProfileIcon from "components/ProfileIcon";
 
 const MainContainer = styled.div`
@@ -101,20 +104,22 @@ const LinksListContainer = styled.div`
 const LinkItem = styled.div`
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-start;
   min-width: 220px;
   heigth: 24px;
   padding: 6px 20px;
   box-sizing: border-box;
   border-radius: 3px;
-}
 `;
 
 const LinkItemWrapper = styled.div`
   padding-top: 4px;
   cursor: pointer;
   color: ${(props) => props.theme.color.gray1};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &:hover ${LinkItem} {
     background-color: ${(props) => props.theme.color.green2};
     color: ${(props) => props.theme.color.black1};
@@ -122,43 +127,35 @@ const LinkItemWrapper = styled.div`
 `;
 
 const LinkLabel = styled.div`
+  margin-left: 8px;
   font-size: 12px;
   font-weight: 600;
 `;
 
-const ImageIcon = styled.img`
-  width: 12px;
-  heigth: 12px;
-  &:hover {
-    filter: invert(27%) sepia(51%) saturate(2878%) hue-rotate(346deg)
-      brightness(104%) contrast(97%);
-  }
-`;
-
 const RoutesLinks = [
-  { iconUrl: require("assets/Icons/dashboard-2.svg"), title: "Dashboard" },
-  { iconUrl: require("assets/Icons/my-business-2.svg"), title: "My Brand" },
-  { iconUrl: require("assets/Icons/list-text-1.svg"), title: "Listings" },
+  { iconName: "dashboard", title: "Dashboard" },
+  { iconName: "myBusiness", title: "My Brand" },
+  { iconName: "listText", title: "Listings" },
   {
-    iconUrl: require("assets/Icons/shopping-bag-1.svg"),
+    iconName: "shoppingBag",
     title: "Orders and Shipping",
   },
   {
-    iconUrl: require("assets/Icons/chat-1-1.svg"),
+    iconName: "chat",
     title: "Conversations",
   },
-  { iconUrl: require("assets/Icons/statistics-1.svg"), title: "Brand Stats" },
-  { iconUrl: require("assets/Icons/museum-2.svg"), title: "My Finances" },
-  { iconUrl: require("assets/Icons/megaphone-2.svg"), title: "Marketing" },
+  { iconName: "statistics", title: "Brand Stats" },
+  { iconName: "museum", title: "My Finances" },
+  { iconName: "megaphone", title: "Marketing" },
   {
-    iconUrl: require("assets/Icons/distributed-1.svg"),
+    iconName: "distributed",
     title: "Integrations",
   },
   {
-    iconUrl: require("assets/Icons/information-1.svg"),
+    iconName: "information",
     title: "Community and Help",
   },
-  { iconUrl: require("assets/Icons/preference-1.svg"), title: "Settings" },
+  { iconName: "preference", title: "Settings" },
 ];
 
 export default function Drawer({ children }) {
@@ -193,12 +190,21 @@ export default function Drawer({ children }) {
         <LinksListContainer>
           {RoutesLinks.map((values) => {
             return (
-              <LinkItemWrapper>
-                <LinkItem>
-                  <ImageIcon src={values.iconUrl} style={{ marginRight: 8 }} />
-                  <LinkLabel> {values.title} </LinkLabel>
-                </LinkItem>
-              </LinkItemWrapper>
+              <Hoverable>
+                {(isHover) => (
+                  <LinkItemWrapper>
+                    <LinkItem>
+                      <Icon
+                        icon={values.iconName}
+                        color={isHover ? theme.color.black1 : theme.color.gray1}
+                        size={12}
+                        transitionDuration={"0s"}
+                      />
+                      <LinkLabel> {values.title} </LinkLabel>
+                    </LinkItem>
+                  </LinkItemWrapper>
+                )}
+              </Hoverable>
             );
           })}
         </LinksListContainer>

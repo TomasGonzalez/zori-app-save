@@ -1,8 +1,11 @@
 import React from "react";
 
-import styled from "styled-components";
+import styled from "styled-components/macro";
 
+import theme from "theme";
 import ProfileIcon from "components/ProfileIcon";
+import Icon from "components/Icon";
+import Hoverable from "components/Hoverable";
 
 const MainWrapper = styled.div`
   display: flex;
@@ -29,19 +32,10 @@ const CurrentPageName = styled.div`
 
 const HeaderOptions = styled.div`
   display: flex;
+  align-items: flex-start;
 `;
 
-const HeaderButton = styled.img`
-  height: 20px;
-  width: 20px;
-  margin-right: 16px;
-  cursor: pointer;
-`;
-
-const ProfileWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+const HeaderButton = styled.div`
   margin-right: 16px;
   cursor: pointer;
 `;
@@ -52,20 +46,75 @@ const ProfileName = styled.div`
   margin-left: 12px;
 `;
 
+const ProfileWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 16px;
+  cursor: pointer;
+
+  &:hover ${ProfileName} {
+    color: ${(props) => props.theme.color.black1};
+  }
+`;
+
 export default function Header({ children, title }) {
   return (
     <MainWrapper>
       <HeaderWrapper>
         <CurrentPageName>{title}</CurrentPageName>
         <HeaderOptions>
-          <HeaderButton src={require("assets/Icons/search-1@3x.png")} />
+          <HeaderButton>
+            <Hoverable>
+              {(isHovering) => (
+                <Icon
+                  color={!isHovering ? theme.color.gray3 : theme.color.black1}
+                  icon='search'
+                  viewBox='0 0 20 20'
+                  size='20'
+                />
+              )}
+            </Hoverable>
+          </HeaderButton>
           <ProfileWrapper>
             <ProfileIcon size={"small"} />
             <ProfileName>Jessica. D</ProfileName>
           </ProfileWrapper>
-          <HeaderButton src={require("assets/Icons/chat-2@3x.png")} />
-          <HeaderButton src={require("assets/Icons/notification-1@3x.png")} />
-          <HeaderButton src={require("assets/Icons/menu-2-1@3x.png")} />
+          <HeaderButton>
+            <Hoverable>
+              {(isHovering) => (
+                <Icon
+                  color={!isHovering ? theme.color.gray3 : theme.color.black1}
+                  icon='chat'
+                  size='20'
+                />
+              )}
+            </Hoverable>
+          </HeaderButton>
+          <HeaderButton>
+            <Hoverable>
+              {(isHovering) => (
+                <Icon
+                  color={!isHovering ? theme.color.gray3 : theme.color.black1}
+                  icon='notification'
+                  viewBox='0 0 20 20'
+                  size='20'
+                />
+              )}
+            </Hoverable>
+          </HeaderButton>
+          <HeaderButton>
+            <Hoverable>
+              {(isHovering) => (
+                <Icon
+                  color={!isHovering ? theme.color.gray3 : theme.color.black1}
+                  icon='menu'
+                  viewBox='0 0 20 20'
+                  size='20'
+                />
+              )}
+            </Hoverable>
+          </HeaderButton>
         </HeaderOptions>
       </HeaderWrapper>
       {children}
