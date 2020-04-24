@@ -14,20 +14,31 @@ const MainContainer = styled.div`
   font-weight: 600px;
   height: 100%;
   display: flex;
-  align-items: column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   overflow: auto;
 `;
 
 const PanelContainer = styled.div`
+  html {
+    overflow: scroll;
+    overflow-x: hidden;
+  }
+  ::-webkit-scrollbar {
+    width: 0px; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
+
   width: 100%;
   height: 100%;
   max-width: 672px;
+  overflow: auto;
 `;
 
 const DashboardHeader = styled.div`
   height: 35px;
+  max-width: 672px;
   width: 100%;
   border-width: 0px 0px 1px 0px;
   border-color: ${(props) => props.theme.color.lightGray};
@@ -146,15 +157,14 @@ export default function Dashboard({ title }) {
   if (loading) {
     return <div>loading ..</div>;
   }
-  console.log(data);
   return (
     <AppLayout title={title}>
       <MainContainer>
+        <DashboardHeader>
+          <HeaderTabs isActive={true}>Activity</HeaderTabs>
+          <HeaderTabs isActive={false}>Feed</HeaderTabs>
+        </DashboardHeader>
         <PanelContainer>
-          <DashboardHeader>
-            <HeaderTabs isActive={true}>Activity</HeaderTabs>
-            <HeaderTabs isActive={false}>Feed</HeaderTabs>
-          </DashboardHeader>
           <Title>
             Welcome to your dashboard. Before you get started, feel free to
             check out how ZORI changes online selling for ethical and

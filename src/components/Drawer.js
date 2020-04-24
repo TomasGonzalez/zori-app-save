@@ -1,6 +1,7 @@
 import React from "react";
 
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
+import { useHistory } from "react-router-dom";
 
 import Hoverable from "components/Hoverable";
 import Icon from "components/Icon";
@@ -120,6 +121,16 @@ const LinkItemWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  ${(props) =>
+    props.route === window.location.pathname &&
+    css`
+      ${LinkItem} {
+        background-color: ${(props) => props.theme.color.green2};
+        color: ${(props) => props.theme.color.black1};
+      }
+    `}
+    
   &:hover ${LinkItem} {
     background-color: ${(props) => props.theme.color.green2};
     color: ${(props) => props.theme.color.black1};
@@ -133,8 +144,8 @@ const LinkLabel = styled.div`
 `;
 
 const RoutesLinks = [
-  { iconName: "dashboard", title: "Dashboard" },
-  { iconName: "myBusiness", title: "My Brand" },
+  { iconName: "dashboard", title: "Dashboard", route: "/dashboard" },
+  { iconName: "myBusiness", title: "My Brand", route: "/my-brand" },
   { iconName: "listText", title: "Listings" },
   {
     iconName: "shoppingBag",
@@ -159,6 +170,7 @@ const RoutesLinks = [
 ];
 
 export default function Drawer({ children }) {
+  const history = useHistory();
   return (
     <MainContainer>
       <DrawerContainer>
@@ -192,11 +204,18 @@ export default function Drawer({ children }) {
             return (
               <Hoverable>
                 {(isHover) => (
-                  <LinkItemWrapper>
+                  <LinkItemWrapper
+                    route={values.route}
+                    onClick={() => history.push(values.route)}
+                  >
                     <LinkItem>
                       <Icon
                         icon={values.iconName}
-                        color={isHover ? theme.color.black1 : theme.color.gray1}
+                        color={
+                          isHover || values.route === window.location.pathname
+                            ? theme.color.black1
+                            : theme.color.gray1
+                        }
                         size={12}
                         transitionDuration={"0s"}
                       />
