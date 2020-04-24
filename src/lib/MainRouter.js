@@ -13,7 +13,8 @@ import MainSigningScreen from "screens/signin/MainSigninScreen";
 import Test from "screens/test";
 import MainResetPasswordScreen from "screens/resetPasswordProcess/MainResetPasswordScreen";
 import ChangePassword from "screens/ResetPasswordScreen";
-import Dashboard from "screens/Dashboard";
+import Dashboard from "screens/DashboardScreens/Dashboard";
+import MyBrand from "screens/MyBrand";
 
 import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 
@@ -138,6 +139,9 @@ export default function MainRouter() {
         </PublicRoute>
         <PrivateRoute path='/change-password'>
           <ChangePassword />
+        </PrivateRoute>
+        <PrivateRoute path='/my-brand'>
+          <MyBrand title={"My Brand"} />
         </PrivateRoute>
       </Switch>
     </Router>
