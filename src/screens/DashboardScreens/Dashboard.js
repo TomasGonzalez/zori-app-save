@@ -16,7 +16,7 @@ const MainContainer = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  overflow: auto;
+  overflow: hidden;
 `;
 
 export default function Dashboard({ title }) {
@@ -31,6 +31,7 @@ export default function Dashboard({ title }) {
     <AppLayout title={title}>
       <MainContainer>
         <TabNavigator
+          style={{ width: 672 }}
           defaultScreen={0}
           navigationOptions={[
             {

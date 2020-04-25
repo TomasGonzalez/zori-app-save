@@ -3,8 +3,11 @@ import React, { useState } from "react";
 import styled from "styled-components/macro";
 
 const MainContainer = styled.div`
+  height: 100%;
+`;
+
+const MainTabContainer = styled.div`
   height: 35px;
-  max-width: 672px;
   width: 100%;
   border-width: 0px 0px 1px 0px;
   border-color: ${(props) => props.theme.color.lightGray};
@@ -48,15 +51,18 @@ const PanelContainer = styled.div`
 
   width: 100%;
   height: 100%;
-  max-width: 672px;
   overflow: auto;
 `;
 
-export default function TabNavigator({ navigationOptions, defaultScreen }) {
+export default function TabNavigator({
+  navigationOptions,
+  defaultScreen,
+  ...props
+}) {
   const [currentScreen, setCurrentScreen] = useState(defaultScreen || 0);
   return (
-    <>
-      <MainContainer>
+    <MainContainer {...props}>
+      <MainTabContainer>
         {navigationOptions.map((values, index) => (
           <NavigatorTabs
             isActive={index === currentScreen}
@@ -65,10 +71,10 @@ export default function TabNavigator({ navigationOptions, defaultScreen }) {
             {values.title}
           </NavigatorTabs>
         ))}
-      </MainContainer>
+      </MainTabContainer>
       <PanelContainer>
         {navigationOptions[currentScreen].component}
       </PanelContainer>
-    </>
+    </MainContainer>
   );
 }

@@ -87,7 +87,7 @@ const MoreTipsInfoContainer = styled.div`
 
 export default function Activity({ data, error, vendorTutorial }) {
   return (
-    <>
+    <div style={{ marginBottom: 25 }}>
       <Title>
         Welcome to your dashboard. Before you get started, feel free to check
         out how ZORI changes online selling for ethical and sustainable
@@ -172,6 +172,6 @@ export default function Activity({ data, error, vendorTutorial }) {
           </MoreTipsInfoContainer>
         </ZoriMoreTipsContainer>
       </ZoriTipsWrapper>
-    </>
+    </div>
   );
 }

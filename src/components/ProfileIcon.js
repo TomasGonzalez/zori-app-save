@@ -8,8 +8,9 @@ const MainContainer = styled.div`
   justify-content: center;
   background-color: ${(props) => props.theme.color.black1};
   border-radius: 5px;
-  width: ${(props) => (props.size === "small" ? 20 : 64)}px;
-  height: ${(props) => (props.size === "small" ? 20 : 64)}px;
+  width: ${(props) => (props.size === "small" ? 20 : props.size || 64)}px;
+  flex-shrink: 0;
+  height: ${(props) => (props.size === "small" ? 20 : props.size || 64)}px;
 `;
 
 const NameLetter = styled.div`
