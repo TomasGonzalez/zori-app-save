@@ -57,7 +57,6 @@ const StyledText = styled.div`
 
 const NavigatorWrapper = styled.div`
   margin-top: 56px;
-  height: 100%;
 `;
 export default function (props) {
   return (

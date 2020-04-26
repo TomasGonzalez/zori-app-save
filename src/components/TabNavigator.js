@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-import styled from "styled-components/macro";
+import styled, { css } from "styled-components/macro";
 import theme from "theme";
 
 import Icon from "components/Icon";
@@ -18,7 +18,12 @@ const MainTabContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 15px;
+
+  ${(props) =>
+    props.type === "boxes" &&
+    css`
+      border-style: none;
+    `}
 `;
 
 const NavigatorTabs = styled.div`
@@ -30,12 +35,25 @@ const NavigatorTabs = styled.div`
   border-width: 0px 0px 2px 0px;
   color: ${(props) =>
     props.isActive ? props.theme.color.black1 : props.theme.color.gray1};
-  border-color: ${(props) => props.theme.color.green1};
-  border-style: ${(props) => (props.isActive ? "solid" : "none")};
+  border-color: ${(props) => props.theme.color.black1};
   margin: 0px 8px;
   font-size: 12px;
   font-weight: 600;
   cursor: pointer;
+  border-style: ${(props) => (props.isActive ? "solid" : "none")};
+
+  ${(props) =>
+    props.type === "boxes" &&
+    css`
+      border-style: none;
+      color: ${(props) => props.theme.color.black1};
+      border-radius: 5px;
+      ${() =>
+        props.isActive &&
+        css`
+          box-shadow: 0 0 10px 0 ${(props) => props.theme.color.gray3};
+        `}
+    `}
 
   &:hover {
     background-color: ${(props) => props.theme.color.lightGray};
@@ -65,9 +83,10 @@ export default function TabNavigator({
   const [currentScreen, setCurrentScreen] = useState(defaultScreen || 0);
   return (
     <MainContainer {...props}>
-      <MainTabContainer>
+      <MainTabContainer type={props.type}>
         {navigationOptions.map((values, index) => (
           <NavigatorTabs
+            type={props.type}
             isActive={index === currentScreen}
             onClick={() => setCurrentScreen(index)}
           >

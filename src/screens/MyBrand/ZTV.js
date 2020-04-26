@@ -10,6 +10,7 @@ const MainWrapper = styled.div`
   align-items: center;
   justify-content: center;
   height: 100%;
+  margin-top: 130px;
 `;
 
 export default function () {

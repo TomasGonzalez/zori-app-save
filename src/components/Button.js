@@ -14,12 +14,13 @@ const AnimatedBackground = styled.div`
 
   color: transparent;
   z-index: 0;
+
   display: flex;
   align-items: center;
   justify-content: center;
 
   transition: width 0.3s, color 0.3s, border-radius 0.2s, background-color 0.5s,
-    border 0.3s, height 0.2s;
+    border 0.3s, height 0.1s;
 `;
 
 const StyledButton = styled.div`
@@ -40,6 +41,8 @@ const StyledButton = styled.div`
   cursor: pointer;
   color: ${(props) => props.textColor?.[1]};
 
+  transition: border-radius 0.5s;
+
   &:hover ${AnimatedBackground} {
     width: ${(props) =>
       props.size === "small" ? 184 : props.size || props.width || 296}px;
@@ -53,6 +56,7 @@ const StyledButton = styled.div`
   }
 
   &:hover {
+    border-radius: 8px;
     border: solid 1px
       ${(props) =>
         props.borderColor ? props.borderColor : props.theme.color.gray1};
@@ -61,7 +65,7 @@ const StyledButton = styled.div`
 
 const ButtonText = styled.div`
   position: absolute;
-  align-items: center;
+  justify-content: center;
   text-align: center;
   white-space: nowrap;
 `;

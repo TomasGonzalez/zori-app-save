@@ -14,7 +14,7 @@ const MainWrapper = styled.div`
 `;
 
 const HeaderWrapper = styled.div`
-  height: 52px;
+  min-height: 52px;
   display: flex;
   padding: 0px 16px;
   box-sizing: border-box;
