@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 
 import styled from "styled-components/macro";
+import theme from "theme";
+
+import Icon from "components/Icon";
 
 const MainContainer = styled.div`
   height: 100%;
@@ -68,6 +71,20 @@ export default function TabNavigator({
             isActive={index === currentScreen}
             onClick={() => setCurrentScreen(index)}
           >
+            {values.icon && (
+              <Icon
+                color={
+                  index === currentScreen
+                    ? theme.color.black1
+                    : theme.color.gray3
+                }
+                style={{ marginRight: 8 }}
+                transitionDuration={"0s"}
+                icon={values.icon}
+                viewBox='0 0 16 16'
+                size={16}
+              />
+            )}
             {values.title}
           </NavigatorTabs>
         ))}

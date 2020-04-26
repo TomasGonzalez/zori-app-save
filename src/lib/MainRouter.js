@@ -14,7 +14,7 @@ import Test from "screens/test";
 import MainResetPasswordScreen from "screens/resetPasswordProcess/MainResetPasswordScreen";
 import ChangePassword from "screens/ResetPasswordScreen";
 import Dashboard from "screens/DashboardScreens/Dashboard";
-import MyBrand from "screens/MyBrand";
+import MyBrand from "screens/MyBrand/MyBrand";
 
 import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 

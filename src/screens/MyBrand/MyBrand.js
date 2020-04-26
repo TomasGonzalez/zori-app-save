@@ -3,8 +3,12 @@ import React from "react";
 import AppLayout from "components/AppLayout";
 import ProfileIcon from "components/ProfileIcon";
 import TabNavigator from "components/TabNavigator";
+import Posts from "screens/MyBrand/Posts";
+import ZTV from "screens/MyBrand/ZTV";
 
 import styled from "styled-components/macro";
+import ArticlesAndBlogs from "./ArticlesAndBlogs";
+import Policies from "./Policies";
 
 const MainWrapper = styled.div``;
 
@@ -53,6 +57,7 @@ const StyledText = styled.div`
 
 const NavigatorWrapper = styled.div`
   margin-top: 56px;
+  height: 100%;
 `;
 export default function (props) {
   return (
@@ -72,10 +77,22 @@ export default function (props) {
           <TabNavigator
             style={{ padding: "0px 20px" }}
             navigationOptions={[
-              { title: "Posts", component: <div>empty</div> },
-              { title: "ZTV", component: <div>empty</div> },
-              { title: "As and Bs", component: <div>empty</div> },
-              { title: "Policies", component: <div>empty</div> },
+              { icon: "photo", title: "Posts", component: <Posts /> },
+              {
+                icon: "videoCamera",
+                title: "ZTV",
+                component: <ZTV />,
+              },
+              {
+                icon: "writing",
+                title: "As and Bs",
+                component: <ArticlesAndBlogs />,
+              },
+              {
+                icon: "contract",
+                title: "Policies",
+                component: <Policies />,
+              },
             ]}
           />
         </NavigatorWrapper>
