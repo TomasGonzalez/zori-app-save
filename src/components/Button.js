@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled, { withTheme } from "styled-components";
+import styled, { withTheme, css } from "styled-components/macro";
 
 import BeatLoader from "react-spinners/BeatLoader";
 import theme from "theme";
@@ -23,6 +23,20 @@ const AnimatedBackground = styled.div`
     border 0.3s, height 0.2s;
 `;
 
+const AnimatedBackgroundIsActive = css`
+  ${AnimatedBackground} {
+    width: ${(props) =>
+      props.size === "small" ? 184 : props.size || props.width || 296}px;
+    color: ${(props) => props.textColor?.[0]};
+    border-radius: 6px;
+    background-color: ${(props) => props.buttonColor?.[1]};
+    height: ${(props) => props.height || 48}px;
+    border: solid 1px
+      ${(props) =>
+        props.borderColor ? props.borderColor : props.theme.color.gray1};
+  }
+`;
+
 const StyledButton = styled.div`
   position: relative;
   height: ${(props) => props.height || 48}px;
@@ -42,17 +56,9 @@ const StyledButton = styled.div`
   color: ${(props) => props.textColor?.[1]};
   transition: border-radius 0.5s;
 
-  &:hover ${AnimatedBackground} {
-    width: ${(props) =>
-      props.size === "small" ? 184 : props.size || props.width || 296}px;
-    color: ${(props) => props.textColor?.[0]};
-    border-radius: 6px;
-    background-color: ${(props) => props.buttonColor?.[1]};
-    height: ${(props) => props.height || 48}px;
-    border: solid 1px
-      ${(props) =>
-        props.borderColor ? props.borderColor : props.theme.color.gray1};
-  }
+  ${(props) => props.active && AnimatedBackgroundIsActive}
+
+  &:hover ${AnimatedBackgroundIsActive}
 
   &:hover {
     border-radius: 8px;

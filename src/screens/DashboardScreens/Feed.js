@@ -1,9 +1,9 @@
 import React from "react";
-
 import styled from "styled-components/macro";
 
-import Button from "components/Button";
 import theme from "theme";
+import ButtonPanel from "components/ButtonPanel";
+import Icon from "components/Icon";
 
 const MainWrapper = styled.div`
   height: 100%;
@@ -44,6 +44,30 @@ const TitleWrapper = styled.div`
   flex-direction: column;
 `;
 
+const ShareIconsWrapper = styled.div`
+  display: flex;
+`;
+
+const IconWrapper = styled.div`
+  cursor: pointer;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #e2e2e2;
+  margin-right: 24px;
+  border-radius: 360px;
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  &:last-child {
+    margin: 0px;
+  }
+`;
+
 export default function () {
   return (
     <MainWrapper>
@@ -61,14 +85,26 @@ export default function () {
             interest you.
           </SubTitle>
         </TitleWrapper>
-
-        <Button
-          label={"Invite"}
-          width={72}
-          height={24}
-          buttonColor={[theme.color.green1, theme.color.background]}
-          textColor={[theme.color.green1, theme.color.background]}
-          borderColor={theme.color.green1}
+        <ButtonPanel
+          title={"Invite users to ZORI"}
+          ModalContent={
+            <ShareIconsWrapper>
+              <IconWrapper
+                onClick={() => {
+                  console.log("test");
+                }}
+              >
+                <Icon color='black' icon={"mail"} />
+              </IconWrapper>
+              <IconWrapper
+                onClick={() => {
+                  console.log("test");
+                }}
+              >
+                <Icon color='black' icon={"link"} />
+              </IconWrapper>
+            </ShareIconsWrapper>
+          }
         />
       </InviteWrapper>
     </MainWrapper>
