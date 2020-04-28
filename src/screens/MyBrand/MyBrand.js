@@ -77,16 +77,16 @@ export default function (props) {
             style={{ padding: "0px 20px" }}
             navigationOptions={[
               { icon: "photo", title: "Posts", component: <Posts /> },
-              {
-                icon: "videoCamera",
-                title: "ZTV",
-                component: <ZTV />,
-              },
-              {
-                icon: "writing",
-                title: "As and Bs",
-                component: <ArticlesAndBlogs />,
-              },
+              // {
+              //   icon: "videoCamera",
+              //   title: "ZTV",
+              //   component: <ZTV />,
+              // },
+              // {
+              //   icon: "writing",
+              //   title: "As and Bs",
+              //   component: <ArticlesAndBlogs />,
+              // },
               {
                 icon: "contract",
                 title: "Policies",

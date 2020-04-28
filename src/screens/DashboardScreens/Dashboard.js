@@ -7,6 +7,8 @@ import { gql } from "apollo-boost";
 import { Self } from "lib/context";
 import Activity from "screens/DashboardScreens/Activity";
 import AppLayout from "components/AppLayout";
+import Feed from "screens/DashboardScreens/Feed";
+
 import TabNavigator from "components/TabNavigator";
 
 const MainContainer = styled.div`
@@ -32,7 +34,7 @@ export default function Dashboard({ title }) {
       <MainContainer>
         <TabNavigator
           style={{ width: 672 }}
-          defaultScreen={0}
+          defaultScreen={1}
           navigationOptions={[
             {
               title: "Activity",
@@ -44,7 +46,7 @@ export default function Dashboard({ title }) {
                 />
               ),
             },
-            { title: "Feed", component: <div>empty</div> },
+            { title: "Feed", component: <Feed /> },
           ]}
         />
       </MainContainer>

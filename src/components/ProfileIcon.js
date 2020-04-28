@@ -1,6 +1,11 @@
 import React from "react";
 
 import styled from "styled-components";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+import BeatLoader from "react-spinners/BeatLoader";
+
+import theme from "theme";
 
 const MainContainer = styled.div`
   display: flex;
@@ -21,9 +26,51 @@ const NameLetter = styled.div`
 `;
 
 export default function ProfileIcon(props) {
+  const { data, loading, error } = useQuery(GET_SELF);
+
   return (
     <MainContainer {...props}>
-      <NameLetter {...props}>Z</NameLetter>
+      <NameLetter {...props}>
+        {loading ? (
+          <BeatLoader size={8} color={theme.color.background} />
+        ) : (
+          data.me?.firstName?.[0]
+        )}
+      </NameLetter>
     </MainContainer>
   );
 }
+
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      isPromoter
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
+      vendor {
+        isApproved
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
+      }
+    }
+  }
+`;

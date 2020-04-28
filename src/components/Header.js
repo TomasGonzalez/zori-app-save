@@ -1,6 +1,8 @@
 import React from "react";
 
 import styled from "styled-components/macro";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import theme from "theme";
 import ProfileIcon from "components/ProfileIcon";
@@ -59,6 +61,8 @@ const ProfileWrapper = styled.div`
 `;
 
 export default function Header({ children, title }) {
+  const { data, loading, error } = useQuery(GET_SELF);
+
   return (
     <MainWrapper>
       <HeaderWrapper>
@@ -78,7 +82,9 @@ export default function Header({ children, title }) {
           </HeaderButton>
           <ProfileWrapper>
             <ProfileIcon size={"small"} />
-            <ProfileName>Jessica. D</ProfileName>
+            <ProfileName>
+              {`${data.me?.firstName}. ${data.me?.lastName?.[0]}`}
+            </ProfileName>
           </ProfileWrapper>
           <HeaderButton>
             <Hoverable>
@@ -121,3 +127,37 @@ export default function Header({ children, title }) {
     </MainWrapper>
   );
 }
+
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      isPromoter
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
+      vendor {
+        isApproved
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
+      }
+    }
+  }
+`;

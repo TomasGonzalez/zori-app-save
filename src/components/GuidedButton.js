@@ -31,7 +31,11 @@ const Label = styled.div`
 export default function GuidedButton(props) {
   return (
     <MainContainer>
-      <Icon size={48} color={theme.color.black1} icon={props.icon} />
+      <Icon
+        size={props.iconSize || 48}
+        color={theme.color.black1}
+        icon={props.icon}
+      />
       <Title>{props.title}</Title>
       <Label>{props.label}</Label>
       <Button

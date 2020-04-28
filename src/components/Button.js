@@ -20,7 +20,7 @@ const AnimatedBackground = styled.div`
   justify-content: center;
 
   transition: width 0.3s, color 0.3s, border-radius 0.2s, background-color 0.5s,
-    border 0.3s, height 0.1s;
+    border 0.3s, height 0.2s;
 `;
 
 const StyledButton = styled.div`
@@ -40,7 +40,6 @@ const StyledButton = styled.div`
   font-weight: 500;
   cursor: pointer;
   color: ${(props) => props.textColor?.[1]};
-
   transition: border-radius 0.5s;
 
   &:hover ${AnimatedBackground} {
@@ -74,7 +73,6 @@ const Button = (props) => {
   return (
     <StyledButton
       {...props}
-      buttonStyle
       onClick={!props.isLoading && props.onClick}
       buttonColor={
         props.buttonColor ||

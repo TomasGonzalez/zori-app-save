@@ -52,7 +52,8 @@ export default function (props) {
                   }
                   title={"Build your boxes"}
                   buttonLabel='Upload'
-                  icon='photo'
+                  icon='multiImage'
+                  iconSize={74}
                 />
               </GuidedButtonWrapper>
             ),
@@ -67,7 +68,7 @@ export default function (props) {
                   }
                   title={"Posts of you"}
                   buttonLabel='Upload'
-                  icon='photo'
+                  icon='tagged'
                 />
               </GuidedButtonWrapper>
             ),

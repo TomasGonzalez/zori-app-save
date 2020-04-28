@@ -2,6 +2,8 @@ import React from "react";
 
 import styled, { css } from "styled-components/macro";
 import { useHistory } from "react-router-dom";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
 
 import Hoverable from "components/Hoverable";
 import Icon from "components/Icon";
@@ -171,6 +173,12 @@ const RoutesLinks = [
 
 export default function Drawer({ children }) {
   const history = useHistory();
+  const { loading, error, data } = useQuery(GET_SELF);
+
+  if (loading) {
+    return <div>loading ..</div>;
+  }
+
   return (
     <MainContainer>
       <DrawerContainer>
@@ -182,8 +190,8 @@ export default function Drawer({ children }) {
         </DrawerHeader>
         <ProfileContainer>
           <ProfileIcon />
-          <ProfileName>Zelles</ProfileName>
-          <CompanyName>Cedar Rapids, IA</CompanyName>
+          <ProfileName>{data.me?.firstName}</ProfileName>
+          <CompanyName>{data.me?.vendor?.brandname}</CompanyName>
         </ProfileContainer>
         <StatsContainer>
           <CountContainer>
@@ -232,3 +240,38 @@ export default function Drawer({ children }) {
     </MainContainer>
   );
 }
+
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      isPromoter
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
+      vendor {
+        isApproved
+        brandname
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
+      }
+    }
+  }
+`;

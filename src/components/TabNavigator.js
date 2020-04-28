@@ -72,7 +72,8 @@ const PanelContainer = styled.div`
 
   width: 100%;
   height: 100%;
-  overflow: auto;
+  overflow-y: auto;
+  overflow-x: visible;
 `;
 
 export default function TabNavigator({
