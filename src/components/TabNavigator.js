@@ -10,7 +10,7 @@ const MainContainer = styled.div`
 `;
 
 const MainTabContainer = styled.div`
-  height: 35px;
+  height: 52px;
   width: 100%;
   border-width: 0px 0px 1px 0px;
   border-color: ${(props) => props.theme.color.lightGray};
@@ -23,12 +23,13 @@ const MainTabContainer = styled.div`
     props.type === "boxes" &&
     css`
       border-style: none;
+      height: 35px;
     `}
 `;
 
 const NavigatorTabs = styled.div`
   width: 92px;
-  height: 35px;
+  height: 52px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -48,9 +49,11 @@ const NavigatorTabs = styled.div`
       border-style: none;
       color: ${(props) => props.theme.color.black1};
       border-radius: 5px;
+      height: 35px;
       ${() =>
         props.isActive &&
         css`
+          height: 35px;
           box-shadow: 0 0 10px 0 ${(props) => props.theme.color.gray3};
         `}
     `}

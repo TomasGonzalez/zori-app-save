@@ -1,12 +1,15 @@
 import React from "react";
 
+import styled from "styled-components/macro";
+import { useQuery } from "@apollo/react-hooks";
+import { gql } from "apollo-boost";
+
+import Icon from "components/Icon";
 import AppLayout from "components/AppLayout";
 import ProfileIcon from "components/ProfileIcon";
 import TabNavigator from "components/TabNavigator";
 import Posts from "screens/MyBrand/Posts";
 import ZTV from "screens/MyBrand/ZTV";
-
-import styled from "styled-components/macro";
 import ArticlesAndBlogs from "./ArticlesAndBlogs";
 import Policies from "./Policies";
 
@@ -27,7 +30,7 @@ const ProfileDescription = styled.div`
   height: 100%;
   width: 100%;
   max-width: 364px;
-
+  padding-top: 16px;
   justify-content: flex-start;
   flex-direction: column;
   font-size: 12px;
@@ -35,7 +38,6 @@ const ProfileDescription = styled.div`
 
 const ProfileInfo = styled.div`
   margin-left: 13px;
-  padding-top: 16px;
   height: 100%;
   width: 100%;
   max-width: 364px;
@@ -58,19 +60,32 @@ const StyledText = styled.div`
 const NavigatorWrapper = styled.div`
   margin-top: 56px;
 `;
+
+const IconWrapper = styled.div`
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+`;
+
 export default function (props) {
+  const { data, loading, error } = useQuery(GET_SELF);
+
   return (
     <AppLayout title={props.title}>
       <MainWrapper>
         <ProfileWrapper>
           <ProfileIcon size={104} />
           <ProfileInfo>
-            <StyledName>Zelles</StyledName>
+            <StyledName>{data.me.firstName}</StyledName>
             <StyledText>0 monthly visitors </StyledText>
           </ProfileInfo>
           <ProfileDescription>
             Write up something about your brand..... or anything!
           </ProfileDescription>
+          <IconWrapper>
+            <Icon size={14} icon='pen' />
+          </IconWrapper>
         </ProfileWrapper>
         <NavigatorWrapper>
           <TabNavigator
@@ -99,3 +114,37 @@ export default function (props) {
     </AppLayout>
   );
 }
+
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      isPromoter
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
+      vendor {
+        isApproved
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
+      }
+    }
+  }
+`;
