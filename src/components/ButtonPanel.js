@@ -30,6 +30,7 @@ const DarkBackground = styled.div`
 const TitleWrapper = styled.div`
   display: flex;
   align-items: space-between;
+  justify-content: space-between;
   margin-bottom: 15px;
 `;
 
@@ -40,17 +41,31 @@ const Title = styled.div`
   margin-right: 8px;
 `;
 
-export default function (props) {
-  const { ModalContent, title } = props;
+export function PanelTitle({ title, onRequestClose }) {
+  return (
+    <TitleWrapper>
+      <Title>{title}</Title>
+      <img
+        alt={"close"}
+        onClick={() => {
+          onRequestClose();
+        }}
+        src={require("assets/close-icon.png")}
+        style={{ height: 12, width: 12, cursor: "pointer" }}
+      />
+    </TitleWrapper>
+  );
+}
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export default function (props) {
+  const { ModalContent, title, onRequestClose, visible, onButtonClick } = props;
 
   return (
     <>
-      {isModalOpen && (
+      {visible && (
         <DarkBackground
           onClick={() => {
-            setIsModalOpen(!isModalOpen);
+            onRequestClose();
           }}
         />
       )}
@@ -59,28 +74,13 @@ export default function (props) {
           label={"Invite"}
           width={72}
           height={24}
-          onClick={() => {
-            setIsModalOpen(!isModalOpen);
-          }}
+          onClick={() => onButtonClick()}
           buttonColor={[theme.color.green1, theme.color.background]}
           textColor={[theme.color.green1, theme.color.background]}
-          active={isModalOpen}
+          active={visible}
           borderColor={theme.color.green1}
         />
-        {isModalOpen && (
-          <PanelContainer>
-            <TitleWrapper>
-              <Title>{title}</Title>
-              <img
-                alt={"close"}
-                onClick={() => setIsModalOpen(!isModalOpen)}
-                src={require("assets/close-icon.png")}
-                style={{ height: 12, width: 12, cursor: "pointer" }}
-              />
-            </TitleWrapper>
-            {ModalContent}
-          </PanelContainer>
-        )}
+        {visible && <PanelContainer>{ModalContent}</PanelContainer>}
       </MainWrapper>
     </>
   );

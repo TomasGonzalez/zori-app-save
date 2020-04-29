@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components/macro";
 
 import theme from "theme";
-import ButtonPanel from "components/ButtonPanel";
+import ButtonPanel, { PanelTitle } from "components/ButtonPanel";
 import Icon from "components/Icon";
 
 const MainWrapper = styled.div`
@@ -56,7 +56,6 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: #e2e2e2;
-  margin-right: 24px;
   border-radius: 360px;
 
   &:hover {
@@ -68,7 +67,27 @@ const IconWrapper = styled.div`
   }
 `;
 
+const IconTitleWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24px;
+  font-size: 10px;
+
+  &:last-child {
+    margin: 0px;
+  }
+`;
+
+const EmailWrapper = styled.div`
+  width: 440px;
+  height: 403px;
+`;
+
 export default function () {
+  const [panelSetting, setPanelSetting] = useState(0);
+  const [isPanelOpen, setPanelOpen] = useState(false);
   return (
     <MainWrapper>
       <TextBox
@@ -87,23 +106,59 @@ export default function () {
         </TitleWrapper>
         <ButtonPanel
           title={"Invite users to ZORI"}
+          onRequestClose={() => {
+            setPanelSetting(0);
+            setPanelOpen(false);
+          }}
+          onButtonClick={() => {
+            setPanelOpen(true);
+          }}
+          visible={isPanelOpen}
           ModalContent={
-            <ShareIconsWrapper>
-              <IconWrapper
-                onClick={() => {
-                  console.log("test");
-                }}
-              >
-                <Icon color='black' icon={"mail"} />
-              </IconWrapper>
-              <IconWrapper
-                onClick={() => {
-                  console.log("test");
-                }}
-              >
-                <Icon color='black' icon={"link"} />
-              </IconWrapper>
-            </ShareIconsWrapper>
+            !panelSetting ? (
+              <>
+                <PanelTitle
+                  onRequestClose={() => {
+                    setPanelSetting(0);
+                    setPanelOpen(false);
+                  }}
+                  title={"Send Invite to"}
+                />
+                <ShareIconsWrapper>
+                  <IconTitleWrapper>
+                    <IconWrapper
+                      onClick={() => {
+                        setPanelSetting(1);
+                      }}
+                    >
+                      <Icon color='black' icon={"mail"} />
+                    </IconWrapper>
+                    <div style={{ marginTop: 4 }}>Email</div>
+                  </IconTitleWrapper>
+                  <IconTitleWrapper>
+                    <IconWrapper
+                      onClick={() => {
+                        console.log("test");
+                      }}
+                    >
+                      <Icon color='black' icon={"link"} />
+                    </IconWrapper>
+                    <div style={{ marginTop: 4 }}>Copy Link!</div>
+                  </IconTitleWrapper>
+                </ShareIconsWrapper>
+              </>
+            ) : (
+              <>
+                <PanelTitle
+                  title={"Send Invite to"}
+                  onRequestClose={() => {
+                    setPanelSetting(0);
+                    setPanelOpen(false);
+                  }}
+                />
+                <EmailWrapper> this will be the email</EmailWrapper>
+              </>
+            )
           }
         />
       </InviteWrapper>
