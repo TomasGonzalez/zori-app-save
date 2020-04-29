@@ -41,10 +41,10 @@ const Title = styled.div`
   margin-right: 8px;
 `;
 
-export function PanelTitle({ title, onRequestClose }) {
+export function PanelTitle({ title, onRequestClose, ...props }) {
   return (
-    <TitleWrapper>
-      <Title>{title}</Title>
+    <TitleWrapper {...props}>
+      <Title className='title'>{title}</Title>
       <img
         alt={"close"}
         onClick={() => {
@@ -58,7 +58,7 @@ export function PanelTitle({ title, onRequestClose }) {
 }
 
 export default function (props) {
-  const { ModalContent, title, onRequestClose, visible, onButtonClick } = props;
+  const { ModalContent, onRequestClose, visible, onButtonClick } = props;
 
   return (
     <>
