@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+
 import styled from "styled-components/macro";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
 
 import ButtonPanel, { PanelTitle } from "components/ButtonPanel";
 import Icon from "components/Icon";
@@ -83,6 +86,14 @@ const IconTitleWrapper = styled.div`
 export default function () {
   const [panelSetting, setPanelSetting] = useState(0);
   const [isPanelOpen, setPanelOpen] = useState(false);
+  const [isLinkCopied, setLinkCopied] = useState(false);
+
+  const { loading, data, error } = useQuery(GET_SELF);
+
+  if (loading) {
+    return <div>Loading</div>;
+  }
+
   return (
     <MainWrapper>
       <TextBox
@@ -133,12 +144,15 @@ export default function () {
                   <IconTitleWrapper>
                     <IconWrapper
                       onClick={() => {
-                        console.log("test");
+                        setLinkCopied(true);
+                        navigator.clipboard.writeText(data.me.invitation.link);
                       }}
                     >
                       <Icon color='black' icon={"link"} />
                     </IconWrapper>
-                    <div style={{ marginTop: 4 }}>Copy Link!</div>
+                    <div style={{ marginTop: 4 }}>
+                      {isLinkCopied ? "Link Copied!" : "Copy Link"}
+                    </div>
                   </IconTitleWrapper>
                 </ShareIconsWrapper>
               </>
@@ -154,3 +168,40 @@ export default function () {
     </MainWrapper>
   );
 }
+
+const GET_SELF = gql`
+  query {
+    me {
+      id
+      isVerified
+      username
+      email
+      phoneNumber
+      firstName
+      lastName
+      dateJoined
+      isActive
+      avatar
+      invitation {
+        link
+      }
+      isPromoter
+      completedSteps {
+        stepId
+        label
+        isFilled
+      }
+      vendor {
+        isApproved
+        tutorials {
+          tutorial {
+            id
+            text
+            link
+          }
+          isFilled
+        }
+      }
+    }
+  }
+`;
