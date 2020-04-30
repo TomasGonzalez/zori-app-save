@@ -12,6 +12,7 @@ const PanelContainer = styled.div`
   border-radius: 7px;
   box-shadow: 0 0 15px 0 ${(props) => props.theme.color.gray3};
   background-color: ${(props) => props.theme.color.background};
+  transition: height 10s, width 10s;
 `;
 
 const MainWrapper = styled.div`
@@ -80,7 +81,11 @@ export default function (props) {
           active={visible}
           borderColor={theme.color.green1}
         />
-        {visible && <PanelContainer>{ModalContent}</PanelContainer>}
+        {visible && (
+          <PanelContainer ClassName='PanelContainer'>
+            {ModalContent}
+          </PanelContainer>
+        )}
       </MainWrapper>
     </>
   );

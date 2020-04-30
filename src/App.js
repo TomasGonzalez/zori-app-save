@@ -34,6 +34,9 @@ const GET_SELF = gql`
       dateJoined
       isActive
       avatar
+      invitation {
+        link
+      }
       isPromoter
       completedSteps {
         stepId

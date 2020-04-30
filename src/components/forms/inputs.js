@@ -259,6 +259,7 @@ export const PhoneInput = (props) => {
 export const BigInput = (props) => {
   return (
     <StyledBigInput
+      className={props.className}
       type={props.type}
       {...props.input}
       meta={props.meta}

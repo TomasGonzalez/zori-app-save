@@ -1,11 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components/macro";
 
-import theme from "theme";
 import ButtonPanel, { PanelTitle } from "components/ButtonPanel";
 import Icon from "components/Icon";
-import { ReactMultiEmail, isEmail } from "react-multi-email";
-import "react-multi-email/style.css";
+import SendEmailLinks from "components/FeedComponents/SendEmailLinks";
 
 const MainWrapper = styled.div`
   height: 100%;
@@ -82,23 +80,9 @@ const IconTitleWrapper = styled.div`
   }
 `;
 
-const EmailWrapper = styled.div`
-  width: 440px;
-  height: 403px;
-  padding: 20px;
-`;
-
-const StyledPanelTitle = styled(PanelTitle)`
-  .title {
-    font-size: 14px;
-    font-weight: 600;
-  }
-`;
-
 export default function () {
   const [panelSetting, setPanelSetting] = useState(0);
   const [isPanelOpen, setPanelOpen] = useState(false);
-  const [emails, setEmails] = useState([]);
   return (
     <MainWrapper>
       <TextBox
@@ -159,46 +143,10 @@ export default function () {
                 </ShareIconsWrapper>
               </>
             ) : (
-              <EmailWrapper>
-                <StyledPanelTitle
-                  title={"Send Invite to"}
-                  onRequestClose={() => {
-                    setPanelSetting(0);
-                    setPanelOpen(false);
-                  }}
-                />
-                <ReactMultiEmail
-                  placeholder={
-                    <>
-                      <b>I</b> am{" "}
-                      <u style={{ color: "#a0f2ff" }}>placeholder</u> !
-                    </>
-                  }
-                  style={{ minHeight: "100px" }}
-                  emails={emails}
-                  onChange={(_emails) => {
-                    console.log("test");
-                    setEmails(_emails);
-                  }}
-                  validateEmail={(email) => {
-                    return isEmail(email);
-                  }}
-                  getLabel={(email, index, removeEmail) => {
-                    console.log(email, index, removeEmail);
-                    return (
-                      <div data-tag key={index}>
-                        <div data-tag-item>{email}</div>
-                        <span
-                          data-tag-handle
-                          onClick={() => removeEmail(index)}
-                        >
-                          ×
-                        </span>
-                      </div>
-                    );
-                  }}
-                />
-              </EmailWrapper>
+              <SendEmailLinks
+                setPanelSetting={setPanelSetting}
+                setPanelOpen={setPanelOpen}
+              />
             )
           }
         />
