@@ -10,12 +10,12 @@ import Button from "components/Button";
 import theme from "theme";
 import { PanelTitle } from "components/ButtonPanel";
 import { BigInput } from "components/forms/inputs";
+import Icon from "components/Icon";
 
 import "react-multi-email/style.css";
 
 const EmailWrapper = styled.div`
   width: 392px;
-  height: 364px;
   padding: 20px;
 `;
 
@@ -57,13 +57,21 @@ const StyledBigInput = styled(BigInput)`
   line-height: 2;
 `;
 
+const SuccessWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+`;
+
 export default function ({ setPanelSetting, setPanelOpen }) {
   const [emails, setEmails] = useState([]);
   const [emailText, setEmailText] = useState("");
+  const [success, setSuccess] = useState(false);
+  const [buttonLoading, setButtonLoading] = useState(false);
 
   const { loading, data, error } = useQuery(GET_SELF);
   const [inviteEmails] = useMutation(INVITE_EMAILS);
-  const [buttonLoading, setButtonLoading] = useState(false);
 
   useEffect(() => {
     if (data?.me?.invitation)
@@ -76,6 +84,12 @@ export default function ({ setPanelSetting, setPanelOpen }) {
     return <div>Loading...</div>;
   }
 
+  const close = () => {
+    setPanelSetting(0);
+    setPanelOpen(false);
+    setSuccess(false);
+  };
+
   const handleSubmit = (value) => {
     if (!!emails.length) {
       setButtonLoading(true);
@@ -84,8 +98,8 @@ export default function ({ setPanelSetting, setPanelOpen }) {
       })
         .then(() => {
           setButtonLoading(false);
-          setPanelSetting(0);
-          setPanelOpen(false);
+          setSuccess(true);
+          setTimeout(close, 1000);
         })
         .catch((err) => {
           setButtonLoading(false);
@@ -96,75 +110,104 @@ export default function ({ setPanelSetting, setPanelOpen }) {
 
   return (
     <EmailWrapper>
-      <Form
-        onSubmit={handleSubmit}
-        render={({ handleSubmit }) => (
-          <StyledForm>
-            <StyledPanelTitle
-              title={"Send Invite to"}
-              onRequestClose={() => {
-                setPanelSetting(0);
-                setPanelOpen(false);
-              }}
-            />
-            <Field
-              name='emails'
-              component={ReactMultiEmail}
-              placeholder={<>Who do you want to invite?</>}
-              style={{
-                boxSizing: "border-box",
-                width: 392,
-                minHeight: "100px",
-                borderColor: theme.color.lightGray,
-              }}
-              emails={emails}
-              onChange={(_emails) => {
-                setEmails(_emails);
-              }}
-              validateEmail={(email) => {
-                return isEmail(email);
-              }}
-              getLabel={(email, index, removeEmail) => {
-                return (
-                  <EmailBox onClick={() => removeEmail(index)} key={index}>
-                    <div data-tag-item>{email}</div>
-                  </EmailBox>
-                );
-              }}
-            />
-            <SubTitle>You can add up to 10 email addresses</SubTitle>
-            <Field
-              name='SendInvitation'
-              input={{
-                value: emailText,
-                onChange: (_data) => {
-                  setEmailText(_data.target.value);
-                },
-              }}
-              component={StyledBigInput}
-            />
-            <SubTitle>
-              We’ve prepared a message for you assuming your inviting potential
-              customers. Make sure to tweak the message a little bit when
-              inviting your fellow brands.
-            </SubTitle>
-            <Button
-              style={{ marginTop: 8 }}
-              label='Send'
-              buttonStyle={"dark"}
-              width={392}
-              height={32}
-              isLoading={buttonLoading}
-              onClick={handleSubmit}
-            />
-            {!emails.length && (
-              <SubTitle style={{ color: theme.color.danger }}>
-                Please add at least one email!
+      {!success ? (
+        <Form
+          onSubmit={handleSubmit}
+          render={({ handleSubmit }) => (
+            <StyledForm>
+              <StyledPanelTitle
+                title={"Send Invite to"}
+                onRequestClose={() => {
+                  setPanelSetting(0);
+                  setPanelOpen(false);
+                }}
+              />
+              <Field
+                name='emails'
+                component={ReactMultiEmail}
+                placeholder={<>Who do you want to invite?</>}
+                style={{
+                  boxSizing: "border-box",
+                  width: 392,
+                  minHeight: "100px",
+                  borderColor: theme.color.lightGray,
+                }}
+                emails={emails}
+                onChange={(_emails) => {
+                  setEmails(_emails);
+                }}
+                validateEmail={(email) => {
+                  return isEmail(email);
+                }}
+                getLabel={(email, index, removeEmail) => {
+                  return (
+                    <EmailBox onClick={() => removeEmail(index)} key={index}>
+                      <div data-tag-item>{email}</div>
+                    </EmailBox>
+                  );
+                }}
+              />
+              <SubTitle>You can add up to 10 email addresses</SubTitle>
+              <Field
+                name='SendInvitation'
+                input={{
+                  value: emailText,
+                  onChange: (_data) => {
+                    setEmailText(_data.target.value);
+                  },
+                }}
+                component={StyledBigInput}
+              />
+              <SubTitle>
+                We’ve prepared a message for you assuming your inviting
+                potential customers. Make sure to tweak the message a little bit
+                when inviting your fellow brands.
               </SubTitle>
-            )}
-          </StyledForm>
-        )}
-      />
+              <Button
+                style={{ marginTop: 8 }}
+                label='Send'
+                buttonStyle={"dark"}
+                width={392}
+                height={32}
+                isLoading={buttonLoading}
+                onClick={handleSubmit}
+              />
+              {!emails.length && (
+                <SubTitle style={{ color: theme.color.danger }}>
+                  Please add at least one email!
+                </SubTitle>
+              )}
+            </StyledForm>
+          )}
+        />
+      ) : (
+        <>
+          <StyledPanelTitle
+            style={{ margin: 0 }}
+            title={""}
+            onRequestClose={() => {
+              setPanelSetting(0);
+              setPanelOpen(false);
+            }}
+          />
+          <SuccessWrapper>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                backgroundColor: theme.color.green1,
+                height: 48,
+                width: 48,
+                borderRadius: 2,
+              }}
+            >
+              <Icon size={34} color={theme.color.background} icon='checkMark' />
+            </div>
+            <b style={{ marginTop: 16 }}>Done and dusted!</b>
+          </SuccessWrapper>
+        </>
+      )}
     </EmailWrapper>
   );
 }
