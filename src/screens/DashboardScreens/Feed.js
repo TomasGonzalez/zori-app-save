@@ -116,6 +116,7 @@ export default function () {
             setPanelOpen(false);
           }}
           onButtonClick={() => {
+            setLinkCopied(false);
             setPanelSetting(0);
             setPanelOpen(!isPanelOpen);
           }}

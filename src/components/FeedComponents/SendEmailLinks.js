@@ -77,7 +77,7 @@ export default function ({ setPanelSetting, setPanelOpen }) {
   }
 
   const handleSubmit = (value) => {
-    if (emails) {
+    if (!!emails.length) {
       setButtonLoading(true);
       inviteEmails({
         variables: { emails, inviteText: emailText },
