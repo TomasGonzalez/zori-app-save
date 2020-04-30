@@ -34,7 +34,7 @@ export default function Dashboard({ title }) {
       <MainContainer>
         <TabNavigator
           style={{ width: 672 }}
-          defaultScreen={1}
+          defaultScreen={0}
           navigationOptions={[
             {
               title: "Activity",

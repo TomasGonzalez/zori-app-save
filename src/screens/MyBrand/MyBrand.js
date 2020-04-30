@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styled from "styled-components/macro";
+import { usePopper } from "react-popper";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
@@ -62,29 +63,74 @@ const NavigatorWrapper = styled.div`
 `;
 
 const IconWrapper = styled.div`
-  cursor: pointer;
   height: 100%;
   display: flex;
   align-items: flex-end;
 `;
 
+const OptionsWrapper = styled.div`
+  display: flex;
+  margin-top: 5px;
+`;
+
+const IconOptionsWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+  padding: 3px;
+  border-radius: 3px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: ${(props) => props.theme.color.lightGray};
+  }
+`;
+
 export default function (props) {
   const { data, loading, error } = useQuery(GET_SELF);
 
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const { styles, attributes } = usePopper(referenceElement, popperElement, {
+    modifiers: [{ name: "arrow" }],
+  });
+
   return (
     <AppLayout title={props.title}>
+      <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
+        Popper element d{" "}
+      </div>
       <MainWrapper>
         <ProfileWrapper>
           <ProfileIcon size={104} />
           <ProfileInfo>
             <StyledName>{data.me.firstName}</StyledName>
-            <StyledText>0 monthly visitors </StyledText>
+            <StyledText>
+              <b>0</b> monthly visitors{" "}
+            </StyledText>
+            <OptionsWrapper>
+              <IconOptionsWrapper ref={setReferenceElement}>
+                <Icon icon='plus' size={14} />
+              </IconOptionsWrapper>
+              <IconOptionsWrapper>
+                <Icon icon='share' size={14} />
+              </IconOptionsWrapper>
+              <IconOptionsWrapper>
+                <Icon icon='pen' size={14} />
+              </IconOptionsWrapper>
+              <IconOptionsWrapper>
+                <Icon icon='settings' size={14} />
+              </IconOptionsWrapper>
+            </OptionsWrapper>
           </ProfileInfo>
           <ProfileDescription>
             Write up something about your brand..... or anything!
           </ProfileDescription>
           <IconWrapper>
-            <Icon size={14} icon='pen' />
+            <IconOptionsWrapper>
+              <Icon size={14} icon='pen' />
+            </IconOptionsWrapper>
           </IconWrapper>
         </ProfileWrapper>
         <NavigatorWrapper>

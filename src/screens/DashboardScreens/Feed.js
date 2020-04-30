@@ -4,6 +4,8 @@ import styled from "styled-components/macro";
 import { gql } from "apollo-boost";
 import { useQuery } from "@apollo/react-hooks";
 
+import Button from "components/Button";
+import theme from "theme";
 import ButtonPanel, { PanelTitle } from "components/ButtonPanel";
 import Icon from "components/Icon";
 import SendEmailLinks from "components/FeedComponents/SendEmailLinks";
@@ -115,55 +117,64 @@ export default function () {
           onRequestClose={() => {
             setPanelOpen(false);
           }}
-          onButtonClick={() => {
-            setLinkCopied(false);
-            setPanelSetting(0);
-            setPanelOpen(!isPanelOpen);
-          }}
-          visible={isPanelOpen}
-          ModalContent={
-            !panelSetting ? (
-              <>
-                <PanelTitle
-                  onRequestClose={() => {
-                    setPanelSetting(0);
-                    setPanelOpen(false);
-                  }}
-                  title={"Invite users to ZORI"}
-                />
-                <ShareIconsWrapper>
-                  <IconTitleWrapper>
-                    <IconWrapper
-                      onClick={() => {
-                        setPanelSetting(1);
-                      }}
-                    >
-                      <Icon color='black' icon={"mail"} />
-                    </IconWrapper>
-                    <div style={{ marginTop: 4 }}>Email</div>
-                  </IconTitleWrapper>
-                  <IconTitleWrapper>
-                    <IconWrapper
-                      onClick={() => {
-                        setLinkCopied(true);
-                        navigator.clipboard.writeText(data.me.invitation.link);
-                      }}
-                    >
-                      <Icon color='black' icon={"link"} />
-                    </IconWrapper>
-                    <div style={{ marginTop: 4 }}>
-                      {isLinkCopied ? "Link Copied!" : "Copy Link"}
-                    </div>
-                  </IconTitleWrapper>
-                </ShareIconsWrapper>
-              </>
-            ) : (
-              <SendEmailLinks
-                setPanelSetting={setPanelSetting}
-                setPanelOpen={setPanelOpen}
-              />
-            )
+          buttonComponent={
+            <Button
+              label={"Invite"}
+              width={72}
+              height={24}
+              onClick={() => {
+                setLinkCopied(false);
+                setPanelSetting(0);
+                setPanelOpen(!isPanelOpen);
+              }}
+              buttonColor={[theme.color.green1, theme.color.background]}
+              textColor={[theme.color.green1, theme.color.background]}
+              active={isPanelOpen}
+              borderColor={theme.color.green1}
+            />
           }
+          visible={isPanelOpen}
+          showScreen={panelSetting}
+          ModalContent={[
+            <>
+              <PanelTitle
+                onRequestClose={() => {
+                  setPanelSetting(0);
+                  setPanelOpen(false);
+                }}
+                title={"Invite users to ZORI"}
+              />
+              <ShareIconsWrapper>
+                <IconTitleWrapper>
+                  <IconWrapper
+                    onClick={() => {
+                      setPanelSetting(1);
+                    }}
+                  >
+                    <Icon color='black' icon={"mail"} />
+                  </IconWrapper>
+                  <div style={{ marginTop: 4 }}>Email</div>
+                </IconTitleWrapper>
+                <IconTitleWrapper>
+                  <IconWrapper
+                    onClick={() => {
+                      setLinkCopied(true);
+                      navigator.clipboard.writeText(data.me.invitation.link);
+                    }}
+                  >
+                    <Icon color='black' icon={"link"} />
+                  </IconWrapper>
+                  <div style={{ marginTop: 4 }}>
+                    {isLinkCopied ? "Link Copied!" : "Copy Link"}
+                  </div>
+                </IconTitleWrapper>
+              </ShareIconsWrapper>
+            </>,
+            <SendEmailLinks
+              setPanelSetting={setPanelSetting}
+              setPanelOpen={setPanelOpen}
+            />,
+          ]}
         />
       </InviteWrapper>
     </MainWrapper>

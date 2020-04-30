@@ -1,13 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components/macro";
-
-import Button from "components/Button";
-import theme from "theme";
+import { usePopper } from "react-popper";
 
 const PanelContainer = styled.div`
-  position: absolute;
-  right: 0px;
-  margin-top: 6px;
   padding: 16px;
   border-radius: 7px;
   box-shadow: 0 0 15px 0 ${(props) => props.theme.color.gray3};
@@ -15,9 +10,7 @@ const PanelContainer = styled.div`
   transition: height 10s, width 10s;
 `;
 
-const MainWrapper = styled.div`
-  position: relative;
-`;
+const MainWrapper = styled.div``;
 
 const DarkBackground = styled.div`
   position: absolute;
@@ -59,7 +52,34 @@ export function PanelTitle({ title, onRequestClose, ...props }) {
 }
 
 export default function (props) {
-  const { ModalContent, onRequestClose, visible, onButtonClick } = props;
+  const {
+    ModalContent,
+    onRequestClose,
+    buttonComponent,
+    visible,
+    showScreen,
+  } = props;
+
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      placement: "bottom-end",
+    }
+  );
+
+  useEffect(() => {
+    let promise;
+    try {
+      promise = update();
+    } catch (err) {}
+
+    console.log(promise);
+  }, [showScreen]);
+
+  console.log(update);
 
   return (
     <>
@@ -71,19 +91,15 @@ export default function (props) {
         />
       )}
       <MainWrapper>
-        <Button
-          label={"Invite"}
-          width={72}
-          height={24}
-          onClick={() => onButtonClick()}
-          buttonColor={[theme.color.green1, theme.color.background]}
-          textColor={[theme.color.green1, theme.color.background]}
-          active={visible}
-          borderColor={theme.color.green1}
-        />
+        <div ref={setReferenceElement}>{buttonComponent}</div>
         {visible && (
-          <PanelContainer ClassName='PanelContainer'>
-            {ModalContent}
+          <PanelContainer
+            ref={setPopperElement}
+            style={styles.popper}
+            {...attributes.popper}
+            ClassName='PanelContainer'
+          >
+            {ModalContent[showScreen]}
           </PanelContainer>
         )}
       </MainWrapper>

@@ -99,6 +99,7 @@ function VerificationCode({
                 if (!data.verifyCode.errorMessage) {
                   setIsVerified(true);
                   onVerification();
+                  setTimeout(onFinishVerification, 1000);
                 } else {
                   setErrorMessage(data.verifyCode.errorMessage);
                 }
@@ -116,10 +117,10 @@ function VerificationCode({
     <ContentWrapper>
       <StyledLock src={require("assets/verificationSuccess.png")} />
       <Title>Success!</Title>
-      {/* <SubTitle style={{ width: "100%" }}>
+      <SubTitle style={{ width: "100%" }}>
         Click the button below if this page doesn’t automatically redirect in a
         couple of seconds
-      </SubTitle> */}
+      </SubTitle>
       <Button
         buttonStyle='dark'
         size='small'
