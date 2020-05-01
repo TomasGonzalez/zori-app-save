@@ -58,6 +58,8 @@ export default function (props) {
     buttonComponent,
     visible,
     showScreen,
+    contentSide,
+    notBackground,
   } = props;
 
   const [referenceElement, setReferenceElement] = useState(null);
@@ -66,7 +68,7 @@ export default function (props) {
     referenceElement,
     popperElement,
     {
-      placement: "bottom-end",
+      placement: contentSide || "bottom-end",
     }
   );
 
@@ -74,16 +76,14 @@ export default function (props) {
     let promise;
     try {
       promise = update();
-    } catch (err) {}
-
-    console.log(promise);
+    } catch (err) {
+      console.log(err);
+    }
   }, [showScreen]);
-
-  console.log(update);
 
   return (
     <>
-      {visible && (
+      {visible && !notBackground && (
         <DarkBackground
           onClick={() => {
             onRequestClose();

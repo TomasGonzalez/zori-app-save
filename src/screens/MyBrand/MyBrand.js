@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 import styled from "styled-components/macro";
-import { usePopper } from "react-popper";
 import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
+import UploadPhotoModal from "screens/MyBrand/UploadPhotoModal";
+import DropDownIcon from "components/DropDownIcon";
 import Icon from "components/Icon";
 import AppLayout from "components/AppLayout";
 import ProfileIcon from "components/ProfileIcon";
@@ -87,20 +88,32 @@ const IconOptionsWrapper = styled.div`
   }
 `;
 
+const FloatingList = styled.ul`
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+`;
+
+const StyledLiElement = styled.li`
+  padding: 0px;
+  margin-bottom: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 12px;
+  &:hover {
+    background-color: ${(props) => props.theme.color.lightGray};
+  }
+  &:last-child {
+    margin: 0px;
+  }
+`;
+
 export default function (props) {
   const { data, loading, error } = useQuery(GET_SELF);
 
-  const [referenceElement, setReferenceElement] = useState(null);
-  const [popperElement, setPopperElement] = useState(null);
-  const { styles, attributes } = usePopper(referenceElement, popperElement, {
-    modifiers: [{ name: "arrow" }],
-  });
-
   return (
     <AppLayout title={props.title}>
-      <div ref={setPopperElement} style={styles.popper} {...attributes.popper}>
-        Popper element d{" "}
-      </div>
+      <UploadPhotoModal isOpen={true} />
       <MainWrapper>
         <ProfileWrapper>
           <ProfileIcon size={104} />
@@ -110,18 +123,19 @@ export default function (props) {
               <b>0</b> monthly visitors{" "}
             </StyledText>
             <OptionsWrapper>
-              <IconOptionsWrapper ref={setReferenceElement}>
-                <Icon icon='plus' size={14} />
-              </IconOptionsWrapper>
-              <IconOptionsWrapper>
-                <Icon icon='share' size={14} />
-              </IconOptionsWrapper>
-              <IconOptionsWrapper>
-                <Icon icon='pen' size={14} />
-              </IconOptionsWrapper>
-              <IconOptionsWrapper>
-                <Icon icon='settings' size={14} />
-              </IconOptionsWrapper>
+              <DropDownIcon
+                content={
+                  <FloatingList>
+                    <StyledLiElement>Upload a photo</StyledLiElement>
+                    <StyledLiElement>Create a box</StyledLiElement>
+                    <StyledLiElement>Establish a brand policy</StyledLiElement>
+                  </FloatingList>
+                }
+                icon='plus'
+              />
+              <DropDownIcon icon='share' />
+              <DropDownIcon icon='pen' />
+              <DropDownIcon icon='settings' />
             </OptionsWrapper>
           </ProfileInfo>
           <ProfileDescription>
