@@ -261,10 +261,10 @@ export const BigInput = (props) => {
     <StyledBigInput
       className={props.className}
       type={props.type}
+      rows={"4"}
       {...props.input}
       meta={props.meta}
       placeholder={props.placeholder}
-      rows='4'
     />
   );
 };
