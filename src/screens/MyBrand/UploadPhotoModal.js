@@ -1,26 +1,55 @@
 import React, { useCallback, useState } from "react";
 
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Form, Field } from "react-final-form";
 import Modal from "react-modal";
 import styled from "styled-components/macro";
 import _ from "lodash";
 import { useDropzone } from "react-dropzone";
 
+import Button from "components/Button";
 import ProfileIcon from "components/ProfileIcon";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
 import Icon from "components/Icon";
 
 const ImageDrop = styled.div`
+  cursor: pointer;
   height: 592px;
   width: 440px;
-
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   background-color: ${(props) => props.theme.color.creme};
   border-radius: 10px;
+
+  .see-more-enter {
+    opacity: 0;
+    width: 0px;
+    height: 0px;
+    transform: scale(0);
+  }
+
+  .see-more-enter-active {
+    opacity: 1;
+    transform: translateX(0);
+    width: 256px;
+    height: 48px;
+    transition: height 300ms, opacity 300ms, width 300ms;
+  }
+
+  .see-more-exit {
+    opacity: 1;
+    width: 256px;
+  }
+
+  .see-more-exit-active {
+    opacity: 0;
+    width: 0px;
+    transition: opacity 300ms, width 300ms;
+  }
 `;
 
 const Title = styled.div`
@@ -62,8 +91,8 @@ const SubTitle = styled.div`
 
 const DisplayImage = styled.img`
   object-fit: cover;
-  height: 592px;
-  width: 440px;
+  height: 100%;
+  width: 100%;
   outline: none;
 `;
 
@@ -108,8 +137,42 @@ const CloseWrapper = styled.div`
   justify-content: flex-end;
 `;
 
+const TagPin = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+
+  height: 16px;
+  width: 16px;
+  border-radius: 160px;
+  background-color: white;
+  bottom: ${(props) => props.values.yPercent}%;
+  right: ${(props) => props.values.xPercent}%;
+`;
+
+const TagsButtonWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  margin-top: 24px;
+`;
+
+const FloatingTagDescriptionWrapper = styled.div`
+  position: absolute;
+  height: 48px;
+  width: 256px;
+  background-color: white;
+  margin-top: 24px;
+  padding: 8px;
+  border-radius: 3px;
+`;
+
 export default function ({ isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
+  const [tags, setTags] = useState([]);
+  const [tagType, setTagType] = useState(null);
+
   const onDrop = useCallback((acceptedFiles) => {
     setImageFile(URL.createObjectURL(acceptedFiles[0]));
   }, []);
@@ -117,6 +180,25 @@ export default function ({ isOpen, style, ...restProps }) {
 
   const handleSubmit = () => {
     console.log("test");
+  };
+
+  const addProductTag = (event) => {
+    const bounds = event.target.getBoundingClientRect();
+    const x = event.clientX - bounds.left;
+    const y = event.clientY - bounds.top;
+
+    const imageHeight = event.target.offsetHeight;
+    const imageWidth = event.target.offsetWidth;
+
+    setTags([
+      ...tags,
+      {
+        xPercent: ((imageWidth - (x + 10)) / imageWidth) * 100,
+        yPercent: ((imageHeight - y) / imageHeight) * 100,
+        type: tagType,
+        subTags: "",
+      },
+    ]);
   };
 
   return (
@@ -145,9 +227,39 @@ export default function ({ isOpen, style, ...restProps }) {
     >
       <MainWrapper>
         <ImageDrop style={{ outline: "none" }} {...getRootProps()}>
-          {imageFile && <DisplayImage src={imageFile} alt={"Uploaded"} />}
-          <input style={{ outline: "none" }} {...getInputProps()} />
-
+          {imageFile && (
+            <DisplayImage
+              onDragStart={(e) => {
+                e.preventDefault();
+              }}
+              onClick={tagType === "product" && addProductTag}
+              src={imageFile}
+              alt={"Uploaded"}
+            />
+          )}
+          <TransitionGroup>
+            {tags.map((_vals, index) => {
+              return (
+                _vals.type === "product" && (
+                  <TagPin values={_vals}>
+                    <CSSTransition
+                      in={tagType === "product"}
+                      timeout={200}
+                      classNames='see-more'
+                      unmountOnExit
+                    >
+                      <FloatingTagDescriptionWrapper key={index}>
+                        this is another thing
+                      </FloatingTagDescriptionWrapper>
+                    </CSSTransition>
+                  </TagPin>
+                )
+              );
+            })}
+          </TransitionGroup>
+          {!imageFile && (
+            <input style={{ outline: "none" }} {...getInputProps()} />
+          )}
           {!imageFile && (
             <>
               <Icon
@@ -172,7 +284,6 @@ export default function ({ isOpen, style, ...restProps }) {
               color={"black"}
             />
           </CloseWrapper>
-
           <FormWrapper>
             <Form
               onSubmit={handleSubmit}
@@ -203,9 +314,33 @@ export default function ({ isOpen, style, ...restProps }) {
                       placeholder={"Tell everyone what this photo is about..."}
                     />
                   </ProfileContainer>
-                  <FormItem>
+                  <TagsButtonWrapper>
+                    {[
+                      { label: "Tag Products", type: "product" },
+                      { label: "Tag Users", type: "user" },
+                      { label: "Tag your post", type: "post" },
+                    ].map((_buttonData) => (
+                      <Button
+                        label={_buttonData.label}
+                        onClick={() =>
+                          setTagType(
+                            tagType !== _buttonData.type
+                              ? _buttonData.type
+                              : null
+                          )
+                        }
+                        style={{ marginRight: 6 }}
+                        width={112}
+                        height={32}
+                        active={tagType === _buttonData.type}
+                        borderColor={theme.color.creme}
+                        textSize={12}
+                      />
+                    ))}
+                  </TagsButtonWrapper>
+                  {/* <FormItem>
                     <Field name='save-to-boxes' component={BigInput} />
-                  </FormItem>
+                  </FormItem> */}
                 </StyledForm>
               )}
             />
