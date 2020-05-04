@@ -9,6 +9,7 @@ import Hoverable from "components/Hoverable";
 import Icon from "components/Icon";
 import theme from "theme";
 import ProfileIcon from "components/ProfileIcon";
+import { ScreenLoader } from "components/Loading";
 
 const MainContainer = styled.div`
   display: flex;
@@ -176,7 +177,7 @@ export default function Drawer({ children }) {
   const { loading, error, data } = useQuery(GET_SELF);
 
   if (loading) {
-    return <div>loading ..</div>;
+    return <ScreenLoader />;
   }
 
   return (

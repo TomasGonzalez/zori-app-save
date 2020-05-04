@@ -20,7 +20,7 @@ const GuidedButtonWrapper = styled.div`
   margin-top: 88px;
 `;
 
-export default function (props) {
+export default function ({ setUploadPhotoModal, ...props }) {
   return (
     <MainWrapper>
       <TabNavigator
@@ -35,6 +35,9 @@ export default function (props) {
                   label={
                     "Be sure to tag your products to make your customer shopping experience seamless"
                   }
+                  onClick={() => {
+                    setUploadPhotoModal(true);
+                  }}
                   title={"Upload a Photo"}
                   buttonLabel='Upload'
                   icon='photo'

@@ -110,10 +110,13 @@ const StyledLiElement = styled.li`
 
 export default function (props) {
   const { data, loading, error } = useQuery(GET_SELF);
-
+  const [uploadPhotoModal, setUploadPhotoModal] = useState(true);
   return (
     <AppLayout title={props.title}>
-      <UploadPhotoModal isOpen={true} />
+      <UploadPhotoModal
+        onRequestClose={() => setUploadPhotoModal(false)}
+        isOpen={uploadPhotoModal}
+      />
       <MainWrapper>
         <ProfileWrapper>
           <ProfileIcon size={104} />
@@ -151,7 +154,11 @@ export default function (props) {
           <TabNavigator
             style={{ padding: "0px 20px" }}
             navigationOptions={[
-              { icon: "photo", title: "Posts", component: <Posts /> },
+              {
+                icon: "photo",
+                title: "Posts",
+                component: <Posts setUploadPhotoModal={setUploadPhotoModal} />,
+              },
               // {
               //   icon: "videoCamera",
               //   title: "ZTV",

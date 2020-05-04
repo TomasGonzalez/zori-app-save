@@ -80,7 +80,6 @@ export default function SignUpForm({
       },
     })
       .then((request) => {
-        console.log(request.data);
         sessionStorage.setItem("jwtToken", request.data.createUser.token);
         onVerification();
         setIsLoading(false);

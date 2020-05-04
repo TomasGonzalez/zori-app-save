@@ -9,5 +9,17 @@ function Loading() {
 export default Loading;
 
 export const ScreenLoader = () => {
-  return <BounceLoader size={60} color={theme.color.green1} />;
+  return (
+    <div
+      style={{
+        width: "100%",
+        height: "100vw",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <BounceLoader size={60} color={theme.color.green1} />
+    </div>
+  );
 };

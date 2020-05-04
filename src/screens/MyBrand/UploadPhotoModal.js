@@ -180,7 +180,7 @@ const BoxMessage = styled.div`
   padding: 7px;
 `;
 
-export default function ({ isOpen, style, ...restProps }) {
+export default function ({ onRequestClose, isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
   const [tags, setTags] = useState([]);
   const [tagType, setTagType] = useState(null);
@@ -290,6 +290,7 @@ export default function ({ isOpen, style, ...restProps }) {
         <ImageForm>
           <CloseWrapper>
             <Icon
+              onClick={() => onRequestClose()}
               style={{ cursor: "pointer" }}
               icon={"close"}
               size={14}

@@ -73,7 +73,6 @@ function SecurityQuestions({
       },
     })
       .then((request) => {
-        console.log(request);
         setIsLoading(false);
         onVerification();
       })

@@ -87,7 +87,6 @@ const StyledButton = styled.div`
 `;
 
 const Button = ({ textSize = 12, ...props }) => {
-  console.log(textSize);
   const textColor =
     props.textColor ||
     (props.buttonStyle !== "dark"
