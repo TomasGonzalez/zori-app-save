@@ -12,6 +12,7 @@ import ProfileIcon from "components/ProfileIcon";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
 import Icon from "components/Icon";
+import CreatableSelect from "components/CreatableSelect";
 
 const ImageDrop = styled.div`
   cursor: pointer;
@@ -27,8 +28,7 @@ const ImageDrop = styled.div`
 
   .see-more-enter {
     opacity: 0;
-    width: 0px;
-    height: 0px;
+    width: 55px;
     transform: scale(0);
   }
 
@@ -36,8 +36,7 @@ const ImageDrop = styled.div`
     opacity: 1;
     transform: translateX(0);
     width: 256px;
-    height: 48px;
-    transition: height 300ms, opacity 300ms, width 300ms;
+    transition: opacity 300ms, width 300ms;
   }
 
   .see-more-exit {
@@ -47,7 +46,7 @@ const ImageDrop = styled.div`
 
   .see-more-exit-active {
     opacity: 0;
-    width: 0px;
+    width: 55px;
     transition: opacity 300ms, width 300ms;
   }
 `;
@@ -94,6 +93,7 @@ const DisplayImage = styled.img`
   height: 100%;
   width: 100%;
   outline: none;
+  cursor: default;
 `;
 
 const ImageForm = styled.div`
@@ -160,8 +160,8 @@ const TagsButtonWrapper = styled.div`
 
 const FloatingTagDescriptionWrapper = styled.div`
   position: absolute;
-  height: 48px;
   width: 256px;
+  heigh: 100%;
   background-color: white;
   margin-top: 24px;
   padding: 8px;
@@ -249,7 +249,7 @@ export default function ({ isOpen, style, ...restProps }) {
                       unmountOnExit
                     >
                       <FloatingTagDescriptionWrapper key={index}>
-                        this is another thing
+                        <CreatableSelect placeholder='Type products tags.' />
                       </FloatingTagDescriptionWrapper>
                     </CSSTransition>
                   </TagPin>

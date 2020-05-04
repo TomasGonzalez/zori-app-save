@@ -3,6 +3,7 @@ export default {
     linkBlue: "#94E3F4", //hyperlinks
     green1: "#1a7b64", //primary color
     green2: "#77B4A9",
+    green3: "#cde7c1",
     background: "#ffffff", //all components backrounds and other white stuff
     black1: "#000000", //all black backrounds etc
     underlineColor: "#9C9C9C", //underlines

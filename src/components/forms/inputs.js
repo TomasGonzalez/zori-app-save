@@ -107,7 +107,6 @@ const StyledPhoneInput = styled(InputMask)`
         ? props.theme.color.danger
         : props.theme.color.gray1};
   }
-
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
