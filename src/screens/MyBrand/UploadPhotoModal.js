@@ -62,6 +62,7 @@ const FormTitle = styled.div`
 
 const StyledBigInput = styled(BigInput)`
   height: 40px;
+  font-size: 16px;
   margin-top: 4px;
   border-color: ${(props) => props.theme.color.creme};
 `;
@@ -93,6 +94,7 @@ const DisplayImage = styled.img`
   object-fit: cover;
   height: 100%;
   width: 100%;
+  border-radius: 10px;
   outline: none;
   cursor: default;
 `;
@@ -104,13 +106,6 @@ const ImageForm = styled.div`
   flex-direction: column;
 `;
 
-const FormWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-`;
-
 const FormItem = styled.div`
   display: flex;
   align-items: flex-start;
@@ -120,10 +115,10 @@ const FormItem = styled.div`
 `;
 
 const StyledForm = styled.form`
-  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch;
+  flex: 1;
   justify-content: center;
 `;
 
@@ -180,6 +175,19 @@ const BoxMessage = styled.div`
   padding: 7px;
 `;
 
+const PostButtonWrapper = styled.div`
+  display: flex;
+  align-items: flex-end;
+  justify-content: stretch;
+  flex: 1;
+  padding-bottom: 24px;
+`;
+
+const StyledButton = styled(Button)`
+  height: 32px;
+  width: 100%;
+`;
+
 export default function ({ onRequestClose, isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
   const [tags, setTags] = useState([]);
@@ -215,6 +223,7 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
 
   return (
     <Modal
+      onRequestClose={onRequestClose}
       style={{
         overlay: {
           zIndex: 100,
@@ -297,97 +306,106 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
               color={"black"}
             />
           </CloseWrapper>
-          <FormWrapper>
-            <Form
-              onSubmit={handleSubmit}
-              render={({ handleSubmit }) => (
-                <StyledForm>
-                  <FormItem>
-                    <FormTitle>
-                      Add Title
-                      <span
-                        style={{
-                          fontSize: 11,
-                          fontWeight: "bold",
-                          color: theme.color.gray1,
-                        }}
-                      >
-                        {" "}
-                        (optional)
-                      </span>
-                    </FormTitle>
-                    <SubTitle>This will show up on discovery screens</SubTitle>
-                  </FormItem>
-                  <Field name='title' component={StyledBigInput} />
-                  <ProfileContainer>
-                    <ProfileIcon size={56} />
-                    <Field
-                      name='about'
-                      component={AboutBigInput}
-                      placeholder={"Tell everyone what this photo is about..."}
+          <Form
+            onSubmit={handleSubmit}
+            render={({ handleSubmit }) => (
+              <StyledForm>
+                <FormItem>
+                  <FormTitle>
+                    Add Title
+                    <span
+                      style={{
+                        fontSize: 11,
+                        fontWeight: "bold",
+                        color: theme.color.gray1,
+                      }}
+                    >
+                      {" "}
+                      (optional)
+                    </span>
+                  </FormTitle>
+                  <SubTitle>This will show up on discovery screens</SubTitle>
+                </FormItem>
+                <Field name='title' component={StyledBigInput} />
+                <ProfileContainer>
+                  <ProfileIcon size={56} />
+                  <Field
+                    name='about'
+                    component={AboutBigInput}
+                    placeholder={"Tell everyone what this photo is about..."}
+                  />
+                </ProfileContainer>
+                <TagsButtonWrapper>
+                  {[
+                    { label: "Tag Products", type: "product" },
+                    { label: "Tag Users", type: "user" },
+                    { label: "Tag your post", type: "post" },
+                  ].map((_buttonData) => (
+                    <Button
+                      label={_buttonData.label}
+                      onClick={() =>
+                        setTagType(
+                          tagType !== _buttonData.type ? _buttonData.type : null
+                        )
+                      }
+                      style={{ marginRight: 6, width: 122, height: 32 }}
+                      active={tagType === _buttonData.type}
+                      borderColor={theme.color.creme}
+                      textSize={12}
                     />
-                  </ProfileContainer>
-                  <TagsButtonWrapper>
-                    {[
-                      { label: "Tag Products", type: "product" },
-                      { label: "Tag Users", type: "user" },
-                      { label: "Tag your post", type: "post" },
-                    ].map((_buttonData) => (
-                      <Button
-                        label={_buttonData.label}
-                        onClick={() =>
-                          setTagType(
-                            tagType !== _buttonData.type
-                              ? _buttonData.type
-                              : null
-                          )
-                        }
-                        style={{ marginRight: 6 }}
-                        width={112}
-                        height={32}
-                        active={tagType === _buttonData.type}
-                        borderColor={theme.color.creme}
-                        textSize={12}
-                      />
-                    ))}
-                  </TagsButtonWrapper>
-                  {tagType === "product" && (
-                    <BoxMessage>
-                      Click anywhere on the image where you want your tag to
-                      appear. Users will be able to checkout or launch team
-                      deals with one click.
-                    </BoxMessage>
-                  )}
+                  ))}
+                </TagsButtonWrapper>
+                {tagType === "product" && (
+                  <BoxMessage>
+                    Click anywhere on the image where you want your tag to
+                    appear. Users will be able to checkout or launch team deals
+                    with one click.
+                  </BoxMessage>
+                )}
 
-                  {tagType === "user" && (
-                    <div style={{ width: "100%", marginTop: 6 }}>
-                      <Field
-                        name='tagUsers'
-                        isMulti
-                        placeholder={
-                          "Start typing in usernames to tag users..."
-                        }
-                        component={Dropdown2}
-                      />
-                    </div>
-                  )}
+                {tagType === "user" && (
+                  <div style={{ width: "100%", marginTop: 6 }}>
+                    <Field
+                      name='tagUsers'
+                      isMulti
+                      placeholder={"Start typing in usernames to tag users..."}
+                      component={Dropdown2}
+                    />
+                  </div>
+                )}
 
-                  {tagType === "post" && (
-                    <div style={{ width: "100%", marginTop: 6 }}>
-                      <Field
-                        name='tagUsers'
-                        isMulti
-                        placeholder={
-                          "Start typing in posts titles to tag posts..."
-                        }
-                        component={Dropdown2}
-                      />
-                    </div>
-                  )}
-                </StyledForm>
-              )}
-            />
-          </FormWrapper>
+                {tagType === "post" && (
+                  <div style={{ width: "100%", marginTop: 6 }}>
+                    <Field
+                      name='tagUsers'
+                      isMulti
+                      placeholder={
+                        "Start typing in posts titles to tag posts..."
+                      }
+                      component={Dropdown2}
+                    />
+                  </div>
+                )}
+
+                <div style={{ width: "100%", marginTop: 24 }}>
+                  <FormTitle>Save to one of your boxes</FormTitle>
+                  <Field
+                    name='saveToBoxes'
+                    placeholder={"Select a box to save your post in..."}
+                    component={Dropdown2}
+                  />
+                </div>
+                <PostButtonWrapper>
+                  <StyledButton
+                    borderColor={"transparent"}
+                    buttonColor={[theme.color.green1, theme.color.background]}
+                    textColor={[theme.color.green1, theme.color.background]}
+                    label={"Post"}
+                  />
+                </PostButtonWrapper>
+              </StyledForm>
+            )}
+          />
         </ImageForm>
       </MainWrapper>
     </Modal>

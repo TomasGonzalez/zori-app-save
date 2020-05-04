@@ -185,8 +185,10 @@ function Login() {
                   <Button
                     onClick={() => history.push("/signin")}
                     label={"Sign up"}
+                    style={{ width: 296, height: 48 }}
                   />
                   <Button
+                    style={{ width: 296, height: 48 }}
                     onClick={handleSubmit}
                     buttonStyle='dark'
                     label={"Log in"}

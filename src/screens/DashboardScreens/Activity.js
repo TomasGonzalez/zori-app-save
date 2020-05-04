@@ -138,11 +138,10 @@ export default function Activity({ data, error, vendorTutorial }) {
               </div>
               <div style={{ display: "flex", alignItems: "center" }}>
                 <Button
-                  width={176}
+                  style={{ width: 176, height: 34 }}
                   buttonColor={[theme.color.green2, theme.color.background]}
                   textColor={[theme.color.black1, theme.color.background]}
                   borderColor={"transparent"}
-                  height={34}
                   label={"Get Started"}
                 />
               </div>
@@ -164,8 +163,7 @@ export default function Activity({ data, error, vendorTutorial }) {
             <Button
               label={"Read"}
               buttonColor={[theme.color.lightDanger2, theme.color.background]}
-              height={25}
-              width={112}
+              style={{ width: 112, height: 25 }}
               borderColor={"transparent"}
               textColor={[theme.color.black1, theme.color.black1]}
             />

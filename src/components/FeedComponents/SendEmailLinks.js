@@ -164,11 +164,9 @@ export default function ({ setPanelSetting, setPanelOpen }) {
                 when inviting your fellow brands.
               </SubTitle>
               <Button
-                style={{ marginTop: 8 }}
+                style={{ width: 392, height: 32, marginTop: 8 }}
                 label='Send'
                 buttonStyle={"dark"}
-                width={392}
-                height={32}
                 isLoading={buttonLoading}
                 onClick={handleSubmit}
               />

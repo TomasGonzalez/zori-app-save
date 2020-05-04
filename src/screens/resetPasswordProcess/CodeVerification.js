@@ -73,7 +73,7 @@ function VerificationCode({ nextStep, email, setSecurityQuestions }) {
         buttonStyle='dark'
         size='small'
         label='Verify'
-        style={{ marginTop: 64, marginBottom: 50 }}
+        style={{ marginTop: 64, marginBottom: 50, height: 48, width: 184 }}
         onClick={() => {
           if (code && code.toString().length > 5) {
             verifyPasswordResetcode({

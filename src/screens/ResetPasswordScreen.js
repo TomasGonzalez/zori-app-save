@@ -87,7 +87,6 @@ export default function ResertPasswordScreen() {
   const history = useHistory();
 
   const handleSubmit = (values) => {
-    console.log("test");
     resetPassword({ variables: { ...values } }).then(({ data }) => {
       if (data.resetPassword.okay) {
         history.push("/");
@@ -165,6 +164,7 @@ export default function ResertPasswordScreen() {
           }}
           label='change password'
           size='small'
+          style={{ width: 184, height: 48 }}
           buttonStyle='dark'
         />
       </Footer>

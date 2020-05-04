@@ -40,8 +40,7 @@ export default function GuidedButton(props) {
       <Label>{props.label}</Label>
       <Button
         label={props.buttonLabel}
-        width={112}
-        height={34}
+        style={{ width: 112, height: 34 }}
         buttonColor={[theme.color.green1, theme.color.background]}
         onClick={props.onClick}
         textColor={[theme.color.black1, theme.color.background]}

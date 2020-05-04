@@ -113,8 +113,7 @@ export default function SendResetInstructions({ nextStep, setEmail }) {
                 validate={EmailValidator}
                 onClick={handleSubmit}
                 buttonStyle='dark'
-                style={{ marginTop: 40, width: 224 }}
-                size={224}
+                style={{ marginTop: 40, height: 48, width: 224 }}
                 label={"Send Reset Instructions"}
               />
             </StyledForm>

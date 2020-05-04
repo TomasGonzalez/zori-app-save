@@ -110,7 +110,7 @@ const StyledLiElement = styled.li`
 
 export default function (props) {
   const { data, loading, error } = useQuery(GET_SELF);
-  const [uploadPhotoModal, setUploadPhotoModal] = useState(true);
+  const [uploadPhotoModal, setUploadPhotoModal] = useState(false);
   return (
     <AppLayout title={props.title}>
       <UploadPhotoModal
@@ -129,7 +129,9 @@ export default function (props) {
               <DropDownIcon
                 content={
                   <FloatingList>
-                    <StyledLiElement>Upload a photo</StyledLiElement>
+                    <StyledLiElement onClick={() => setUploadPhotoModal(true)}>
+                      Upload a photo
+                    </StyledLiElement>
                     <StyledLiElement>Create a box</StyledLiElement>
                     <StyledLiElement>Establish a brand policy</StyledLiElement>
                   </FloatingList>

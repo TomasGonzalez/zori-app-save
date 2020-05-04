@@ -149,7 +149,7 @@ export default function FillSecurityQuestions({
             submit(event);
           }}
           label='Reset Password'
-          size='small'
+          style={{ width: 184, height: 48 }}
           buttonStyle='dark'
         />
       </Footer>

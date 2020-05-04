@@ -283,6 +283,7 @@ function MainMercantSigninScreen(props) {
               }}
               buttonStyle='dark'
               size='small'
+              style={{ width: 184, height: 48 }}
               label='Next'
               isLoading={isLoading}
             />
@@ -307,7 +308,7 @@ const QUERY = gql`
       id
       question
     }
-    sustainableOptions {
+    sustainablePrinciples {
       label
       id
     }

@@ -63,8 +63,9 @@ export default function SigninUserSelectionScreen(props) {
               <Button
                 onClick={() => props.onSigningProcessSeleected(1)}
                 label='AS A VENDOR'
+                style={{ width: 296, height: 48 }}
               />
-              <Button label='AS A BUYER' />
+              <Button label='AS A BUYER' style={{ width: 296, height: 48 }} />
             </ButtonWrapper>
           </ButtonWrapper>
         </MainFormContainer>

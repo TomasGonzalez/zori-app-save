@@ -89,9 +89,8 @@ function VerificationCode({
       )}
       <Button
         buttonStyle='dark'
-        size='small'
         label='Verify'
-        style={{ marginTop: 64, marginBottom: 50 }}
+        style={{ marginTop: 64, marginBottom: 50, heigth: 48, width: 184 }}
         onClick={() => {
           if (code && code.toString().length > 5) {
             verifyCode({ variables: { code: code } })
@@ -123,9 +122,8 @@ function VerificationCode({
       </SubTitle>
       <Button
         buttonStyle='dark'
-        size='small'
         label='Verify'
-        style={{ marginTop: 64 }}
+        style={{ marginTop: 64, heigth: 48, width: 184 }}
         onClick={onFinishVerification}
       />
     </ContentWrapper>

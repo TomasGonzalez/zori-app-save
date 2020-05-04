@@ -109,7 +109,7 @@ export default function TellUsMore2({
                   />
                   <Field
                     name='howAreSustainable'
-                    options={data.sustainableOptions.map((val) => ({
+                    options={data.sustainablePrinciples.map((val) => ({
                       value: val.id,
                       label: val.label,
                     }))}

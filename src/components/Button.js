@@ -9,7 +9,7 @@ import Hoverable from "components/Hoverable";
 const AnimatedBackground = styled.div`
   background-color: transparent;
   position: absolute;
-  width: 30px;
+  width: 0px;
   height: 0px;
   border-radius: 600px;
   border: solid 1px rgba(0, 0, 0, 0);
@@ -35,11 +35,10 @@ const ButtonText = styled.div`
 
 const AnimatedBackgroundIsActive = css`
   ${AnimatedBackground} {
-    width: ${(props) =>
-      props.size === "small" ? 184 : props.size || props.width || 296}px;
+    width: 100%;
     border-radius: 6px;
     background-color: ${(props) => props.buttonColor?.[1]};
-    height: ${(props) => props.height || 48}px;
+    height: 100%;
     border: solid 1px
       ${(props) =>
         props.borderColor ? props.borderColor : props.theme.color.gray1};
@@ -48,7 +47,8 @@ const AnimatedBackgroundIsActive = css`
 
 const StyledButton = styled.div`
   position: relative;
-  height: ${(props) => props.height || 48}px;
+  height: 48px;
+
   width: ${(props) =>
     props.size === "small" ? 184 : props.size || props.width || 296}px;
   border-radius: 6px;
@@ -94,34 +94,27 @@ const Button = ({ textSize = 12, ...props }) => {
       : [theme.color.gray1, theme.color.background]);
 
   return (
-    <Hoverable>
-      {(hover) => (
-        <StyledButton
-          {...props}
-          onClick={!props.isLoading && props.onClick}
-          buttonColor={
-            props.buttonColor ||
-            (props.buttonStyle !== "dark"
-              ? [theme.color.background, theme.color.black1]
-              : [theme.color.black1, theme.color.background])
-          }
-          textColor={textColor}
-        >
-          <AnimatedBackground />
-          {props.isLoading ? (
-            <BeatLoader
-              size={8}
-              style={{ position: "absolute" }}
-              color={textColor[hover ? 1 : 0]}
-            />
-          ) : (
-            <ButtonText textColor={textColor} textSize={textSize}>
-              {props.label}
-            </ButtonText>
-          )}
-        </StyledButton>
+    <StyledButton
+      {...props}
+      onClick={!props.isLoading && props.onClick}
+      buttonColor={
+        props.buttonColor ||
+        (props.buttonStyle !== "dark"
+          ? [theme.color.background, theme.color.black1]
+          : [theme.color.black1, theme.color.background])
+      }
+      className={props.className}
+      textColor={textColor}
+    >
+      <AnimatedBackground />
+      {props.isLoading ? (
+        <BeatLoader size={8} style={{ position: "absolute" }} />
+      ) : (
+        <ButtonText textColor={textColor} textSize={textSize}>
+          {props.label}
+        </ButtonText>
       )}
-    </Hoverable>
+    </StyledButton>
   );
 };
 

@@ -56,6 +56,7 @@ function SecurityQuestions({
     const FilteredOptions = data.securityQuestions.filter(
       (val) => !selectedQuestions.includes(val.id)
     );
+
     return FilteredOptions.map((val) => ({
       label: val.question,
       value: val.id,

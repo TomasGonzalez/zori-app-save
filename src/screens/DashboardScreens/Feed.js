@@ -120,8 +120,7 @@ export default function () {
           buttonComponent={
             <Button
               label={"Invite"}
-              width={72}
-              height={24}
+              style={{ width: 72, height: 24 }}
               onClick={() => {
                 setLinkCopied(false);
                 setPanelSetting(0);
