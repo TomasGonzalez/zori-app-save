@@ -6,6 +6,63 @@ import styled from "styled-components";
 import theme from "theme";
 import BaseInput from "components/BaseInput";
 
+const Dropdown2Style = {
+  control: (provided, state) => {
+    return {
+      // none of react-select's styles are passed to <Control />
+      ...provided,
+      width: "100%",
+      borderWidth: 1,
+      boxShadow: "none",
+      borderStyle: "solid",
+
+      ":hover": {
+        borderColor: theme.color.creme,
+      },
+
+      borderColor: theme.color.creme,
+    };
+  },
+
+  placeholder: (provided, state) => {
+    return {
+      ...provided,
+      color: theme.color.gray1,
+      fontSize: 12,
+    };
+  },
+  multiValue: (styles, { data }) => {
+    return {
+      ...styles,
+      backgroundColor: theme.color.green3,
+    };
+  },
+  indicatorSeparator: (provided) => {
+    return {
+      ...provided,
+      display: "none",
+    };
+  },
+  multiValueLabel: (styles, { data }) => ({
+    ...styles,
+    color: data.color,
+  }),
+  dropdownIndicator: (provided, state) => {
+    return {
+      ...provided,
+      display: "none",
+    };
+  },
+  multiValueRemove: (styles, { data }) => ({
+    ...styles,
+    color: data.color,
+    ":hover": {
+      backgroundColor: data.color,
+      color: "white",
+    },
+  }),
+};
+
 const customStyles = {
   option: (provided, { data, isDisabled, isFocused, isSelected }) => {
     return {
@@ -140,6 +197,19 @@ export default function Dropdown({ options, ...props }) {
         components={{ DropdownIndicator }}
       />
     </BaseInput>
+  );
+}
+
+export function Dropdown2({ options, ...props }) {
+  return (
+    <Select
+      {...props.input}
+      isMulti={props.isMulti}
+      placeholder={props.placeholder}
+      styles={Dropdown2Style}
+      options={options}
+      components={{ DropdownIndicator }}
+    />
   );
 }
 

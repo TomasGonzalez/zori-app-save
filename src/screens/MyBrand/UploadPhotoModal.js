@@ -12,6 +12,7 @@ import ProfileIcon from "components/ProfileIcon";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
 import Icon from "components/Icon";
+import { Dropdown2 } from "components/Dropdown";
 import CreatableSelect from "components/CreatableSelect";
 
 const ImageDrop = styled.div`
@@ -166,6 +167,17 @@ const FloatingTagDescriptionWrapper = styled.div`
   margin-top: 24px;
   padding: 8px;
   border-radius: 3px;
+`;
+
+const BoxMessage = styled.div`
+  width: 100%;
+  background-color: #e2e2e2;
+  font-size: 12px;
+  line-height: 1.5;
+  border-radius: 5px;
+  box-sizing: border-box;
+  margin-top: 6px;
+  padding: 7px;
 `;
 
 export default function ({ isOpen, style, ...restProps }) {
@@ -338,9 +350,39 @@ export default function ({ isOpen, style, ...restProps }) {
                       />
                     ))}
                   </TagsButtonWrapper>
-                  {/* <FormItem>
-                    <Field name='save-to-boxes' component={BigInput} />
-                  </FormItem> */}
+                  {tagType === "product" && (
+                    <BoxMessage>
+                      Click anywhere on the image where you want your tag to
+                      appear. Users will be able to checkout or launch team
+                      deals with one click.
+                    </BoxMessage>
+                  )}
+
+                  {tagType === "user" && (
+                    <div style={{ width: "100%", marginTop: 6 }}>
+                      <Field
+                        name='tagUsers'
+                        isMulti
+                        placeholder={
+                          "Start typing in usernames to tag users..."
+                        }
+                        component={Dropdown2}
+                      />
+                    </div>
+                  )}
+
+                  {tagType === "post" && (
+                    <div style={{ width: "100%", marginTop: 6 }}>
+                      <Field
+                        name='tagUsers'
+                        isMulti
+                        placeholder={
+                          "Start typing in posts titles to tag posts..."
+                        }
+                        component={Dropdown2}
+                      />
+                    </div>
+                  )}
                 </StyledForm>
               )}
             />
