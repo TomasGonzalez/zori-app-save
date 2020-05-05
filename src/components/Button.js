@@ -4,8 +4,6 @@ import styled, { withTheme, css } from "styled-components/macro";
 import BeatLoader from "react-spinners/BeatLoader";
 import theme from "theme";
 
-import Hoverable from "components/Hoverable";
-
 const AnimatedBackground = styled.div`
   background-color: transparent;
   position: absolute;
