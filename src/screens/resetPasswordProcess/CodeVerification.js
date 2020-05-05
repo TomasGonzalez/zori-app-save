@@ -14,7 +14,7 @@ const StyledLock = styled.img`
 
 const Title = styled.div`
   font-size: 30px;
-  font-weight: bold;
+  font-weight: 400;
   margin-top: 56.8px;
   height: 30px;
 `;
@@ -71,7 +71,6 @@ function VerificationCode({ nextStep, email, setSecurityQuestions }) {
       )}
       <Button
         buttonStyle='dark'
-        size='small'
         label='Verify'
         style={{ marginTop: 64, marginBottom: 50, height: 48, width: 184 }}
         onClick={() => {

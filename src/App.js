@@ -8,6 +8,9 @@ import theme from "./theme";
 import { Self } from "lib/context";
 import MainRouter from "./lib/MainRouter";
 import client from "./lib/apollo";
+import Rubik from "assets/Rubik/Rubik-Medium.ttf";
+import RubikBold from "assets/Rubik/Rubik-Bold.ttf";
+import RubikSoft from "assets/Rubik/Rubik-Light.ttf";
 
 export const AppRoot = createGlobalStyle`
 
@@ -19,6 +22,25 @@ export const AppRoot = createGlobalStyle`
     -webkit-appearance:none;
   }
 
+  @font-face {
+    font-family: Rubik;
+    font-style: normal;
+    font-weight: 400;
+    src: url(${Rubik});
+  }
+
+
+  @font-face{
+    font-family: Rubik;
+    src url(${RubikSoft});
+    font-weight: 300;
+  }
+
+  @font-face{
+    font-family: Rubik;
+    src url(${RubikBold});
+    font-weight: 500;;
+  }
 `;
 
 const GET_SELF = gql`

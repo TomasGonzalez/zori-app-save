@@ -25,7 +25,7 @@ const TextBox = styled.div`
 
 const Title = styled.div`
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
 `;
 
 const SubTitle = styled.div`
@@ -38,7 +38,7 @@ const InviteWrapper = styled.div`
   align-items: flex-end;
   justify-content: space-between;
   padding-right: 20px;
-  widt: 100%;
+  width: 100%;
 `;
 
 const TitleWrapper = styled.div`
@@ -98,9 +98,7 @@ export default function () {
 
   return (
     <MainWrapper>
-      <TextBox
-        style={{ marginTop: 24, fontWeight: 600, fontSize: 14, lineHeight: 2 }}
-      >
+      <TextBox style={{ marginTop: 24, fontSize: 14, lineHeight: 2 }}>
         Follow other users, brands and active comunities on <br /> ZORI that
         interest you to keep up with their updates
       </TextBox>

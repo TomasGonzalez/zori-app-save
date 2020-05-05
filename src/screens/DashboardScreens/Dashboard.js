@@ -12,7 +12,7 @@ import Feed from "screens/DashboardScreens/Feed";
 import TabNavigator from "components/TabNavigator";
 
 const MainContainer = styled.div`
-  font-weight: 600px;
+  font-weight: 400;px;
   height: 100%;
   display: flex;
   flex-direction: column;

@@ -52,7 +52,7 @@ const ProfileInfo = styled.div`
 
 const StyledName = styled.div`
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const StyledText = styled.div`
@@ -98,7 +98,7 @@ const StyledLiElement = styled.li`
   padding: 0px;
   margin-bottom: 16px;
   cursor: pointer;
-  font-weight: bold;
+  font-weight: 400;
   font-size: 12px;
   &:hover {
     background-color: ${(props) => props.theme.color.lightGray};

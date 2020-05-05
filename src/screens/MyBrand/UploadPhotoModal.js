@@ -57,7 +57,7 @@ const Title = styled.div`
 `;
 const FormTitle = styled.div`
   font-size: 13px;
-  font-weight: bold;
+  font-weight: 400;
 `;
 
 const StyledBigInput = styled(BigInput)`
@@ -312,7 +312,7 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
               <StyledForm>
                 <FormItem>
                   <FormTitle>
-                    Add Title
+                    Add a title
                     <span
                       style={{
                         fontSize: 11,

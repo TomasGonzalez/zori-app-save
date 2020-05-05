@@ -64,7 +64,7 @@ const CheckboxWrapper = styled.div`
 const TempLink = styled.div`
   height: 17px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 400;
   cursor: pointer;
   color: ${(props) => props.theme.color.green1};
 `;

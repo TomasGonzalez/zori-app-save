@@ -43,7 +43,7 @@ const Logo = styled.img`
 
 const HeaderTitle = styled.div`
   font-size: 18px;
-  font-weight: 600;
+  font-weight: 400;
   color: ${(props) => props.theme.color.black};
   padding-left: 8px;
 `;
@@ -58,7 +58,7 @@ const ProfileContainer = styled.div`
 
 const ProfileName = styled.div`
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 400;
   margin-top: 8px;
 `;
 
@@ -90,14 +90,14 @@ const StatsContainer = styled.div`
 `;
 
 const StatsNumber = styled.div`
-  font-weight: 600;
+  font-weight: 400;
   font-size: 14px;
 `;
 
 const StatsLabel = styled.div`
   margin-top: 4px;
   font-size: 8px;
-  font-weight: 600;
+  font-weight: 400;
   color: ${(props) => props.theme.color.gray1};
 `;
 
@@ -143,7 +143,7 @@ const LinkItemWrapper = styled.div`
 const LinkLabel = styled.div`
   margin-left: 8px;
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 400;
 `;
 
 const RoutesLinks = [
