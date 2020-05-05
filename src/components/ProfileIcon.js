@@ -20,7 +20,7 @@ const MainContainer = styled.div`
 
 const NameLetter = styled.div`
   font-size: ${(props) => (props.size === "small" ? 12 : 30)}px;
-  font-weight: 400;
+  font-weight: 500;
   color: ${(props) => props.theme.color.background};
   position: absolute;
 `;

@@ -30,7 +30,7 @@ const ContentWrapper = styled.div`
 
 const Title = styled.div`
   font-size: 30px;
-  font-weight: 400;
+  font-weight: 500;
   margin-top: 56.8px;
   height: 30px;
 `;

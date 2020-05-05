@@ -11,7 +11,7 @@ const Title = styled.div`
   align-self: flex-start;
   margin-top: 32px;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: 500;
   margin-bottom: 24px;
 `;
 

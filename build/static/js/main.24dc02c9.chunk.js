@@ -200,7 +200,7 @@
         });
       function W() {
         var e = Object(i.a)([
-          "\n  font-size: 14px;\n  font-weight: 400;;\n  color: ",
+          "\n  font-size: 14px;\n  font-weight: 500;;\n  color: ",
           ";\n",
         ]);
         return (
@@ -286,7 +286,7 @@
       }
       function K() {
         var e = Object(i.a)([
-          "\n  width: 204px;\n  height: 17px;\n  font-size: 14px;\n  font-weight: 400;;\n  cursor: pointer;\n  color: ",
+          "\n  width: 204px;\n  height: 17px;\n  font-size: 14px;\n  font-weight: 500;;\n  cursor: pointer;\n  color: ",
           ";\n",
         ]);
         return (
@@ -317,7 +317,7 @@
         );
       }
       function V() {
-        var e = Object(i.a)(["\n  font-size: 30px;\n  font-weight: 400;;\n"]);
+        var e = Object(i.a)(["\n  font-size: 30px;\n  font-weight: 500;;\n"]);
         return (
           (V = function () {
             return e;

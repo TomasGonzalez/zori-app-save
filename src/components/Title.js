@@ -13,7 +13,7 @@ const TitleUnderline = styled.div`
 
 const Title = styled.div`
   font-size: ${(props) => props.fontSize || 30}px;
-  font-weight: 400;
+  font-weight: 500;
 `;
 const ErrorMessage = styled.div`
   color: ${(props) => props.theme.color.danger};

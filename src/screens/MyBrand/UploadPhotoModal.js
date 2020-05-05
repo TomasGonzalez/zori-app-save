@@ -57,7 +57,7 @@ const Title = styled.div`
 `;
 const FormTitle = styled.div`
   font-size: 13px;
-  font-weight: 400;
+  font-weight: 500;
 `;
 
 const StyledBigInput = styled(BigInput)`

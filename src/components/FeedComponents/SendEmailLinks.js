@@ -22,7 +22,7 @@ const EmailWrapper = styled.div`
 const StyledPanelTitle = styled(PanelTitle)`
   .title {
     font-size: 14px;
-    font-weight: 400;
+    font-weight: 500;
   }
 `;
 

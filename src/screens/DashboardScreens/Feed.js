@@ -25,7 +25,7 @@ const TextBox = styled.div`
 
 const Title = styled.div`
   font-size: 14px;
-  font-weight: 400;
+  font-weight: 500;
 `;
 
 const SubTitle = styled.div`

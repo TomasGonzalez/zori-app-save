@@ -28,7 +28,7 @@ const HeaderWrapper = styled.div`
 
 const CurrentPageName = styled.div`
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   color: ${(props) => props.theme.color.black};
 `;
 

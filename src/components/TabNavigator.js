@@ -39,7 +39,7 @@ const NavigatorTabs = styled.div`
   border-color: ${(props) => props.theme.color.black1};
   margin: 0px 8px;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   cursor: pointer;
   border-style: ${(props) => (props.isActive ? "solid" : "none")};
 

@@ -39,7 +39,7 @@ const OopsFace = styled.img`
 const Title = styled.div`
   margin-top: 120.2px;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 500;
   color: ${(props) => props.theme.color.black};
 `;
 

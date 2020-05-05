@@ -30,7 +30,7 @@ const TitleWrapper = styled.div`
 
 const Title = styled.div`
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 500;
   white-space: nowrap;
   margin-right: 8px;
 `;
