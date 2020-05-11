@@ -25,6 +25,7 @@ const MainContainer = styled.div`
 const ImageContainer = styled.img`
   height: 100vh;
   image-rendering: crisp-edges;
+
   @media (max-width: 1350px) {
     display: none;
   }
@@ -74,6 +75,9 @@ const ButtonsWrappers = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
+  height: 0px;
+  transition: height 0.5s;
+
   @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
     flex-direction: column;
     align-items: center;
@@ -82,11 +86,14 @@ const ButtonsWrappers = styled.div`
 `;
 
 const FormWrapper = styled.div`
-  max-width: 616px;
+  width: 616px;
   display: flex;
   flex-direction: column;
+  transition: width 0.5s;
+  will-change: width;
+
   @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
-    max-width: 298px;
+    width: 298px;
   }
 `;
 
