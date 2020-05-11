@@ -7,7 +7,6 @@ const PanelContainer = styled.div`
   border-radius: 7px;
   box-shadow: 0 0 15px 0 ${(props) => props.theme.color.gray3};
   background-color: ${(props) => props.theme.color.background};
-  transition: height 10s, width 10s;
 `;
 
 const MainWrapper = styled.div``;
@@ -60,26 +59,33 @@ export default function (props) {
     showScreen,
     contentSide,
     notBackground,
+    popperStyle,
   } = props;
 
   const [referenceElement, setReferenceElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
+  const [updating, setUpdating] = useState(false);
+
   const { styles, attributes, update } = usePopper(
     referenceElement,
     popperElement,
     {
-      placement: contentSide || "bottom-end",
+      placement: contentSide || "left-start",
+      modifiers: [
+        {
+          name: "eventListeners",
+          options: {
+            scroll: true,
+            resize: true,
+          },
+        },
+      ],
     }
   );
 
   useEffect(() => {
-    let promise;
-    try {
-      promise = update();
-    } catch (err) {
-      console.log(err);
-    }
-  }, [showScreen]);
+    update && update();
+  }, [showScreen, visible]);
 
   return (
     <>
@@ -95,11 +101,11 @@ export default function (props) {
         {visible && (
           <PanelContainer
             ref={setPopperElement}
-            style={styles.popper}
+            style={{ ...styles.popper, ...popperStyle }}
             {...attributes.popper}
             ClassName='PanelContainer'
           >
-            {ModalContent[showScreen]}
+            {ModalContent}
           </PanelContainer>
         )}
       </MainWrapper>

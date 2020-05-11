@@ -59,7 +59,7 @@ export default function DropDownIcon({ icon, content }) {
       notBackground
       visible={isPanelOpen}
       showScreen={0}
-      ModalContent={[<div ref={wrapperRef}>{content}</div>]}
+      ModalContent={<div ref={wrapperRef}>{content}</div>}
     />
   );
 }

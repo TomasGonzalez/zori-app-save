@@ -14,6 +14,14 @@ const MainWrapper = styled.div`
   height: 100%;
 `;
 
+const MainModalContainer = styled.div`
+  max-height: ${(props) => (!props.panelSetting ? 164 : 500)}px;
+  max-width: ${(props) => (!props.panelSetting ? 164 : 500)}px;
+
+  overflow: hidden;
+  transition: max-height 0.5s, max-width 0.5s;
+`;
+
 const TextBox = styled.div`
   height: 104px;
   border: solid 1px ${(props) => props.theme.color.lightGray};
@@ -111,6 +119,7 @@ export default function () {
           </SubTitle>
         </TitleWrapper>
         <ButtonPanel
+          popperStyle={{ marginTop: 30, marginRight: -70 }}
           title={"Invite users to ZORI"}
           onRequestClose={() => {
             setPanelOpen(false);
@@ -132,46 +141,53 @@ export default function () {
           }
           visible={isPanelOpen}
           showScreen={panelSetting}
-          ModalContent={[
-            <>
-              <PanelTitle
-                onRequestClose={() => {
-                  setPanelSetting(0);
-                  setPanelOpen(false);
-                }}
-                title={"Invite users to ZORI"}
-              />
-              <ShareIconsWrapper>
-                <IconTitleWrapper>
-                  <IconWrapper
-                    onClick={() => {
-                      setPanelSetting(1);
+          ModalContent={
+            <MainModalContainer panelSetting={panelSetting}>
+              {!panelSetting ? (
+                <>
+                  <PanelTitle
+                    onRequestClose={() => {
+                      setPanelSetting(0);
+                      setPanelOpen(false);
                     }}
-                  >
-                    <Icon color='black' icon={"mail"} />
-                  </IconWrapper>
-                  <div style={{ marginTop: 4 }}>Email</div>
-                </IconTitleWrapper>
-                <IconTitleWrapper>
-                  <IconWrapper
-                    onClick={() => {
-                      setLinkCopied(true);
-                      navigator.clipboard.writeText(data.me.invitation.link);
-                    }}
-                  >
-                    <Icon color='black' icon={"link"} />
-                  </IconWrapper>
-                  <div style={{ marginTop: 4 }}>
-                    {isLinkCopied ? "Link Copied!" : "Copy Link"}
-                  </div>
-                </IconTitleWrapper>
-              </ShareIconsWrapper>
-            </>,
-            <SendEmailLinks
-              setPanelSetting={setPanelSetting}
-              setPanelOpen={setPanelOpen}
-            />,
-          ]}
+                    title={"Invite users to ZORI"}
+                  />
+                  <ShareIconsWrapper>
+                    <IconTitleWrapper>
+                      <IconWrapper
+                        onClick={() => {
+                          setPanelSetting(1);
+                        }}
+                      >
+                        <Icon color='black' icon={"mail"} />
+                      </IconWrapper>
+                      <div style={{ marginTop: 4 }}>Email</div>
+                    </IconTitleWrapper>
+                    <IconTitleWrapper>
+                      <IconWrapper
+                        onClick={() => {
+                          setLinkCopied(true);
+                          navigator.clipboard.writeText(
+                            data.me.invitation.link
+                          );
+                        }}
+                      >
+                        <Icon color='black' icon={"link"} />
+                      </IconWrapper>
+                      <div style={{ marginTop: 4 }}>
+                        {isLinkCopied ? "Link Copied!" : "Copy Link"}
+                      </div>
+                    </IconTitleWrapper>
+                  </ShareIconsWrapper>
+                </>
+              ) : (
+                <SendEmailLinks
+                  setPanelSetting={setPanelSetting}
+                  setPanelOpen={setPanelOpen}
+                />
+              )}
+            </MainModalContainer>
+          }
         />
       </InviteWrapper>
     </MainWrapper>
