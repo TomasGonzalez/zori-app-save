@@ -8,7 +8,7 @@ function Loading() {
 }
 export default Loading;
 
-export const ScreenLoader = () => {
+export const ScreenLoader = props => {
   return (
     <div
       style={{
@@ -16,8 +16,9 @@ export const ScreenLoader = () => {
         height: "100vw",
         display: "flex",
         justifyContent: "center",
-        alignItems: "center",
+        alignItems: "center"
       }}
+      {...props}
     >
       <BounceLoader size={60} color={theme.color.green1} />
     </div>

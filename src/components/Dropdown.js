@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import Select, { components } from "react-select";
+import AsyncSelect from "react-select/async";
 import styled from "styled-components";
 
 import theme from "theme";
@@ -17,10 +18,10 @@ const Dropdown2Style = {
       borderStyle: "solid",
 
       ":hover": {
-        borderColor: theme.color.creme,
+        borderColor: theme.color.creme
       },
 
-      borderColor: theme.color.creme,
+      borderColor: theme.color.creme
     };
   },
 
@@ -28,29 +29,29 @@ const Dropdown2Style = {
     return {
       ...provided,
       color: theme.color.gray1,
-      fontSize: 12,
+      fontSize: 12
     };
   },
   multiValue: (styles, { data }) => {
     return {
       ...styles,
-      backgroundColor: theme.color.green3,
+      backgroundColor: theme.color.green3
     };
   },
-  indicatorSeparator: (provided) => {
+  indicatorSeparator: provided => {
     return {
       ...provided,
-      display: "none",
+      display: "none"
     };
   },
   multiValueLabel: (styles, { data }) => ({
     ...styles,
-    color: data.color,
+    color: data.color
   }),
   dropdownIndicator: (provided, state) => {
     return {
       ...provided,
-      display: "none",
+      display: "none"
     };
   },
   multiValueRemove: (styles, { data }) => ({
@@ -58,9 +59,9 @@ const Dropdown2Style = {
     color: data.color,
     ":hover": {
       backgroundColor: data.color,
-      color: "white",
-    },
-  }),
+      color: "white"
+    }
+  })
 };
 
 const customStyles = {
@@ -68,7 +69,7 @@ const customStyles = {
     return {
       ...provided,
       ":active": {
-        backgroundColor: theme.color.green2,
+        backgroundColor: theme.color.green2
       },
       backgroundColor: isDisabled
         ? null
@@ -79,7 +80,7 @@ const customStyles = {
         : null,
       color: theme.color.black,
       position: "relative",
-      height: "100%",
+      height: "100%"
     };
   },
   singleValue: (provided, state) => {
@@ -87,7 +88,7 @@ const customStyles = {
       ...provided,
       top: null,
       bottom: -5,
-      fontSize: 14,
+      fontSize: 14
     };
   },
   control: (provided, state) => {
@@ -101,36 +102,36 @@ const customStyles = {
       borderStyle: "solid",
 
       ":hover": {
-        borderColor: theme.color.underlineColor,
+        borderColor: theme.color.underlineColor
       },
       borderBottom: `1px solid ${
         state.hasValue ? theme.color.underlineColor : theme.color.danger
       }`,
-      minHeight: null,
+      minHeight: null
     };
   },
-  container: (provided) => {
+  container: provided => {
     return {
       ...provided,
       display: "flex",
       height: 33,
       alignItems: "center",
-      justifyContent: "center",
+      justifyContent: "center"
     };
   },
-  valueContainer: (provided) => {
+  valueContainer: provided => {
     return {
       ...provided,
       alignItems: "flex-start",
       padding: 0,
       height: 19,
-      position: null,
+      position: null
     };
   },
-  indicatorSeparator: (provided) => {
+  indicatorSeparator: provided => {
     return {
       ...provided,
-      display: "none",
+      display: "none"
     };
   },
   placeholder: (provided, state) => {
@@ -141,7 +142,7 @@ const customStyles = {
       marginRight: 0,
       bottom: 7,
       fontSize: 14,
-      height: 20,
+      height: 20
     };
   },
   dropdownIndicator: (provided, state) => {
@@ -149,16 +150,16 @@ const customStyles = {
       ...provided,
       padding: "0px",
       paddingBottom: 3,
-      alignItems: "flex-end",
+      alignItems: "flex-end"
     };
   },
   indicatorsContainer: (provided, state) => {
     return {
       ...provided,
       padding: "0px",
-      alignItems: "flex-end",
+      alignItems: "flex-end"
     };
-  },
+  }
 };
 
 const groupBadgeStyles = {
@@ -170,14 +171,14 @@ const groupBadgeStyles = {
   fontWeight: "normal",
   lineHeight: "1",
   minWidth: 1,
-  textAlign: "center",
+  textAlign: "center"
 };
 
-const DropdownIndicator = (props) => {
+const DropdownIndicator = props => {
   return (
     <components.DropdownIndicator {...props}>
       <img
-        alt='close'
+        alt="close"
         style={{ width: 16, height: 16 }}
         src={require("assets/close.png")}
       />
@@ -197,6 +198,22 @@ export default function Dropdown({ options, ...props }) {
         components={{ DropdownIndicator }}
       />
     </BaseInput>
+  );
+}
+
+export function DropdownAsync({ options, ...props }) {
+  return (
+    <AsyncSelect
+      {...props.input}
+      styles={Dropdown2Style}
+      placeholder={props.placeholder}
+      isMulti={props.isMulti}
+      options={options}
+      onChange={props.onChange}
+      components={{ DropdownIndicator }}
+      loadOptions={props.loadOptions}
+      onInputChange={props.onInputChange}
+    />
   );
 }
 

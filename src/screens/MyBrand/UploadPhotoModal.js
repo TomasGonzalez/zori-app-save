@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useCallback, useState } from "react";
 
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { Form, Field } from "react-final-form";
@@ -6,13 +6,16 @@ import Modal from "react-modal";
 import styled from "styled-components/macro";
 import _ from "lodash";
 import { useDropzone } from "react-dropzone";
+import gql from "graphql-tag";
+import { useQuery } from "@apollo/react-hooks";
+import { ScreenLoader } from "components/Loading";
 
 import Button from "components/Button";
 import ProfileIcon from "components/ProfileIcon";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
 import Icon from "components/Icon";
-import { Dropdown2 } from "components/Dropdown";
+import { Dropdown2, DropdownAsync } from "components/Dropdown";
 import CreatableSelect from "components/CreatableSelect";
 
 const ImageDrop = styled.div`
@@ -24,7 +27,7 @@ const ImageDrop = styled.div`
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  background-color: ${(props) => props.theme.color.creme};
+  background-color: ${props => props.theme.color.creme};
   border-radius: 10px;
 
   .see-more-enter {
@@ -64,7 +67,7 @@ const StyledBigInput = styled(BigInput)`
   height: 40px;
   font-size: 16px;
   margin-top: 4px;
-  border-color: ${(props) => props.theme.color.creme};
+  border-color: ${props => props.theme.color.creme};
 `;
 
 const AboutBigInput = styled(BigInput)`
@@ -73,7 +76,7 @@ const AboutBigInput = styled(BigInput)`
 `;
 
 const ProfileContainer = styled.div`
-  border: solid 1px ${(props) => props.theme.color.creme};
+  border: solid 1px ${props => props.theme.color.creme};
   width: 100%;
   border-radius: 5px;
   margin-top: 24px;
@@ -87,7 +90,7 @@ const ProfileContainer = styled.div`
 const SubTitle = styled.div`
   font-size: 12px;
   margin-top: 8px;
-  color: ${(props) => props.theme.color.gray1};
+  color: ${props => props.theme.color.gray1};
 `;
 
 const DisplayImage = styled.img`
@@ -143,8 +146,8 @@ const TagPin = styled.div`
   width: 16px;
   border-radius: 160px;
   background-color: white;
-  bottom: ${(props) => props.values.yPercent}%;
-  right: ${(props) => props.values.xPercent}%;
+  bottom: ${props => props.values.yPercent}%;
+  right: ${props => props.values.xPercent}%;
 `;
 
 const TagsButtonWrapper = styled.div`
@@ -188,21 +191,29 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-export default function ({ onRequestClose, isOpen, style, ...restProps }) {
+export default function({ onRequestClose, isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
-  const [tags, setTags] = useState([]);
+  const [productsTags, setProductsTags] = useState([]);
   const [tagType, setTagType] = useState(null);
 
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(acceptedFiles => {
     setImageFile(URL.createObjectURL(acceptedFiles[0]));
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+
+  const { data, loading, error, refetch } = useQuery(QUERY, {
+    variables: { searchUser: "", searchVendor: "" }
+  });
+
+  useEffect(() => {
+    console.log(productsTags);
+  }, [productsTags]);
 
   const handleSubmit = () => {
     console.log("test");
   };
 
-  const addProductTag = (event) => {
+  const addProductTag = event => {
     const bounds = event.target.getBoundingClientRect();
     const x = event.clientX - bounds.left;
     const y = event.clientY - bounds.top;
@@ -210,14 +221,16 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
     const imageHeight = event.target.offsetHeight;
     const imageWidth = event.target.offsetWidth;
 
-    setTags([
-      ...tags,
+    setProductsTags([
+      ...productsTags,
       {
         xPercent: ((imageWidth - (x + 10)) / imageWidth) * 100,
         yPercent: ((imageHeight - y) / imageHeight) * 100,
-        type: tagType,
-        subTags: "",
-      },
+        id: null,
+        brandName: null,
+        productsList: [],
+        subTags: []
+      }
     ]);
   };
 
@@ -228,7 +241,7 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
         overlay: {
           zIndex: 100,
           backgroundColor: "rgba(0, 0, 0, .45)",
-          ..._.get(style, "overlay", {}),
+          ..._.get(style, "overlay", {})
         },
         content: {
           top: "50%",
@@ -240,174 +253,280 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
           transform: "translate(-50%, -50%)",
           borderRadius: 10,
           padding: 16,
-          ..._.get(style, "content", {}),
-        },
+          ..._.get(style, "content", {})
+        }
       }}
       {...restProps}
       isOpen={isOpen}
     >
-      <MainWrapper>
-        <ImageDrop style={{ outline: "none" }} {...getRootProps()}>
-          {imageFile && (
-            <DisplayImage
-              onDragStart={(e) => {
-                e.preventDefault();
-              }}
-              onClick={tagType === "product" && addProductTag}
-              src={imageFile}
-              alt={"Uploaded"}
-            />
-          )}
-          <TransitionGroup>
-            {tags.map((_vals, index) => {
-              return (
-                _vals.type === "product" && (
+      {!data ? (
+        <ScreenLoader style={{ height: "100%" }} />
+      ) : (
+        <MainWrapper>
+          <ImageDrop style={{ outline: "none" }} {...getRootProps()}>
+            {imageFile && (
+              <DisplayImage
+                onDragStart={e => {
+                  e.preventDefault();
+                }}
+                onClick={tagType === "product" && addProductTag}
+                src={imageFile}
+                alt={"Uploaded"}
+              />
+            )}
+            <TransitionGroup>
+              {productsTags.map((_vals, index) => {
+                console.log(_vals.brandName, "products tags index");
+                return (
                   <TagPin values={_vals}>
                     <CSSTransition
                       in={tagType === "product"}
                       timeout={200}
-                      classNames='see-more'
+                      classNames="see-more"
                       unmountOnExit
                     >
                       <FloatingTagDescriptionWrapper key={index}>
-                        <CreatableSelect placeholder='Type products tags.' />
+                        <DropdownAsync
+                          input={{
+                            value: _vals.brandName && { label: _vals.brandName }
+                          }}
+                          loadOptions={(value, callback) => {
+                            refetch({
+                              searchVendor: value
+                            }).then(_data => {
+                              callback(
+                                _data.data?.vendorList.map(vendor => ({
+                                  label: vendor.brandname,
+                                  value: vendor.user.id,
+                                  productList: vendor.products
+                                }))
+                              );
+                            });
+                          }}
+                          onChange={value => {
+                            console.log(value);
+                            setProductsTags(
+                              productsTags.map((productTag, _index) => {
+                                return _index === index
+                                  ? {
+                                      ...productTag,
+                                      brandName: value.label,
+                                      productList: value.productList
+                                    }
+                                  : productTag;
+                              })
+                            );
+                          }}
+                          placeholder="Start typing the name of a brand"
+                        />
+                        <Dropdown2
+                          isMulti
+                          // onChange={value => {
+                          //   setProductsTag([
+                          //     ...productsTag,
+                          //     productsTag.find(
+                          //       productTag => productTag.id === index
+                          //     )
+                          //   ]);
+                          // }}
+                          // value={
+                          //   productsTag.find(
+                          //     productTag => productTag.id === index
+                          //   ).label
+                          // }
+                          // options={productsTag
+                          //   .find(productTag => productTag.id === index)
+                          //   ?.productList?.map(product => {
+                          //     return {
+                          //       label: product.title,
+                          //       value: product.id
+                          //     };
+                          //   })}
+                          placeholder="Start typing the name of the product..."
+                        />
                       </FloatingTagDescriptionWrapper>
                     </CSSTransition>
                   </TagPin>
-                )
-              );
-            })}
-          </TransitionGroup>
-          {!imageFile && (
-            <input style={{ outline: "none" }} {...getInputProps()} />
-          )}
-          {!imageFile && (
-            <>
-              <Icon
-                color='black'
-                style={{ marginBottom: 16 }}
-                icon={"arrowUp"}
-                size={48}
-              />
-              <Title>Drag and drop or click to upload</Title>
-              <SubTitle>
-                Tip: Use high quality .jpg files for your photos
-              </SubTitle>
-            </>
-          )}
-        </ImageDrop>
-        <ImageForm>
-          <CloseWrapper>
-            <Icon
-              onClick={() => onRequestClose()}
-              style={{ cursor: "pointer" }}
-              icon={"close"}
-              size={14}
-              color={"black"}
-            />
-          </CloseWrapper>
-          <Form
-            onSubmit={handleSubmit}
-            render={({ handleSubmit }) => (
-              <StyledForm>
-                <FormItem>
-                  <FormTitle>
-                    Add a title
-                    <span
-                      style={{
-                        fontSize: 11,
-                        fontWeight: "bold",
-                        color: theme.color.gray1,
-                      }}
-                    >
-                      {" "}
-                      (optional)
-                    </span>
-                  </FormTitle>
-                  <SubTitle>This will show up on discovery screens</SubTitle>
-                </FormItem>
-                <Field name='title' component={StyledBigInput} />
-                <ProfileContainer>
-                  <ProfileIcon size={56} />
-                  <Field
-                    name='about'
-                    component={AboutBigInput}
-                    placeholder={"Tell everyone what this photo is about..."}
-                  />
-                </ProfileContainer>
-                <TagsButtonWrapper>
-                  {[
-                    { label: "Tag Products", type: "product" },
-                    { label: "Tag Users", type: "user" },
-                    { label: "Tag your post", type: "post" },
-                  ].map((_buttonData) => (
-                    <Button
-                      label={_buttonData.label}
-                      onClick={() =>
-                        setTagType(
-                          tagType !== _buttonData.type ? _buttonData.type : null
-                        )
-                      }
-                      style={{ marginRight: 6, width: 122, height: 32 }}
-                      active={tagType === _buttonData.type}
-                      borderColor={theme.color.creme}
-                      textSize={12}
-                    />
-                  ))}
-                </TagsButtonWrapper>
-                {tagType === "product" && (
-                  <BoxMessage>
-                    Click anywhere on the image where you want your tag to
-                    appear. Users will be able to checkout or launch team deals
-                    with one click.
-                  </BoxMessage>
-                )}
-
-                {tagType === "user" && (
-                  <div style={{ width: "100%", marginTop: 6 }}>
-                    <Field
-                      name='tagUsers'
-                      isMulti
-                      placeholder={"Start typing in usernames to tag users..."}
-                      component={Dropdown2}
-                    />
-                  </div>
-                )}
-
-                {tagType === "post" && (
-                  <div style={{ width: "100%", marginTop: 6 }}>
-                    <Field
-                      name='tagUsers'
-                      isMulti
-                      placeholder={
-                        "Start typing in posts titles to tag posts..."
-                      }
-                      component={Dropdown2}
-                    />
-                  </div>
-                )}
-
-                <div style={{ width: "100%", marginTop: 24 }}>
-                  <FormTitle>Save to one of your boxes</FormTitle>
-                  <Field
-                    name='saveToBoxes'
-                    placeholder={"Select a box to save your post in..."}
-                    component={Dropdown2}
-                  />
-                </div>
-                <PostButtonWrapper>
-                  <StyledButton
-                    borderColor={"transparent"}
-                    buttonColor={[theme.color.green1, theme.color.background]}
-                    textColor={[theme.color.green1, theme.color.background]}
-                    label={"Post"}
-                  />
-                </PostButtonWrapper>
-              </StyledForm>
+                );
+              })}
+            </TransitionGroup>
+            {!imageFile && (
+              <input style={{ outline: "none" }} {...getInputProps()} />
             )}
-          />
-        </ImageForm>
-      </MainWrapper>
+            {!imageFile && (
+              <>
+                <Icon
+                  color="black"
+                  style={{ marginBottom: 16 }}
+                  icon={"arrowUp"}
+                  size={48}
+                />
+                <Title>Drag and drop or click to upload</Title>
+                <SubTitle>
+                  Tip: Use high quality .jpg files for your photos
+                </SubTitle>
+              </>
+            )}
+          </ImageDrop>
+          <ImageForm>
+            <CloseWrapper>
+              <Icon
+                onClick={() => onRequestClose()}
+                style={{ cursor: "pointer" }}
+                icon={"close"}
+                size={14}
+                color={"black"}
+              />
+            </CloseWrapper>
+            <Form
+              onSubmit={handleSubmit}
+              render={({ handleSubmit }) => (
+                <StyledForm>
+                  <FormItem>
+                    <FormTitle>
+                      Add a title
+                      <span
+                        style={{
+                          fontSize: 11,
+                          fontWeight: "bold",
+                          color: theme.color.gray1
+                        }}
+                      >
+                        {" "}
+                        (optional)
+                      </span>
+                    </FormTitle>
+                    <SubTitle>This will show up on discovery screens</SubTitle>
+                  </FormItem>
+                  <Field name="title" component={StyledBigInput} />
+                  <ProfileContainer>
+                    <ProfileIcon size={56} />
+                    <Field
+                      name="about"
+                      component={AboutBigInput}
+                      placeholder={"Tell everyone what this photo is about..."}
+                    />
+                  </ProfileContainer>
+                  <TagsButtonWrapper>
+                    {[
+                      { label: "Tag Products", type: "product" },
+                      { label: "Tag Users", type: "user" },
+                      { label: "Tag your post", type: "post" }
+                    ].map(_buttonData => (
+                      <Button
+                        label={_buttonData.label}
+                        onClick={() =>
+                          setTagType(
+                            tagType !== _buttonData.type
+                              ? _buttonData.type
+                              : null
+                          )
+                        }
+                        style={{ marginRight: 6, width: 122, height: 32 }}
+                        active={tagType === _buttonData.type}
+                        borderColor={theme.color.creme}
+                        textSize={12}
+                      />
+                    ))}
+                  </TagsButtonWrapper>
+                  {tagType === "product" && (
+                    <BoxMessage>
+                      Click anywhere on the image where you want your tag to
+                      appear. Users will be able to checkout or launch team
+                      deals with one click.
+                    </BoxMessage>
+                  )}
+
+                  {tagType === "user" && (
+                    <div style={{ width: "100%", marginTop: 6 }}>
+                      <Field
+                        name="tagUsers"
+                        placeholder={
+                          "Start typing in usernames to tag users..."
+                        }
+                        loadOptions={(value, callback) => {
+                          refetch({ searchUser: value }).then(_data => {
+                            callback(
+                              _data?.data?.userList?.map(user => {
+                                return { label: user.username, value: user.id };
+                              })
+                            );
+                          });
+                        }}
+                        component={DropdownAsync}
+                      />
+                    </div>
+                  )}
+
+                  {tagType === "post" && (
+                    <div style={{ width: "100%", marginTop: 6 }}>
+                      <Field
+                        name="tagPosts"
+                        isMulti
+                        placeholder={
+                          "Start typing in posts titles to tag posts..."
+                        }
+                        component={Dropdown2}
+                        options={data.vendorPostList.map(_post => {
+                          return { label: _post.title, value: _post.id };
+                        })}
+                      />
+                    </div>
+                  )}
+
+                  <div style={{ width: "100%", marginTop: 24 }}>
+                    <FormTitle>Save to one of your boxes</FormTitle>
+                    <Field
+                      name="saveToBoxes"
+                      placeholder={"Select a box to save your post in..."}
+                      component={Dropdown2}
+                      options={data.vendorBoxList.map(_box => {
+                        return { value: _box.title, id: _box.id };
+                      })}
+                    />
+                  </div>
+                  <PostButtonWrapper>
+                    <StyledButton
+                      borderColor={"transparent"}
+                      buttonColor={[theme.color.green1, theme.color.background]}
+                      textColor={[theme.color.green1, theme.color.background]}
+                      label={"Post"}
+                    />
+                  </PostButtonWrapper>
+                </StyledForm>
+              )}
+            />
+          </ImageForm>
+        </MainWrapper>
+      )}
     </Modal>
   );
 }
+
+const QUERY = gql`
+  query Query($searchUser: String!, $searchVendor: String!) {
+    userList(searchQuery: $searchUser) {
+      id
+      username
+    }
+    vendorPostList {
+      id
+      title
+    }
+    vendorBoxList {
+      id
+      title
+    }
+    vendorList(searchQuery: $searchVendor) {
+      brandname
+      user {
+        id
+        username
+      }
+      products {
+        id
+        title
+      }
+    }
+  }
+`;
