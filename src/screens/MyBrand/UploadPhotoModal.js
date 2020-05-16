@@ -228,10 +228,20 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
         yPercent: ((imageHeight - y) / imageHeight) * 100,
         id: null,
         brandName: null,
-        productsList: [],
+        productList: [],
         subTags: []
       }
     ]);
+  };
+
+  const changeSubTags = (newSubTag, index) => {
+    setProductsTags(
+      productsTags.map((productTag, _index) => {
+        return index === _index
+          ? { ...productTag, subTags: newSubTag }
+          : productTag;
+      })
+    );
   };
 
   return (
@@ -276,7 +286,7 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
             )}
             <TransitionGroup>
               {productsTags.map((_vals, index) => {
-                console.log(_vals.brandName, "products tags index");
+                console.log(_vals.subTags, "this are the vals");
                 return (
                   <TagPin values={_vals}>
                     <CSSTransition
@@ -304,7 +314,6 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                             });
                           }}
                           onChange={value => {
-                            console.log(value);
                             setProductsTags(
                               productsTags.map((productTag, _index) => {
                                 return _index === index
@@ -321,27 +330,16 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                         />
                         <Dropdown2
                           isMulti
-                          // onChange={value => {
-                          //   setProductsTag([
-                          //     ...productsTag,
-                          //     productsTag.find(
-                          //       productTag => productTag.id === index
-                          //     )
-                          //   ]);
-                          // }}
-                          // value={
-                          //   productsTag.find(
-                          //     productTag => productTag.id === index
-                          //   ).label
-                          // }
-                          // options={productsTag
-                          //   .find(productTag => productTag.id === index)
-                          //   ?.productList?.map(product => {
-                          //     return {
-                          //       label: product.title,
-                          //       value: product.id
-                          //     };
-                          //   })}
+                          input={{
+                            onChange: _value => changeSubTags(_value, index),
+                            value: _vals.subTags
+                          }}
+                          options={_vals.productList?.map(product => {
+                            return {
+                              label: product.title,
+                              value: product.id
+                            };
+                          })}
                           placeholder="Start typing the name of the product..."
                         />
                       </FloatingTagDescriptionWrapper>
