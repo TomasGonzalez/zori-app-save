@@ -194,6 +194,7 @@ const StyledButton = styled(Button)`
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
   const [productsTags, setProductsTags] = useState([]);
+  const [userTags, setUserTags] = useState([]);
   const [tagType, setTagType] = useState(null);
 
   const onDrop = useCallback(acceptedFiles => {
@@ -204,10 +205,6 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { searchUser: "", searchVendor: "" }
   });
-
-  useEffect(() => {
-    console.log(productsTags);
-  }, [productsTags]);
 
   const handleSubmit = () => {
     console.log("test");
@@ -286,7 +283,6 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
             )}
             <TransitionGroup>
               {productsTags.map((_vals, index) => {
-                console.log(_vals.subTags, "this are the vals");
                 return (
                   <TagPin values={_vals}>
                     <CSSTransition
@@ -442,6 +438,13 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                         placeholder={
                           "Start typing in usernames to tag users..."
                         }
+                        input={{
+                          value: userTags
+                        }}
+                        isMulti
+                        onChange={value => {
+                          setUserTags(value);
+                        }}
                         loadOptions={(value, callback) => {
                           refetch({ searchUser: value }).then(_data => {
                             callback(
