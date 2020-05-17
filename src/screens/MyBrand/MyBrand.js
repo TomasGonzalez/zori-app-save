@@ -5,6 +5,7 @@ import { useQuery } from "@apollo/react-hooks";
 import { gql } from "apollo-boost";
 
 import UploadPhotoModal from "screens/MyBrand/UploadPhotoModal";
+import AddBoxModal from "screens/MyBrand/AddBoxModal";
 import DropDownIcon from "components/DropDownIcon";
 import Icon from "components/Icon";
 import AppLayout from "components/AppLayout";
@@ -46,7 +47,7 @@ const ProfileInfo = styled.div`
   display: flex;
   justify-content: center;
   flex-direction: column;
-  border: solid 1px ${(props) => props.theme.color.gray3};
+  border: solid 1px ${props => props.theme.color.gray3};
   border-width: 0px 3px 0px 0px;
 `;
 
@@ -84,7 +85,7 @@ const IconOptionsWrapper = styled.div`
   cursor: pointer;
 
   &:hover {
-    background-color: ${(props) => props.theme.color.lightGray};
+    background-color: ${props => props.theme.color.lightGray};
   }
 `;
 
@@ -101,21 +102,27 @@ const StyledLiElement = styled.li`
   font-weight: 500;
   font-size: 12px;
   &:hover {
-    background-color: ${(props) => props.theme.color.lightGray};
+    background-color: ${props => props.theme.color.lightGray};
   }
   &:last-child {
     margin: 0px;
   }
 `;
 
-export default function (props) {
+export default function(props) {
   const { data, loading, error } = useQuery(GET_SELF);
   const [uploadPhotoModal, setUploadPhotoModal] = useState(false);
+  const [createBoxModal, setCreateBoxModal] = useState(false);
+
   return (
     <AppLayout title={props.title}>
       <UploadPhotoModal
         onRequestClose={() => setUploadPhotoModal(false)}
         isOpen={uploadPhotoModal}
+      />
+      <AddBoxModal
+        onRequestClose={() => setCreateBoxModal(false)}
+        isOpen={createBoxModal}
       />
       <MainWrapper>
         <ProfileWrapper>
@@ -132,15 +139,17 @@ export default function (props) {
                     <StyledLiElement onClick={() => setUploadPhotoModal(true)}>
                       Upload a photo
                     </StyledLiElement>
-                    <StyledLiElement>Create a box</StyledLiElement>
+                    <StyledLiElement onClick={() => setCreateBoxModal(true)}>
+                      Create a box
+                    </StyledLiElement>
                     <StyledLiElement>Establish a brand policy</StyledLiElement>
                   </FloatingList>
                 }
-                icon='plus'
+                icon="plus"
               />
-              <DropDownIcon icon='share' />
-              <DropDownIcon icon='pen' />
-              <DropDownIcon icon='settings' />
+              <DropDownIcon icon="share" />
+              <DropDownIcon icon="pen" />
+              <DropDownIcon icon="settings" />
             </OptionsWrapper>
           </ProfileInfo>
           <ProfileDescription>
@@ -148,7 +157,7 @@ export default function (props) {
           </ProfileDescription>
           <IconWrapper>
             <IconOptionsWrapper>
-              <Icon size={14} icon='pen' />
+              <Icon size={14} icon="pen" />
             </IconOptionsWrapper>
           </IconWrapper>
         </ProfileWrapper>
@@ -159,7 +168,12 @@ export default function (props) {
               {
                 icon: "photo",
                 title: "Posts",
-                component: <Posts setUploadPhotoModal={setUploadPhotoModal} />,
+                component: (
+                  <Posts
+                    setCreateBoxModal={setCreateBoxModal}
+                    setUploadPhotoModal={setUploadPhotoModal}
+                  />
+                )
               },
               // {
               //   icon: "videoCamera",
@@ -174,8 +188,8 @@ export default function (props) {
               {
                 icon: "contract",
                 title: "Policies",
-                component: <Policies />,
-              },
+                component: <Policies />
+              }
             ]}
           />
         </NavigatorWrapper>

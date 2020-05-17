@@ -20,7 +20,7 @@ const GuidedButtonWrapper = styled.div`
   margin-top: 88px;
 `;
 
-export default function ({ setUploadPhotoModal, ...props }) {
+export default function({ setCreateBoxModal, setUploadPhotoModal, ...props }) {
   return (
     <MainWrapper>
       <TabNavigator
@@ -39,11 +39,11 @@ export default function ({ setUploadPhotoModal, ...props }) {
                     setUploadPhotoModal(true);
                   }}
                   title={"Upload a Photo"}
-                  buttonLabel='Upload'
-                  icon='photo'
+                  buttonLabel="Upload"
+                  icon="photo"
                 />
               </GuidedButtonWrapper>
-            ),
+            )
           },
           {
             title: "Boxes",
@@ -53,13 +53,14 @@ export default function ({ setUploadPhotoModal, ...props }) {
                   label={
                     "Organize your content intuitively using boxes before you share. Include your team in the action!"
                   }
+                  onClick={() => setCreateBoxModal(true)}
                   title={"Build your boxes"}
-                  buttonLabel='Upload'
-                  icon='multiImage'
+                  buttonLabel="Upload"
+                  icon="multiImage"
                   iconSize={74}
                 />
               </GuidedButtonWrapper>
-            ),
+            )
           },
           {
             title: "Tagged",
@@ -70,12 +71,12 @@ export default function ({ setUploadPhotoModal, ...props }) {
                     "Whenever other ZORI users tag you in their posts, they’ll appear here."
                   }
                   title={"Posts of you"}
-                  buttonLabel='Upload'
-                  icon='tagged'
+                  buttonLabel="Upload"
+                  icon="tagged"
                 />
               </GuidedButtonWrapper>
-            ),
-          },
+            )
+          }
         ]}
       />
     </MainWrapper>
