@@ -7,9 +7,10 @@ import styled from "styled-components/macro";
 import _ from "lodash";
 import { useDropzone } from "react-dropzone";
 import gql from "graphql-tag";
-import { useQuery } from "@apollo/react-hooks";
-import { ScreenLoader } from "components/Loading";
+import { useQuery, useMutation } from "@apollo/react-hooks";
 
+import { NotEmptyValidator } from "lib/formValidation";
+import { ScreenLoader } from "components/Loading";
 import Button from "components/Button";
 import ProfileIcon from "components/ProfileIcon";
 import { BigInput } from "components/forms/inputs";
@@ -73,6 +74,7 @@ const StyledBigInput = styled(BigInput)`
 const AboutBigInput = styled(BigInput)`
   height: 100%;
   border-style: none;
+  margin-top: 2px;
 `;
 
 const ProfileContainer = styled.div`
@@ -178,6 +180,13 @@ const BoxMessage = styled.div`
   padding: 7px;
 `;
 
+const ErrorMessage = styled.div`
+  margin-top: 4px;
+  font-size: 12px;
+  color: ${props => props.theme.color.lightDanger};
+  position: absolute;
+`;
+
 const PostButtonWrapper = styled.div`
   display: flex;
   align-items: flex-end;
@@ -196,6 +205,7 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
   const [productsTags, setProductsTags] = useState([]);
   const [userTags, setUserTags] = useState([]);
   const [tagType, setTagType] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   const onDrop = useCallback(acceptedFiles => {
     setImageFile(URL.createObjectURL(acceptedFiles[0]));
@@ -206,9 +216,45 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
     variables: { searchUser: "", searchVendor: "" }
   });
 
-  const handleSubmit = () => {
-    console.log("test");
+  const [createVendorPost] = useMutation(CREATE_POST);
+
+  const ResetState = () => {
+    setImageFile(null);
+    setProductsTags([]);
+    setUserTags([]);
+    setTagType(null);
+    setIsLoading(false);
   };
+
+  const handleSubmit = values => {
+    setIsLoading(true);
+    createVendorPost({
+      variables: {
+        ...values,
+        taggedProducts: productsTags?.map(product => {
+          return {
+            xCoordinate: product?.xPercent,
+            yCoordinate: product?.yPercent,
+            products: product?.tags.map(tag => tag.value)
+          };
+        }),
+        taggedUsers: userTags?.map(user => user.value),
+        tags: values?.posts?.map(post => post.value),
+        box: values?.box?.value
+      }
+    })
+      .then(value => {
+        onRequestClose();
+        ResetState();
+      })
+      .catch(err => {
+        console.log(err);
+        setIsLoading(true);
+      });
+  };
+  useEffect(() => {
+    console.log(productsTags);
+  }, [productsTags]);
 
   const addProductTag = event => {
     const bounds = event.target.getBoundingClientRect();
@@ -226,7 +272,7 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
         id: null,
         brandName: null,
         productList: [],
-        subTags: []
+        tags: []
       }
     ]);
   };
@@ -235,9 +281,25 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
     setProductsTags(
       productsTags.map((productTag, _index) => {
         return index === _index
-          ? { ...productTag, subTags: newSubTag }
+          ? { ...productTag, tags: newSubTag }
           : productTag;
       })
+    );
+  };
+
+  const ProfileField = ProfileProps => {
+    console.log({ ...ProfileProps }, "profile shit");
+    return (
+      <div style={{ position: "relative" }}>
+        <ProfileContainer>
+          <ProfileIcon size={56} />
+          <AboutBigInput {...ProfileProps} meta={null} />
+        </ProfileContainer>
+
+        {ProfileProps.meta.error && ProfileProps.meta.touched && (
+          <ErrorMessage>{ProfileProps.meta.error}</ErrorMessage>
+        )}
+      </div>
     );
   };
 
@@ -328,7 +390,7 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                           isMulti
                           input={{
                             onChange: _value => changeSubTags(_value, index),
-                            value: _vals.subTags
+                            value: _vals.tags
                           }}
                           options={_vals.productList?.map(product => {
                             return {
@@ -392,15 +454,17 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                     </FormTitle>
                     <SubTitle>This will show up on discovery screens</SubTitle>
                   </FormItem>
-                  <Field name="title" component={StyledBigInput} />
-                  <ProfileContainer>
-                    <ProfileIcon size={56} />
-                    <Field
-                      name="about"
-                      component={AboutBigInput}
-                      placeholder={"Tell everyone what this photo is about..."}
-                    />
-                  </ProfileContainer>
+                  <Field
+                    name="title"
+                    validate={NotEmptyValidator}
+                    component={StyledBigInput}
+                  />
+                  <Field
+                    name="description"
+                    component={ProfileField}
+                    validate={NotEmptyValidator}
+                    placeholder={"Tell everyone what this photo is about..."}
+                  />
                   <TagsButtonWrapper>
                     {[
                       { label: "Tag Products", type: "product" },
@@ -434,7 +498,7 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                   {tagType === "user" && (
                     <div style={{ width: "100%", marginTop: 6 }}>
                       <Field
-                        name="tagUsers"
+                        name="taggedUsers"
                         placeholder={
                           "Start typing in usernames to tag users..."
                         }
@@ -462,7 +526,7 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                   {tagType === "post" && (
                     <div style={{ width: "100%", marginTop: 6 }}>
                       <Field
-                        name="tagPosts"
+                        name="posts"
                         isMulti
                         placeholder={
                           "Start typing in posts titles to tag posts..."
@@ -478,11 +542,11 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                   <div style={{ width: "100%", marginTop: 24 }}>
                     <FormTitle>Save to one of your boxes</FormTitle>
                     <Field
-                      name="saveToBoxes"
+                      name="box"
                       placeholder={"Select a box to save your post in..."}
                       component={Dropdown2}
                       options={data.vendorBoxList.map(_box => {
-                        return { value: _box.title, id: _box.id };
+                        return { label: _box.title, value: _box.id };
                       })}
                     />
                   </div>
@@ -492,6 +556,8 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                       buttonColor={[theme.color.green1, theme.color.background]}
                       textColor={[theme.color.green1, theme.color.background]}
                       label={"Post"}
+                      onClick={handleSubmit}
+                      isLoading={isLoading}
                     />
                   </PostButtonWrapper>
                 </StyledForm>
@@ -503,6 +569,50 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
     </Modal>
   );
 }
+
+const CREATE_POST = gql`
+  mutation CreatePost(
+    $description: String
+    $box: ID
+    $taggedProducts: [TagProductInput]
+    $taggedUsers: [ID]
+    $tags: [ID]
+    $title: String
+  ) {
+    createVendorPost(
+      description: $description
+      title: $title
+      box: $box
+      taggedProducts: $taggedProducts
+      taggedUsers: $taggedUsers
+      tags: $tags
+    ) {
+      post {
+        id
+        title
+        description
+        taggedProducts {
+          productTags {
+            description
+            title
+          }
+        }
+        taggedUsers {
+          user {
+            email
+          }
+        }
+        tags {
+          tag {
+            id
+            label
+          }
+        }
+      }
+      errorMessage
+    }
+  }
+`;
 
 const QUERY = gql`
   query Query($searchUser: String!, $searchVendor: String!) {
