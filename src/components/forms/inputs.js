@@ -2,6 +2,7 @@ import React, { useState } from "react";
 
 import InputMask from "react-input-mask";
 import styled from "styled-components/macro";
+import BaseInput from "components/BaseInput";
 
 const MainWrapper = styled.div`
   position: relative;
@@ -258,19 +259,17 @@ export const PhoneInput = props => {
 
 export const BigInput = props => {
   return (
-    <MainWrapper>
-      <StyledBigInput
-        className={props.className}
-        type={props.type}
-        rows={"4"}
-        {...props.input}
-        meta={props.meta}
-        placeholder={props.placeholder}
-      />
-
-      {props.meta?.error && props.meta?.touched && (
-        <ErrorMessage>{props.meta?.error}</ErrorMessage>
-      )}
+    <MainWrapper style={props.mainWrapperStyle}>
+      <BaseInput {...props}>
+        <StyledBigInput
+          className={props.className}
+          type={props.type}
+          rows={"4"}
+          {...props.input}
+          meta={props.meta}
+          placeholder={props.placeholder}
+        />
+      </BaseInput>
     </MainWrapper>
   );
 };

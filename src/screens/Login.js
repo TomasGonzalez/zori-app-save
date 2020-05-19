@@ -36,14 +36,14 @@ const FormContaienr = styled.div`
   flex: 1;
   align-items: center;
   justify-content: center;
-  background-color: ${(props) => props.theme.color.white};
+  background-color: ${props => props.theme.color.white};
 `;
 
 const StyledForm = styled.form`
   min-width: 650px;
   padding: 48px;
 
-  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+  @media (max-width: ${props => props.theme.unit.mobileWidth}) {
     min-width: 100px;
   }
 `;
@@ -53,7 +53,7 @@ const CheckboxWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
 
-  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+  @media (max-width: ${props => props.theme.unit.mobileWidth}) {
     flex-direction: column;
     align-items: flex-start;
     height: 60px;
@@ -67,7 +67,7 @@ const TempLink = styled.div`
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
-  color: ${(props) => props.theme.color.green1};
+  color: ${props => props.theme.color.green1};
 `;
 
 const ButtonsWrappers = styled.div`
@@ -78,7 +78,7 @@ const ButtonsWrappers = styled.div`
   height: 0px;
   transition: height 0.5s;
 
-  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+  @media (max-width: ${props => props.theme.unit.mobileWidth}) {
     flex-direction: column;
     align-items: center;
     height: 120px;
@@ -92,7 +92,7 @@ const FormWrapper = styled.div`
   transition: width 0.5s;
   will-change: width;
 
-  @media (max-width: ${(props) => props.theme.unit.mobileWidth}) {
+  @media (max-width: ${props => props.theme.unit.mobileWidth}) {
     width: 298px;
   }
 `;
@@ -116,12 +116,12 @@ function Login() {
     mainImage.src = LoadingImage;
   }, [LoadingImage]);
 
-  const handleSubmit = async (params) => {
+  const handleSubmit = async params => {
     if (params.email && params.password) {
       try {
         await tokenAuth({
-          variables: { ...params },
-        }).then(async (request) => {
+          variables: { ...params }
+        }).then(async request => {
           if (params.checkbox) {
             localStorage.setItem("jwtToken", request.data.tokenAuth.token);
           }
@@ -144,7 +144,7 @@ function Login() {
           width: "100%",
           display: "flex",
           alignItems: "center",
-          justifyContent: "center",
+          justifyContent: "center"
         }}
       >
         <ScreenLoader />
@@ -154,7 +154,7 @@ function Login() {
 
   return (
     <MainContainer>
-      <ImageContainer id='image' alt='Office Deskt' src={LoadingImage} />
+      <ImageContainer id="image" alt="Office Deskt" src={LoadingImage} />
       <FormContaienr>
         <Form
           onSubmit={handleSubmit}
@@ -168,20 +168,20 @@ function Login() {
               <FormWrapper>
                 <Field
                   validate={EmailValidator}
-                  name='email'
+                  name="email"
                   component={TextInput}
                   style={{ marginBottom: 84 }}
-                  placeholder='Enter your email address'
+                  placeholder="Enter your email address"
                 />
                 <Field
-                  name='password'
+                  name="password"
                   component={PasswordInput}
-                  placeholder='Enter your password'
+                  placeholder="Enter your password"
                 />
-                <Field name='checkbox'>
+                <Field name="checkbox">
                   {({ input }) => (
                     <CheckboxWrapper style={{ marginTop: 8 }}>
-                      <Checkbox input={input} label='stay signed in' />
+                      <Checkbox input={input} label="stay signed in" />
                       <TempLink onClick={() => history.push("/reset-password")}>
                         did you forget your password?
                       </TempLink>
@@ -197,7 +197,7 @@ function Login() {
                   <Button
                     style={{ width: 296, height: 48 }}
                     onClick={handleSubmit}
-                    buttonStyle='dark'
+                    buttonStyle="dark"
                     label={"Log in"}
                   />
                 </ButtonsWrappers>

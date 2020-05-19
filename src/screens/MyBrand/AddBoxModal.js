@@ -1,11 +1,17 @@
 import React from "react";
 import Modal from "react-modal";
 import _ from "lodash";
-import styled from "styled-components";
+import styled from "styled-components/macro";
+import { Form, Field } from "react-final-form";
+
+import BaseInput from "components/BaseInput";
+import { BigInput } from "components/forms/inputs";
+import MultiCheckBox from "components/forms/MultiCheckBox";
 
 const MainWrapper = styled.div`
   width: 530px;
   height: 456px;
+  flex: 1;
   padding: 16px;
   display: flex;
   align-content: center;
@@ -13,11 +19,29 @@ const MainWrapper = styled.div`
 `;
 
 const TitleWrapper = styled.div`
-  padding-bottom: 32px;
+  padding-bottom: 23px;
   border: solid 1px ${props => props.theme.color.creme};
-  broder-width: 0px 0px 1px 0px;
+  border-width: 0px 0px 1px 0px;
+  flex: 1;
+
   font-weight: 500;
   font-size: 20px;
+  text-align: center;
+`;
+
+const StyledForm = styled.form`
+  flex: 1;
+`;
+
+const StyledBigInput = styled(BigInput)`
+  font-size: 18px;
+  height: 40px;
+  border-color: ${props => props.theme.color.creme};
+`;
+
+const DescriptionBigInput = styled(StyledBigInput)`
+  height: 64px;
+  font-size: 12px;
 `;
 
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
@@ -47,7 +71,32 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
       isOpen={isOpen}
     >
       <MainWrapper>
-        <TitleWrapper>Create a box</TitleWrapper>
+        <Form
+          onSubmit={values => console.log(values)}
+          render={({ handleSubmit }) => (
+            <StyledForm onSubmit={handleSubmit}>
+              <TitleWrapper>Create a box</TitleWrapper>
+              <Field
+                title="Name your box"
+                mainWrapperStyle={{ marginTop: 24 }}
+                name="boxName"
+                component={StyledBigInput}
+              />
+              <Field
+                title="Briefly describe your box"
+                titleSpan="(optional)"
+                mainWrapperStyle={{ marginTop: 48 }}
+                name="descrtiption"
+                component={DescriptionBigInput}
+              />
+              <Field
+                name="isBoxPublic"
+                title="Would you like your box out there in the open"
+                component={MultiCheckBox}
+              />
+            </StyledForm>
+          )}
+        />
       </MainWrapper>
     </Modal>
   );

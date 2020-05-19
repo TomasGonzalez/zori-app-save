@@ -476,15 +476,10 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                     </FormTitle>
                     <SubTitle>This will show up on discovery screens</SubTitle>
                   </FormItem>
-                  <Field
-                    name="title"
-                    validate={NotEmptyValidator}
-                    component={StyledBigInput}
-                  />
+                  <Field name="title" component={StyledBigInput} />
                   <Field
                     name="description"
                     component={ProfileField}
-                    validate={NotEmptyValidator}
                     placeholder={"Tell everyone what this photo is about..."}
                   />
                   <TagsButtonWrapper>
