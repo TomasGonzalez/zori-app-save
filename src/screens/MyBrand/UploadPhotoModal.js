@@ -202,19 +202,30 @@ const StyledButton = styled(Button)`
 
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
+  const [crudeImageFile, setCrudImageFile] = useState(null);
   const [productsTags, setProductsTags] = useState([]);
   const [userTags, setUserTags] = useState([]);
   const [tagType, setTagType] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
-  const onDrop = useCallback(acceptedFiles => {
+  const onDrop = useCallback(async acceptedFiles => {
     setImageFile(URL.createObjectURL(acceptedFiles[0]));
+
+    setCrudImageFile(acceptedFiles[0]);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   const { data, loading, error, refetch } = useQuery(QUERY, {
     variables: { searchUser: "", searchVendor: "" }
   });
+
+  const toBase64 = file =>
+    new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result);
+      reader.onerror = error => reject(error);
+    });
 
   const [createVendorPost] = useMutation(CREATE_POST);
 
@@ -224,10 +235,14 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
     setUserTags([]);
     setTagType(null);
     setIsLoading(false);
+    setCrudImageFile(null);
   };
+
+  console.log(crudeImageFile, "crud image file");
 
   const handleSubmit = values => {
     setIsLoading(true);
+    console.log(crudeImageFile, "this is what is supposed to be sended");
     createVendorPost({
       variables: {
         ...values,
@@ -238,6 +253,14 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
             products: product?.tags.map(tag => tag.value)
           };
         }),
+        file: crudeImageFile,
+        //      type: crudeImageFile.type,
+        //      lastModified: crudeImageFile.lastModified,
+        //      lastModifiedDate: crudeImageFile.lastModifiedDate,
+        //      name: crudeImageFile.name,
+        //      size: crudeImageFile.size,
+        //      webkitRelativePath: "",
+        //      __proto__: crudeImageFile.__proto__
         taggedUsers: userTags?.map(user => user.value),
         tags: values?.posts?.map(post => post.value),
         box: values?.box?.value
@@ -288,7 +311,6 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
   };
 
   const ProfileField = ProfileProps => {
-    console.log({ ...ProfileProps }, "profile shit");
     return (
       <div style={{ position: "relative" }}>
         <ProfileContainer>
@@ -578,8 +600,10 @@ const CREATE_POST = gql`
     $taggedUsers: [ID]
     $tags: [ID]
     $title: String
+    $file: Upload!
   ) {
     createVendorPost(
+      image: $file
       description: $description
       title: $title
       box: $box
@@ -590,6 +614,7 @@ const CREATE_POST = gql`
       post {
         id
         title
+        image
         description
         taggedProducts {
           productTags {
@@ -623,6 +648,7 @@ const QUERY = gql`
     vendorPostList {
       id
       title
+      image
     }
     vendorBoxList {
       id

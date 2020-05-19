@@ -1,12 +1,13 @@
 import { ApolloClient } from "apollo-client";
 import gql from "graphql-tag";
 import { setContext } from "apollo-link-context";
-
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache, NormalizedCacheObject } from "apollo-cache-inmemory";
 
-const link = new HttpLink({
-  uri: "https://api.zorishop.com/graphql/",
+import { createUploadLink } from "apollo-upload-client";
+
+const link = createUploadLink({
+  uri: "https://api.zorishop.com/graphql/"
 });
 
 const authLink = setContext((_, { headers }) => {
@@ -17,8 +18,8 @@ const authLink = setContext((_, { headers }) => {
   return {
     headers: {
       ...headers,
-      Authorization: token ? `JWT ${token}` : null,
-    },
+      Authorization: token ? `JWT ${token}` : null
+    }
   };
 });
 
@@ -26,7 +27,7 @@ const cache = new InMemoryCache();
 
 const client = new ApolloClient({
   link: authLink.concat(link),
-  cache,
+  cache
 });
 
 export default client;
