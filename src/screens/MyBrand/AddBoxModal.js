@@ -35,13 +35,15 @@ const StyledForm = styled.form`
 
 const StyledBigInput = styled(BigInput)`
   font-size: 18px;
-  height: 40px;
   border-color: ${props => props.theme.color.creme};
 `;
 
 const DescriptionBigInput = styled(StyledBigInput)`
-  height: 64px;
   font-size: 12px;
+`;
+
+const StyledMultiCheckBox = styled(MultiCheckBox)`
+  margin-top: 24px;
 `;
 
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
@@ -78,21 +80,23 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
               <TitleWrapper>Create a box</TitleWrapper>
               <Field
                 title="Name your box"
-                mainWrapperStyle={{ marginTop: 24 }}
                 name="boxName"
                 component={StyledBigInput}
+                mainWrapperStyle={{ marginTop: 24 }}
+                rows={"1"}
               />
               <Field
                 title="Briefly describe your box"
                 titleSpan="(optional)"
-                mainWrapperStyle={{ marginTop: 48 }}
+                mainWrapperStyle={{ marginTop: 24 }}
                 name="descrtiption"
                 component={DescriptionBigInput}
               />
               <Field
                 name="isBoxPublic"
                 title="Would you like your box out there in the open"
-                component={MultiCheckBox}
+                component={StyledMultiCheckBox}
+                options={{ name: "qesiton 1", id: 1 }}
               />
             </StyledForm>
           )}

@@ -147,7 +147,7 @@ const StyledBigInput = styled.textarea`
   background-color: #ffffff;
   outline: none;
   width: 100%;
-  height: 111px;
+  height: 100%;
   padding: 8px;
   resize: none;
   box-sizing: border-box;
@@ -264,7 +264,7 @@ export const BigInput = props => {
         <StyledBigInput
           className={props.className}
           type={props.type}
-          rows={"4"}
+          rows={props.rows || "4"}
           {...props.input}
           meta={props.meta}
           placeholder={props.placeholder}
