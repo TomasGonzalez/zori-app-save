@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import _ from "lodash";
 import styled from "styled-components/macro";
 import { Form, Field } from "react-final-form";
+import Button from 'components/Button';
 
 import DumbCheckBox from "components/forms/DumbCheckBox";
 import { BigInput } from "components/forms/inputs";
@@ -10,7 +11,6 @@ import theme from "theme";
 
 const MainWrapper = styled.div`
   width: 530px;
-  height: 456px;
   flex: 1;
   padding: 16px;
   display: flex;
@@ -40,6 +40,13 @@ const StyledBigInput = styled(BigInput)`
 
 const DescriptionBigInput = styled(StyledBigInput)`
   font-size: 12px;
+`;
+
+const ButtonWrapper = styled.div`
+  margin-top: 15px;
+  padding-top: 32px;
+  border: solid 1px ${props => props.theme.color.creme};
+  border-width: 1px 0px 0px 0px;
 `;
 
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
@@ -96,6 +103,15 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                 component={DumbCheckBox}
                 color={theme.color.gray2}
               />
+              <ButtonWrapper>
+                <Button 
+                  width="100%" 
+                  style={{height: 32}} 
+                  borderColor={"transparent"} 
+                  textColor={[theme.color.green1, theme.color.background]}
+                  buttonColor={[theme.color.green1, theme.color.background]}  
+                  label="Create"/>
+              </ButtonWrapper> 
             </StyledForm>
           )}
         />
