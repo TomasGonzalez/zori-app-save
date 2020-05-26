@@ -242,7 +242,6 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
 
   const handleSubmit = values => {
     setIsLoading(true);
-    console.log(crudeImageFile, "this is what is supposed to be sended");
     createVendorPost({
       variables: {
         ...values,
@@ -254,13 +253,6 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
           };
         }),
         file: crudeImageFile,
-        //      type: crudeImageFile.type,
-        //      lastModified: crudeImageFile.lastModified,
-        //      lastModifiedDate: crudeImageFile.lastModifiedDate,
-        //      name: crudeImageFile.name,
-        //      size: crudeImageFile.size,
-        //      webkitRelativePath: "",
-        //      __proto__: crudeImageFile.__proto__
         taggedUsers: userTags?.map(user => user.value),
         tags: values?.posts?.map(post => post.value),
         box: values?.box?.value

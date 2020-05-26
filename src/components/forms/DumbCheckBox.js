@@ -24,8 +24,15 @@ export default function( props ) {
   return (
     <BaseInput {...props}>
       <MultiCheckBoxWrapper>
-        <StyledCheckbox inverted label="Yes please!" colorTheme={props.color} {...props} />
-        <StyledCheckbox label="No, keep it a secret!" colorTheme={props.color} {...props}/>
+        <StyledCheckbox 
+          label="Yes please!" 
+          colorTheme={props.color} 
+          {...props} 
+          onClick={()=>props.input.onChange(true)} />
+        <StyledCheckbox 
+          onClick={()=>props.input.onChange(false)} 
+          inverted={typeof props.input.value === "boolean"} 
+          label="No, keep it a secret!" colorTheme={props.color} {...props}/>
       </MultiCheckBoxWrapper>
     </BaseInput>
   );

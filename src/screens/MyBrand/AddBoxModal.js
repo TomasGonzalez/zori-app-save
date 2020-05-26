@@ -1,10 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
 import Modal from "react-modal";
 import _ from "lodash";
 import styled from "styled-components/macro";
 import { Form, Field } from "react-final-form";
-import Button from 'components/Button';
+import gql from 'graphql-tag';
+import { useMutation } from '@apollo/react-hooks';
 
+import {NotEmptyValidator} from "lib/formValidation";
+import Button from 'components/Button';
 import DumbCheckBox from "components/forms/DumbCheckBox";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
@@ -50,6 +53,17 @@ const ButtonWrapper = styled.div`
 `;
 
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const [createVendorPostBox] = useMutation(CREATE_BOX);
+
+  const handleSubmit = (values) =>{
+    setIsLoading(true)
+    createVendorPostBox({variables: {...values}})
+    .then(()=>{setIsLoading(false); onRequestClose()})
+    .catch(()=>{setIsLoading(false)});
+  }
+
   return (
     <Modal
       onRequestClose={onRequestClose}
@@ -77,31 +91,34 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
     >
       <MainWrapper>
         <Form
-          onSubmit={values => console.log(values)}
+          onSubmit={handleSubmit}
           render={({ handleSubmit }) => (
-            <StyledForm onSubmit={handleSubmit}>
+            <StyledForm>
               <TitleWrapper>Create a box</TitleWrapper>
               <Field
                 title="Name your box"
-                name="boxName"
+                name="title"
                 component={StyledBigInput}
                 mainWrapperStyle={{ marginTop: 24 }}
                 rows={"1"}
+                validate={NotEmptyValidator}
               />
               <Field
                 title="Briefly describe your box"
                 titleSpan="(optional)"
                 mainWrapperStyle={{ marginTop: 24 }}
-                name="descrtiption"
+                name="description"
                 component={DescriptionBigInput}
+                validate={NotEmptyValidator}
               />
               <Field
-                name="isBoxPublic"
+                name="isPublic"
                 title="Would you like your box out there in the open"
                 subTitle="This controls whether users are able to find your box on ZORI"
                 mainWrapperStyle={{ marginTop: 24 }}
                 component={DumbCheckBox}
                 color={theme.color.gray2}
+                validate={NotEmptyValidator}
               />
               <ButtonWrapper>
                 <Button 
@@ -110,7 +127,10 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                   borderColor={"transparent"} 
                   textColor={[theme.color.green1, theme.color.background]}
                   buttonColor={[theme.color.green1, theme.color.background]}  
-                  label="Create"/>
+                  isLoading={isLoading}
+                  label="Create"
+                  onClick={handleSubmit}
+                />
               </ButtonWrapper> 
             </StyledForm>
           )}
@@ -119,3 +139,11 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
     </Modal>
   );
 }
+
+const CREATE_BOX = gql`
+  mutation($description: String, $title: String){
+    createVendorPostBox(description: $description, title: $title, isPublic: true){
+      errorMessage
+    }
+  }
+`;
