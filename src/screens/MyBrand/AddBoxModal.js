@@ -4,9 +4,9 @@ import _ from "lodash";
 import styled from "styled-components/macro";
 import { Form, Field } from "react-final-form";
 
-import BaseInput from "components/BaseInput";
+import DumbCheckBox from "components/forms/DumbCheckBox";
 import { BigInput } from "components/forms/inputs";
-import MultiCheckBox from "components/forms/MultiCheckBox";
+import theme from "theme";
 
 const MainWrapper = styled.div`
   width: 530px;
@@ -40,10 +40,6 @@ const StyledBigInput = styled(BigInput)`
 
 const DescriptionBigInput = styled(StyledBigInput)`
   font-size: 12px;
-`;
-
-const StyledMultiCheckBox = styled(MultiCheckBox)`
-  margin-top: 24px;
 `;
 
 export default function({ onRequestClose, isOpen, style, ...restProps }) {
@@ -95,8 +91,10 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
               <Field
                 name="isBoxPublic"
                 title="Would you like your box out there in the open"
-                component={StyledMultiCheckBox}
-                options={{ name: "qesiton 1", id: 1 }}
+                subTitle="This controls whether users are able to find your box on ZORI"
+                mainWrapperStyle={{ marginTop: 24 }}
+                component={DumbCheckBox}
+                color={theme.color.gray2}
               />
             </StyledForm>
           )}

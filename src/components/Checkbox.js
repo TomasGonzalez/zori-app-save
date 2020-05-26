@@ -7,7 +7,7 @@ const MainWrapper = styled.div`
 `;
 
 const TextStyle = styled.div`
-  color: ${props => props.theme.color.green1};
+  color: ${props => props.colorTheme || props.theme.color.green1};
   font-size: 14px;
   margin-left: 10px;
 `;
@@ -15,23 +15,25 @@ const TextStyle = styled.div`
 const StyledCheckbox = styled.div`
   width: 15px;
   height: 15px;
-  border: solid 1px ${props => props.theme.color.green1};
+  border: solid 1px ${props => props.colorTheme || props.theme.color.green1};
   background-color: ${props =>
-    props.value ? props.theme.color.green1 : "transparent"};
+    props.value ? (props.colorTheme || props.theme.color.green1) : "transparent"};
   border-radius: 3px;
   cursor: pointer;
 `;
 
 const Checkbox = props => {
-  return (
+  return(
     <MainWrapper {...props}>
       <StyledCheckbox
+        colorTheme={props.colorTheme}
         onClick={() => {
           props.input.onChange(!props.input.value);
         }}
-        {...props.input}
+        {...props.input} 
+        value={props.inverted ? !props.input.value : props.input.value}
       />
-      <TextStyle>{props.label}</TextStyle>
+      <TextStyle className="label" colorTheme={props.colorTheme}>{props.label}</TextStyle>
     </MainWrapper>
   );
 };

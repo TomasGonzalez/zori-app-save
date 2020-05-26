@@ -259,7 +259,7 @@ export const PhoneInput = props => {
 
 export const BigInput = props => {
   return (
-    <MainWrapper style={props.mainWrapperStyle}>
+    <MainWrapper>
       <BaseInput {...props}>
         <StyledBigInput
           className={props.className}

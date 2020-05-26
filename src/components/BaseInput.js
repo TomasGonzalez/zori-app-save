@@ -27,15 +27,15 @@ const FormTitle = styled.div`
 `;
 
 const SubTitle = styled.div`
-  font-size: 12px;
+  font-size: 10px;
   margin-bottom: 4px;
-  margin-top: 8px;
-  color: ${props => props.theme.color.gray1};
+  margin-top: 4px;
+  color: ${props => props.theme.color.gray2};
 `;
 
 function BaseInput({ children, ...props }) {
   return (
-    <Wrapper {...props}>
+    <Wrapper {...props} style={props.mainWrapperStyle}>
       {props.title && (
         <FormTitle>
           {props.title}
