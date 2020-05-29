@@ -149,7 +149,7 @@ const LinkLabel = styled.div`
 const RoutesLinks = [
   { iconName: "dashboard", title: "Dashboard", route: "/dashboard" },
   { iconName: "myBusiness", title: "My Brand", route: "/my-brand" },
-  { iconName: "listText", title: "Listings" },
+  { iconName: "listText", title: "Listings", route: "/listings" },
   {
     iconName: "shoppingBag",
     title: "Orders and Shipping",

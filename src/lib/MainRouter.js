@@ -10,11 +10,11 @@ import { Self } from "lib/context";
 
 import Login from "screens/Login";
 import MainSigningScreen from "screens/signin/MainSigninScreen";
-import Test from "screens/test";
 import MainResetPasswordScreen from "screens/resetPasswordProcess/MainResetPasswordScreen";
 import ChangePassword from "screens/ResetPasswordScreen";
 import Dashboard from "screens/DashboardScreens/Dashboard";
 import MyBrand from "screens/MyBrand/MyBrand";
+import Listings from "screens/Listings/Listings";
 
 import { VENDOR_SIGNUP_STEPS_AMOUNT } from "lib/constants";
 
@@ -131,14 +131,14 @@ export default function MainRouter() {
         <OnboardingRoute path='/signin'>
           <MainSigningScreen />
         </OnboardingRoute>
-        <PrivateRoute path='/dashboard'>
-          <Test />
-        </PrivateRoute>
         <PublicRoute path='/reset-password'>
           <MainResetPasswordScreen />
         </PublicRoute>
         <PrivateRoute path='/change-password'>
           <ChangePassword />
+        </PrivateRoute>
+        <PrivateRoute path='/listings'>
+          <Listings title={"My Listings"}/>
         </PrivateRoute>
         <PrivateRoute path='/my-brand'>
           <MyBrand title={"My Brand"} />
