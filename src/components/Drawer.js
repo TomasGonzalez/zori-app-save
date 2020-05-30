@@ -117,13 +117,16 @@ const LinkItem = styled.div`
   border-radius: 3px;
 `;
 
-const LinkItemWrapper = styled.div`
+const LinkItemWrapper = styled.button`
   padding-top: 4px;
   cursor: pointer;
   color: ${(props) => props.theme.color.gray1};
   display: flex;
   align-items: center;
   justify-content: center;
+  border-style: none;
+  background-color: transparent;
+  outline: none;
 
   ${(props) =>
     props.route === window.location.pathname &&
