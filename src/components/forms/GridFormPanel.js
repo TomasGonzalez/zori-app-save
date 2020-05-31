@@ -56,11 +56,9 @@ export const FormRow = ({ isOptional, title, subTitle, extra, children }) => {
 
 export default function ({ children, ...props }) {
   return (
-    <MainContainer>
-      <Title>
-        <Title>{props.title}</Title>
-        <SubTitle>{props.subTitle}</SubTitle>
-      </Title>
+    <MainContainer className={props.className}>
+      <Title>{props.title}</Title>
+      <SubTitle>{props.subTitle}</SubTitle>
       <GridElement>{children}</GridElement>
     </MainContainer>
   );

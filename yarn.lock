@@ -9414,6 +9414,11 @@ react-icons@^3.9.0:
   dependencies:
     camelcase "^5.0.0"
 
+react-images-uploading@^2.2.0:
+  version "2.2.0"
+  resolved "https://registry.yarnpkg.com/react-images-uploading/-/react-images-uploading-2.2.0.tgz#ef5b68024b59f06843a3825a5f24d50295685204"
+  integrity sha512-QzHY24N96IZPgdw090s6UhhcEuFM4Mb5JMECqwNgtjGZ4agRqEF5swmCc2Xc7GYlFy3OmKBFG37BRUREK02OWA==
+
 react-input-autosize@^2.2.2:
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/react-input-autosize/-/react-input-autosize-2.2.2.tgz#fcaa7020568ec206bc04be36f4eb68e647c4d8c2"

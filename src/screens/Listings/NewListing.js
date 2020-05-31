@@ -3,9 +3,13 @@ import React from "react";
 import styled from "styled-components";
 import { Field, Form } from "react-final-form";
 
+import AddMultipleImages from "components/forms/AddMultipleImages";
 import GridFormPanel, { FormRow } from "components/forms/GridFormPanel";
 
 const MainContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-top: 16px;
   padding: 0px 57px 0px 57px;
   font-weight: 500;
@@ -31,6 +35,10 @@ const TipsTitle = styled.h3`
   color: ${props => props.theme.color.gray2};
 `;
 
+const StyledGridFormPanel = styled(GridFormPanel)`
+  width: 1008px;
+`;
+
 export default function () {
   const handleSubmit = () => {
     console.log("test");
@@ -42,7 +50,7 @@ export default function () {
         render={() => (
           <form>
             Add a new listing
-            <GridFormPanel
+            <StyledGridFormPanel
               title={"Product Photography"}
               subTitle={
                 "Add photos that beautifully and intuitively showcase your product"
@@ -79,12 +87,12 @@ export default function () {
                   </div>
                 }
               >
-                <Field name="Photos" component={() => <div> test </div>} />
+                <Field name="Photos" component={() => <AddMultipleImages />} />
               </FormRow>
               <FormRow title={"this is title"} subTitle={"subTitle"} isOptional>
                 <div>form element</div>
               </FormRow>
-            </GridFormPanel>
+            </StyledGridFormPanel>
             Add a new listing
           </form>
         )}

@@ -31,6 +31,7 @@
     "react-final-form": "^6.3.5",
     "react-helmet": "^6.0.0",
     "react-icons": "^3.9.0",
+    "react-images-uploading": "^2.2.0",
     "react-input-mask": "^2.0.4",
     "react-modal": "^3.11.2",
     "react-multi-email": "^0.5.3",
