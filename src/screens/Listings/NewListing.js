@@ -1,21 +1,23 @@
 import React from "react";
 
-import styled from "styled-components";
+import styled from "styled-components/macro";
 import { Field, Form } from "react-final-form";
 
 import AddMultipleImages from "components/forms/AddMultipleImages";
 import GridFormPanel, { FormRow } from "components/forms/GridFormPanel";
 import { DefaultInput, BigInput } from "components/forms/inputs";
-import { Dropdown2 } from "components/Dropdown";
+import { Dropdown2, CustomCreatableSelect } from "components/Dropdown";
+import DumbCheckBox from "components/forms/DumbCheckBox";
+import theme from "theme";
 
 const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 16px;
-  padding: 0px 57px 0px 57px;
+  padding: 90px 57px 0px 57px;
   font-weight: 500;
   font-size: 20px;
+  overflow: auto;
 `;
 
 const BulletList = styled.ul`
@@ -171,12 +173,43 @@ export default function () {
                 <Field name="category" component={StyledBigInput} />
               </FormRow>
               <FormRow
-                title={"Product Pointers"}
+                title={"Ingredients"}
                 subTitle={
-                  "Add pointers relevant to your product. This can include anything from extra specs, usage instructions etc."
+                  "Talk about the main components that make up your product."
                 }
               >
-                <Field name="category" />
+                <Field name="ingredients" rows={1} component={StyledBigInput} />
+              </FormRow>
+              <FormRow
+                title={"Principles"}
+                subTitle={
+                  "Outline some of the ethical/sustainable principles you stick to when building your products"
+                }
+              >
+                <Field
+                  placeholder="No Parabens, No Animal Cruelty... "
+                  help="Start typing to generate suggestions. Feel free to add more than one."
+                  name="principles"
+                  component={CustomCreatableSelect}
+                  isMulti
+                />
+              </FormRow>
+              <FormRow
+                title={"Personalization"}
+                optional
+                subTitle={
+                  "Allow customers to make specific personalization requests"
+                }
+              >
+                <Field
+                  placeholder="No Parabens, No Animal Cruelty... "
+                  name="personalization"
+                  labels={["Offered", "Not offered"]}
+                  colorText={theme.color.gray1}
+                  color={theme.color.creme}
+                  component={DumbCheckBox}
+                  isMulti
+                />
               </FormRow>
             </StyledGridFormPanel>
           </form>

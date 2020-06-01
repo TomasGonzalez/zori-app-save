@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import Select, { components } from "react-select";
 import AsyncSelect from "react-select/async";
+import CreatableSelect from "react-select/creatable";
 import styled from "styled-components";
 
 import theme from "theme";
@@ -194,6 +195,22 @@ export default function Dropdown({ options, ...props }) {
         isMulti={props.isMulti}
         placeholder={props.placeholder}
         styles={customStyles}
+        options={options}
+        components={{ DropdownIndicator }}
+      />
+    </BaseInput>
+  );
+}
+
+export function CustomCreatableSelect({ options, ...props }) {
+  return (
+    <BaseInput {...props}>
+      <CreatableSelect
+        {...props.input}
+        className={props.className}
+        isMulti={props.isMulti}
+        placeholder={props.placeholder}
+        styles={Dropdown2Style}
         options={options}
         components={{ DropdownIndicator }}
       />

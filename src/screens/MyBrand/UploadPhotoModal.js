@@ -16,8 +16,11 @@ import ProfileIcon from "components/ProfileIcon";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
 import Icon from "components/Icon";
-import { Dropdown2, DropdownAsync } from "components/Dropdown";
-import CreatableSelect from "components/CreatableSelect";
+import {
+  CustomCreatableSelect,
+  Dropdown2,
+  DropdownAsync
+} from "components/Dropdown";
 
 const ImageDrop = styled.div`
   cursor: pointer;
@@ -200,7 +203,7 @@ const StyledButton = styled(Button)`
   width: 100%;
 `;
 
-export default function({ onRequestClose, isOpen, style, ...restProps }) {
+export default function ({ onRequestClose, isOpen, style, ...restProps }) {
   const [imageFile, setImageFile] = useState(null);
   const [crudeImageFile, setCrudImageFile] = useState(null);
   const [productsTags, setProductsTags] = useState([]);

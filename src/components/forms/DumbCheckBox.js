@@ -13,26 +13,35 @@ const MultiCheckBoxWrapper = styled.div`
   max-width: 280px;
 `;
 
-const StyledCheckbox = styled(Checkbox)`  
-  .label{
+const StyledCheckbox = styled(Checkbox)`
+  .label {
     font-size: 12px;
     margin-left: 4px;
+
+    color: ${props => props.colorText};
   }
 `;
 
-export default function( props ) {
+export default function (props) {
+  console.log(props, "this are the label props");
   return (
     <BaseInput {...props}>
       <MultiCheckBoxWrapper>
-        <StyledCheckbox 
-          label="Yes please!" 
-          colorTheme={props.color} 
-          {...props} 
-          onClick={()=>props.input.onChange(true)} />
-        <StyledCheckbox 
-          onClick={()=>props.input.onChange(false)} 
-          inverted={typeof props.input.value === "boolean"} 
-          label="No, keep it a secret!" colorTheme={props.color} {...props}/>
+        <StyledCheckbox
+          label={props.labels[0]}
+          colorTheme={props.color}
+          colorText={props.colorText || props.color}
+          {...props}
+          onClick={() => props.input.onChange(true)}
+        />
+        <StyledCheckbox
+          onClick={() => props.input.onChange(false)}
+          inverted={typeof props.input.value === "boolean"}
+          label={props.labels[1]}
+          colorText={props.colorText || props.color}
+          colorTheme={props.color}
+          {...props}
+        />
       </MultiCheckBoxWrapper>
     </BaseInput>
   );

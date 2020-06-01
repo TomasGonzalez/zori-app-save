@@ -1,13 +1,13 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import _ from "lodash";
 import styled from "styled-components/macro";
 import { Form, Field } from "react-final-form";
-import gql from 'graphql-tag';
-import { useMutation } from '@apollo/react-hooks';
+import gql from "graphql-tag";
+import { useMutation } from "@apollo/react-hooks";
 
-import {NotEmptyValidator} from "lib/formValidation";
-import Button from 'components/Button';
+import { NotEmptyValidator } from "lib/formValidation";
+import Button from "components/Button";
 import DumbCheckBox from "components/forms/DumbCheckBox";
 import { BigInput } from "components/forms/inputs";
 import theme from "theme";
@@ -52,17 +52,22 @@ const ButtonWrapper = styled.div`
   border-width: 1px 0px 0px 0px;
 `;
 
-export default function({ onRequestClose, isOpen, style, ...restProps }) {
+export default function ({ onRequestClose, isOpen, style, ...restProps }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const [createVendorPostBox] = useMutation(CREATE_BOX);
 
-  const handleSubmit = (values) =>{
-    setIsLoading(true)
-    createVendorPostBox({variables: {...values}})
-    .then(()=>{setIsLoading(false); onRequestClose()})
-    .catch(()=>{setIsLoading(false)});
-  }
+  const handleSubmit = values => {
+    setIsLoading(true);
+    createVendorPostBox({ variables: { ...values } })
+      .then(() => {
+        setIsLoading(false);
+        onRequestClose();
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
+  };
 
   return (
     <Modal
@@ -115,23 +120,24 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
                 name="isPublic"
                 title="Would you like your box out there in the open"
                 subTitle="This controls whether users are able to find your box on ZORI"
+                labels={["Yes please!", "No, keep it a secret!"]}
                 mainWrapperStyle={{ marginTop: 24 }}
                 component={DumbCheckBox}
                 color={theme.color.gray2}
                 validate={NotEmptyValidator}
               />
               <ButtonWrapper>
-                <Button 
-                  width="100%" 
-                  style={{height: 32}} 
-                  borderColor={"transparent"} 
+                <Button
+                  width="100%"
+                  style={{ height: 32 }}
+                  borderColor={"transparent"}
                   textColor={[theme.color.green1, theme.color.background]}
-                  buttonColor={[theme.color.green1, theme.color.background]}  
+                  buttonColor={[theme.color.green1, theme.color.background]}
                   isLoading={isLoading}
                   label="Create"
                   onClick={handleSubmit}
                 />
-              </ButtonWrapper> 
+              </ButtonWrapper>
             </StyledForm>
           )}
         />
@@ -141,8 +147,12 @@ export default function({ onRequestClose, isOpen, style, ...restProps }) {
 }
 
 const CREATE_BOX = gql`
-  mutation($description: String, $title: String){
-    createVendorPostBox(description: $description, title: $title, isPublic: true){
+  mutation($description: String, $title: String) {
+    createVendorPostBox(
+      description: $description
+      title: $title
+      isPublic: true
+    ) {
       errorMessage
     }
   }
