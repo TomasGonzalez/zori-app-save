@@ -41,35 +41,38 @@ const StyledLabel = styled.label`
   color: ${props => props.theme.color.black1};
 `;
 
-const maxNumber = 8;
-
-export default function () {
+export default function ({ maxNumber = 8, ...props }) {
   const onChange = data => {
     console.log(data);
   };
 
+  console.log(maxNumber);
+
   return (
-    <ImageUploading multiple onChange={onChange} maxNumber={maxNumber}>
+    <ImageUploading multiple onChange={onChange} maxNumber={maxNumber + 1}>
       {({ imageList, onImageUpload, onImageRemoveAll }) => (
         <div>
           <ImageGrid>
             {imageList.map(image => (
               <Image
+                onClick={image.onUpdate}
                 src={image.dataURL}
                 alt=""
                 width="100%"
                 style={{ object_fit: "contain" }}
               />
             ))}
-            <AddAPhoto
-              onClick={e => {
-                onImageUpload();
-                e.preventDefault();
-              }}
-            >
-              <Icon icon="camera" color="black" size={32} />
-              <StyledLabel style={{ marginTop: 8 }}>Add a photo</StyledLabel>
-            </AddAPhoto>
+            {imageList.length < maxNumber && (
+              <AddAPhoto
+                onClick={e => {
+                  onImageUpload();
+                  e.preventDefault();
+                }}
+              >
+                <Icon icon="camera" color="black" size={32} />
+                <StyledLabel style={{ marginTop: 8 }}>Add a photo</StyledLabel>
+              </AddAPhoto>
+            )}
           </ImageGrid>
         </div>
       )}

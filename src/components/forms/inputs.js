@@ -257,6 +257,24 @@ export const PhoneInput = props => {
   );
 };
 
+const StyledDefaultInput = styled.input`
+  border: solid 1px ${props => props.theme.color.creme};
+  border-radius: 3px;
+  height: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  padding: 0px 8px;
+`;
+
+export function DefaultInput(props) {
+  return (
+    <BaseInput {...props}>
+      <StyledDefaultInput className={props.className} />
+    </BaseInput>
+  );
+}
+
 export const BigInput = props => {
   return (
     <MainWrapper>

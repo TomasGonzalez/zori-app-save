@@ -221,6 +221,7 @@ export function Dropdown2({ options, ...props }) {
   return (
     <Select
       {...props.input}
+      className={props.className}
       isMulti={props.isMulti}
       placeholder={props.placeholder}
       styles={Dropdown2Style}

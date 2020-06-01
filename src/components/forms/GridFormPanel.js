@@ -18,7 +18,7 @@ const SubTitle = styled.h3`
 `;
 
 const Title = styled.h2`
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 500;
   padding: 0px;
   margin: 0px;
@@ -44,7 +44,8 @@ export const FormRow = ({ isOptional, title, subTitle, extra, children }) => {
     <>
       <div>
         <Title>
-          {title} {isOptional && <span>(Optional)</span>}
+          {title}
+          {isOptional ? <span> (Optional)</span> : "*"}
         </Title>
         <SubTitle style={{ marginTop: 4 }}>{subTitle}</SubTitle>
         <div>{extra}</div>
