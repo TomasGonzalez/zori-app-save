@@ -196,7 +196,7 @@ export default function () {
               </FormRow>
               <FormRow
                 title={"Personalization"}
-                optional
+                isOptional
                 subTitle={
                   "Allow customers to make specific personalization requests"
                 }
@@ -208,7 +208,47 @@ export default function () {
                   colorText={theme.color.gray1}
                   color={theme.color.creme}
                   component={DumbCheckBox}
+                />
+              </FormRow>
+              <FormRow
+                title={"Tags"}
+                isOptional
+                subTitle={
+                  "These are some of the search terms you expect your customers to use to find your products"
+                }
+              >
+                <Field
+                  placeholder="Organic face cream, Vegan toothpaste..."
+                  name="personalization"
+                  component={Dropdown2}
                   isMulti
+                />
+              </FormRow>
+              <FormRow
+                title={"Tags"}
+                isOptional
+                subTitle={
+                  "These are some of the search terms you expect your customers to use to find your products"
+                }
+              >
+                <Field
+                  placeholder="Organic face cream, Vegan toothpaste..."
+                  name="personalization"
+                  component={Dropdown2}
+                  isMulti
+                />
+              </FormRow>
+              <FormRow
+                title={"Sections"}
+                isOptional
+                subTitle={
+                  "Create sections to intuitively organize your listings. Make it easier for both you and your customer to find your products"
+                }
+              >
+                <Field
+                  placeholder="Pick your section..."
+                  name="personalization"
+                  component={Dropdown2}
                 />
               </FormRow>
             </StyledGridFormPanel>
