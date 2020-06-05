@@ -2,6 +2,8 @@ import React from "react";
 
 import styled from "styled-components";
 
+import theme from "theme";
+
 const MainContainer = styled.div`
   padding: 24px;
   border-radius: 5px;
@@ -12,7 +14,7 @@ const MainContainer = styled.div`
 const SubTitle = styled.h3`
   margin: 0px;
   margin-top: 8px;
-  font-size: 10px;
+  font-size: 12px;
   color: ${props => props.theme.color.gray2};
   font-weight: normal;
 `;
@@ -39,7 +41,18 @@ const GridElement = styled.div`
   grid-column-gap: 16px;
 `;
 
-export const FormRow = ({ isOptional, title, subTitle, extra, children }) => {
+const Footer = styled.div`
+  width: 100%;
+`;
+
+export const FormRow = ({
+  footer,
+  isOptional,
+  title,
+  subTitle,
+  extra,
+  children
+}) => {
   return (
     <>
       <div>
@@ -47,10 +60,39 @@ export const FormRow = ({ isOptional, title, subTitle, extra, children }) => {
           {title}
           {isOptional ? <span> (Optional)</span> : "*"}
         </Title>
-        <SubTitle style={{ marginTop: 4 }}>{subTitle}</SubTitle>
+        <SubTitle style={{ marginTop: 4, fontSize: 10 }}>{subTitle}</SubTitle>
         <div>{extra}</div>
       </div>
       <div>{children}</div>
+    </>
+  );
+};
+
+export const FormSection = ({
+  footer,
+  isOptional,
+  title,
+  subTitle,
+  extra,
+  children
+}) => {
+  return (
+    <>
+      <div
+        style={{
+          gridColumn: "1/3",
+          borderColor: theme.color.creme,
+          borderStyle: "solid",
+          borderWidth: "1px 0 0 0"
+        }}
+      >
+        <Title style={{ marginTop: 16 }}>
+          {title}
+          {isOptional ? <span> (Optional)</span> : "*"}
+        </Title>
+        <SubTitle style={{ marginTop: 4, fontSize: 10 }}>{subTitle}</SubTitle>
+        <div>{children}</div>
+      </div>
     </>
   );
 };

@@ -23,7 +23,6 @@ const StyledCheckbox = styled(Checkbox)`
 `;
 
 export default function (props) {
-  console.log(props, "this are the label props");
   return (
     <BaseInput {...props}>
       <MultiCheckBoxWrapper>

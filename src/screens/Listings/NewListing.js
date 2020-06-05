@@ -4,17 +4,24 @@ import styled from "styled-components/macro";
 import { Field, Form } from "react-final-form";
 
 import AddMultipleImages from "components/forms/AddMultipleImages";
-import GridFormPanel, { FormRow } from "components/forms/GridFormPanel";
+import GridFormPanel, {
+  FormRow,
+  FormSection
+} from "components/forms/GridFormPanel";
 import { DefaultInput, BigInput } from "components/forms/inputs";
 import { Dropdown2, CustomCreatableSelect } from "components/Dropdown";
+import Button from "components/Button";
 import DumbCheckBox from "components/forms/DumbCheckBox";
+import MultipleSelectList, {
+  ShippingOptions
+} from "components/forms/MultipleSelectList";
 import theme from "theme";
 
 const MainContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 90px 57px 0px 57px;
+  padding: 0px 57px 0px 57px;
   font-weight: 500;
   font-size: 20px;
   overflow: auto;
@@ -71,7 +78,7 @@ export default function () {
     <MainContainer>
       <Form
         render={() => (
-          <form>
+          <form style={{ height: "100%" }}>
             Add a new listing
             <StyledGridFormPanel
               title={"Product Photography"}
@@ -158,7 +165,7 @@ export default function () {
                     placeholder="Who made it?"
                   />
                   <Field
-                    name="category"
+                    name="categoryDescription"
                     component={AboutThisProductDD}
                     placeholder="How are you selling it?"
                   />
@@ -202,26 +209,11 @@ export default function () {
                 }
               >
                 <Field
-                  placeholder="No Parabens, No Animal Cruelty... "
                   name="personalization"
                   labels={["Offered", "Not offered"]}
                   colorText={theme.color.gray1}
                   color={theme.color.creme}
                   component={DumbCheckBox}
-                />
-              </FormRow>
-              <FormRow
-                title={"Tags"}
-                isOptional
-                subTitle={
-                  "These are some of the search terms you expect your customers to use to find your products"
-                }
-              >
-                <Field
-                  placeholder="Organic face cream, Vegan toothpaste..."
-                  name="personalization"
-                  component={Dropdown2}
-                  isMulti
                 />
               </FormRow>
               <FormRow
@@ -247,8 +239,153 @@ export default function () {
               >
                 <Field
                   placeholder="Pick your section..."
-                  name="personalization"
+                  name="sections"
                   component={Dropdown2}
+                />
+              </FormRow>
+            </StyledGridFormPanel>
+            Inventory and Pricing
+            <StyledGridFormPanel
+              title="Pricing*"
+              subTitle={`ZORI enables you to reward customers when they buy in groups. Set rules on how you want to price your items in both individual and group purchase scenarios.
+              Be sure to factor in the total cost of the goods you’re selling including materials and labor. Keep in mind shipping costs for your customers when setting your prices.`}
+            >
+              <FormRow
+                title={"Individual Pricing"}
+                subTitle={"Pricing when only one customer makes a purchase"}
+              >
+                <Field name={"inventoryAndPricing"} component={DefaultInput} />
+              </FormRow>
+              <FormRow
+                title="Team Purchase Pricing"
+                subTitle="Pricing when customers shop together as a team."
+              >
+                <Field
+                  name="teaPurchasePricing"
+                  label={"Set team purchasing rules"}
+                  component={Button}
+                  borderColor={theme.color.creme}
+                  textColor={[theme.color.background, theme.color.black1]}
+                  style={{ height: 32, width: 169 }}
+                />
+              </FormRow>
+              <FormRow
+                title="Inventory"
+                subTitle="Indicate how much stock you have available. Will automatically deplete as you sell."
+              >
+                <Field name="inventory" component={DefaultInput} />
+              </FormRow>
+              <FormRow
+                title="Pre-Orders"
+                subTitle="Would you like to continue taking orders after stock runs out?"
+                extra={
+                  <p
+                    style={{
+                      fontSize: 10,
+                      color: theme.color.gray1,
+                      paddingTop: 8,
+                      margin: 0
+                    }}
+                  >
+                    Be sure to only take pre-orders for what you’re able to
+                    fulfill
+                  </p>
+                }
+              >
+                <Field
+                  name="preOrdes"
+                  colorText={theme.color.gray1}
+                  color={theme.color.creme}
+                  labels={["Yes", "No"]}
+                  component={DumbCheckBox}
+                ></Field>
+              </FormRow>
+              <FormRow
+                subTitle="Set purchase limits per customer?"
+                title="Purchase limits"
+              >
+                <Field
+                  name="purchaselimits"
+                  labels={["Yes", "No"]}
+                  colorText={theme.color.gray1}
+                  color={theme.color.creme}
+                  component={DumbCheckBox}
+                ></Field>
+              </FormRow>
+              <FormRow
+                title="SKU"
+                subTitle="Record your SKU to make it easier to manage your inventory. It will NOT be displayed to customers"
+                isOptional
+              >
+                <Field name="SKU" component={DefaultInput} />
+              </FormRow>
+              <FormSection title="Variation" isOptional>
+                <div>
+                  <h3
+                    style={{
+                      fontSize: 12,
+                      margin: 0,
+                      color: theme.color.gray1,
+                      fontWeight: "normal"
+                    }}
+                  >
+                    Add all available options you’d like your customers to
+                    choose from when making a purchase.
+                  </h3>
+                  <h4
+                    style={{
+                      fontSize: 10,
+                      margin: 0,
+                      color: theme.color.gray1,
+                      fontWeight: "normal"
+                    }}
+                  >
+                    You can offer options in anything from Size, Color, Material
+                    type and more.
+                  </h4>
+                  <Button
+                    style={{ width: 168, height: 32, marginTop: 16 }}
+                    label="Add a Variation"
+                    buttonColor={[theme.color.background, theme.color.black1]}
+                    textColor={[theme.color.background, theme.color.black1]}
+                    borderColor={theme.color.creme}
+                  />
+                </div>
+              </FormSection>
+            </StyledGridFormPanel>
+            <StyledGridFormPanel>
+              <FormRow
+                title={"Processing Time"}
+                subTitle={
+                  "Tell your customers how long it’ll take to process each order before it’s ready for dispatch"
+                }
+              >
+                <Field name="processingTime" component={Dropdown2} />
+              </FormRow>
+              <FormRow
+                title="Burden of Cost"
+                subTitle="Indicate if you will cover shipping costs for your customers"
+              >
+                <Field
+                  name="burdenOfCost"
+                  color={theme.color.creme}
+                  colorText={theme.color.gray1}
+                  labels={["Yes", "No"]}
+                  component={DumbCheckBox}
+                />
+              </FormRow>
+              <FormRow
+                title="Shipping Options"
+                subTitle="Choose the most appropriate shipping option for your product"
+              >
+                <Field
+                  name="shippingOptions"
+                  _data={[
+                    { text: "this is item one", price: "123.23", value: "2" },
+                    { text: "this is item one", price: "123.23", value: "1" }
+                  ]}
+                  RowLayout={ShippingOptions}
+                  component={MultipleSelectList}
                 />
               </FormRow>
             </StyledGridFormPanel>

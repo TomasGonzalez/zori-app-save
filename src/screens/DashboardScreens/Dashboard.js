@@ -44,9 +44,9 @@ export default function Dashboard({ title }) {
                   data={data}
                   error={error}
                 />
-              ),
+              )
             },
-            { title: "Feed", component: <Feed /> },
+            { title: "Feed", component: <Feed /> }
           ]}
         />
       </MainContainer>
