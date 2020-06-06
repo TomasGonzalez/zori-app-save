@@ -69,6 +69,10 @@ const StyledBigInput = styled(BigInput)`
   border-color: ${props => props.theme.color.creme};
 `;
 
+const StyledFormRow = styled(FormRow)`
+  border-color: ${props => props.theme.color.creme};
+`;
+
 export default function () {
   const handleSubmit = () => {
     console.log("test");
@@ -381,14 +385,72 @@ export default function () {
                 <Field
                   name="shippingOptions"
                   _data={[
-                    { text: "this is item one", price: "123.23", value: "2" },
-                    { text: "this is item one", price: "123.23", value: "1" }
+                    {
+                      text: "USPS Priority Mail 2-Day Flat Rate Envelope",
+                      price: "123.23",
+                      value: "2",
+                      help: "this is a help"
+                    },
+                    {
+                      text: "USPS Priority Mail 2-Day Flat Rate Box",
+                      price: "123.23",
+                      value: "1",
+                      help: "testing this help"
+                    },
+                    {
+                      text: "USPS Priority Mail 2-Day Small Flat Rate Box",
+                      price: "123.23",
+                      value: "1",
+                      help: "testing this help"
+                    },
+                    {
+                      text: "usps priority mail 2-day medium flat rate box",
+                      price: "123.23",
+                      value: "1",
+                      help: "testing this help"
+                    },
+                    {
+                      text: "USPS Priority Mail 2-Day Large Flat Rate Box",
+                      price: "123.23",
+                      value: "1",
+                      help: "testing this help"
+                    }
                   ]}
                   RowLayout={ShippingOptions}
                   component={MultipleSelectList}
                 />
               </FormRow>
+              <StyledFormRow
+                title="ZORI Shipping Labels"
+                subTitle="Unless you have your own, you can have ZORI automatically generate ready to print shipping labels with each order"
+              >
+                <Field
+                  labels={[
+                    "Yes please, generate ZORI shipping labels",
+                    "No thanks, I have my own"
+                  ]}
+                  colorText={theme.color.gray1}
+                  color={theme.color.creme}
+                  name="labels"
+                  component={DumbCheckBox}
+                />
+              </StyledFormRow>
             </StyledGridFormPanel>
+            <div
+              style={{
+                display: "flex",
+                flex: 1,
+                alignItems: "flex-end",
+                justifyContent: "flex-end"
+              }}
+            >
+              <Button
+                style={{ width: 168, height: 40, margin: 20 }}
+                buttonColor={[theme.color.black1, theme.color.background]}
+                textColor={[theme.color.black1, theme.color.background]}
+                label={"Publish Listing"}
+              />
+            </div>
           </form>
         )}
         onSubmit={handleSubmit}

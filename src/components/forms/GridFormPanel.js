@@ -51,11 +51,12 @@ export const FormRow = ({
   title,
   subTitle,
   extra,
-  children
+  children,
+  className
 }) => {
   return (
     <>
-      <div>
+      <div className={className}>
         <Title>
           {title}
           {isOptional ? <span> (Optional)</span> : "*"}

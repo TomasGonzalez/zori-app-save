@@ -10,7 +10,6 @@ const MultiCheckBoxWrapper = styled.div`
   flex-direction: row;
   align-items: space-between;
   justify-content: space-between;
-  max-width: 280px;
 `;
 
 const StyledCheckbox = styled(Checkbox)`

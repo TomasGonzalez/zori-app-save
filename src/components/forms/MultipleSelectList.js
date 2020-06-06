@@ -19,14 +19,38 @@ const RoundCheckBox = styled.div`
 
 const OptionsLayoutWrapper = styled.div`
   display: flex;
-  align-items: row;
+  align-items: center;
   justify-content: space-between;
   margin: 0px 16px;
   border: solid 1px ${props => props.theme.color.creme};
   border-width: 0 0 1px 0;
+  padding: 16px 0px;
+
+  &:last-child {
+    border-style: none;
+  }
 `;
 
-export function ShippingOptions({ text, price, value }) {
+const Title = styled.h1`
+  font-size: 12px;
+  font-weight: 500;
+  margin: 0px;
+`;
+
+const SubText = styled.h2`
+  color: ${props => props.theme.color.gray1};
+  font-size: 10px;
+  font-weight: normal;
+  margin: 0px;
+`;
+
+const Price = styled.b`
+  font-weight: 500;
+  font-size: 12px;
+  color: ${props => props.theme.color.black1};
+`;
+
+export function ShippingOptions({ help, text, price, value }) {
   return (
     <OptionsLayoutWrapper>
       <div
@@ -38,15 +62,17 @@ export function ShippingOptions({ text, price, value }) {
         }}
       >
         <RoundCheckBox style={{ marginRight: 8 }} isChecked={true} />
-        <p>{text}</p>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          <Title>{text}</Title>
+          <SubText>{help}</SubText>
+        </div>
       </div>
-      <p style={{ paddingRight: 21 }}>{price}</p>
+      <Price style={{ paddingRight: 21 }}>${price}</Price>
     </OptionsLayoutWrapper>
   );
 }
 
 export default function ({ _data, RowLayout, ...props }) {
-  console.log(props, _data);
   return (
     <MainWrapper>
       {_data.map(vals => {
