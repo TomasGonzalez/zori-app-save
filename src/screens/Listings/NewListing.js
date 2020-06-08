@@ -2,20 +2,22 @@ import React from "react";
 
 import styled from "styled-components/macro";
 import { Field, Form } from "react-final-form";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
 
 import AddMultipleImages from "components/forms/AddMultipleImages";
-import GridFormPanel, {
-  FormRow,
-  FormSection
-} from "components/forms/GridFormPanel";
 import { DefaultInput, BigInput } from "components/forms/inputs";
 import { Dropdown2, CustomCreatableSelect } from "components/Dropdown";
 import Button from "components/Button";
 import DumbCheckBox from "components/forms/DumbCheckBox";
+import theme from "theme";
+import GridFormPanel, {
+  FormRow,
+  FormSection
+} from "components/forms/GridFormPanel";
 import MultipleSelectList, {
   ShippingOptions
 } from "components/forms/MultipleSelectList";
-import theme from "theme";
 
 const MainContainer = styled.div`
   display: flex;
@@ -50,9 +52,7 @@ const StyledGridFormPanel = styled(GridFormPanel)`
   width: 1008px;
 `;
 
-const StyledDropdown2 = styled(Dropdown2)`
-  width: 185px;
-`;
+const StyledDropdown2 = styled(Dropdown2)``;
 
 const AboutThisProductDD = styled(Dropdown2)`
   &:last-child {
@@ -74,14 +74,32 @@ const StyledFormRow = styled(FormRow)`
 `;
 
 export default function () {
-  const handleSubmit = () => {
-    console.log("test");
+  const [CreateProduct] = useMutation(CREATE_PRODUCT);
+  const { data, refetch, loading, error } = useQuery(QUERY);
+
+  const handleSubmit = values => {
+    console.log(values, "handle submit");
+    console.log("this is handle submit btw lol");
+    CreateProduct({ ...values })
+      .then(response => {
+        console.log("Testing response", response);
+      })
+      .catch(err => {
+        console.log("this should be error");
+        console.log(err);
+      });
   };
+
+  if (loading) {
+    return <div>loading</div>;
+  }
+
+  console.log(data, "this is supposed to be data");
 
   return (
     <MainContainer>
       <Form
-        render={() => (
+        render={({ handleSubmit }) => (
           <form style={{ height: "100%" }}>
             Add a new listing
             <StyledGridFormPanel
@@ -158,19 +176,31 @@ export default function () {
                   name="category"
                   component={StyledDropdown2}
                   isMulti
+                  options={data.productCategories?.map(categories => ({
+                    value: categories.id,
+                    label: categories.label
+                  }))}
                   placeholder="Select a category..."
                 />
               </FormRow>
               <FormRow title={"About this product"}>
                 <HorizontalWrapper>
                   <Field
-                    name="category"
+                    name="about"
                     component={AboutThisProductDD}
                     placeholder="Who made it?"
+                    options={[
+                      { value: 0, label: "We did" },
+                      { value: 1, label: "Another company did" }
+                    ]}
                   />
                   <Field
-                    name="categoryDescription"
+                    name="aboutDescription"
                     component={AboutThisProductDD}
+                    options={[
+                      { value: 0, label: "As a finished product" },
+                      { value: 1, label: "As a made to order product" }
+                    ]}
                     placeholder="How are you selling it?"
                   />
                 </HorizontalWrapper>
@@ -181,7 +211,7 @@ export default function () {
                   "Start off with an overview that describes the best in your product"
                 }
               >
-                <Field name="category" component={StyledBigInput} />
+                <Field name="description" component={StyledBigInput} />
               </FormRow>
               <FormRow
                 title={"Ingredients"}
@@ -189,7 +219,12 @@ export default function () {
                   "Talk about the main components that make up your product."
                 }
               >
-                <Field name="ingredients" rows={1} component={StyledBigInput} />
+                <Field
+                  name="ingredients"
+                  rows={1}
+                  isMulti
+                  component={CustomCreatableSelect}
+                />
               </FormRow>
               <FormRow
                 title={"Principles"}
@@ -201,6 +236,10 @@ export default function () {
                   placeholder="No Parabens, No Animal Cruelty... "
                   help="Start typing to generate suggestions. Feel free to add more than one."
                   name="principles"
+                  options={data.sustainablePrinciples?.map(principles => ({
+                    label: principles.label,
+                    value: principles.id
+                  }))}
                   component={CustomCreatableSelect}
                   isMulti
                 />
@@ -221,7 +260,7 @@ export default function () {
                 />
               </FormRow>
               <FormRow
-                title={"Tags"}
+                title={"tags"}
                 isOptional
                 subTitle={
                   "These are some of the search terms you expect your customers to use to find your products"
@@ -229,7 +268,7 @@ export default function () {
               >
                 <Field
                   placeholder="Organic face cream, Vegan toothpaste..."
-                  name="personalization"
+                  name="tags"
                   component={Dropdown2}
                   isMulti
                 />
@@ -445,6 +484,7 @@ export default function () {
               }}
             >
               <Button
+                onClick={handleSubmit}
                 style={{ width: 168, height: 40, margin: 20 }}
                 buttonColor={[theme.color.black1, theme.color.background]}
                 textColor={[theme.color.black1, theme.color.background]}
@@ -458,3 +498,26 @@ export default function () {
     </MainContainer>
   );
 }
+
+const QUERY = gql`
+  query Query {
+    productCategories {
+      id
+      label
+      productTags {
+        id
+        label
+      }
+    }
+    sustainablePrinciples {
+      id
+      label
+    }
+  }
+`;
+
+const CREATE_PRODUCT = gql`
+  mutation CreateProduct($description: String) {
+    errorMessage
+  }
+`;
