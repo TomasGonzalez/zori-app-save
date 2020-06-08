@@ -415,7 +415,16 @@ export default function () {
                   "Tell your customers how long it’ll take to process each order before it’s ready for dispatch"
                 }
               >
-                <Field name="processingTime" component={Dropdown2} />
+                <Field
+                  name="processingTime"
+                  options={[
+                    { label: "1 business day", value: 0 },
+                    { label: "2 - 4 business days", value: 1 },
+                    { label: "5 - 7 business days", value: 2 },
+                    { label: "8+ business days", value: 3 }
+                  ]}
+                  component={Dropdown2}
+                />
               </FormRow>
               <FormRow
                 title="Burden of Cost"
@@ -439,31 +448,31 @@ export default function () {
                     {
                       text: "USPS Priority Mail 2-Day Flat Rate Envelope",
                       price: "123.23",
-                      value: "2",
+                      value: 1,
                       help: "this is a help"
                     },
                     {
                       text: "USPS Priority Mail 2-Day Flat Rate Box",
                       price: "123.23",
-                      value: "1",
+                      value: 2,
                       help: "testing this help"
                     },
                     {
                       text: "USPS Priority Mail 2-Day Small Flat Rate Box",
                       price: "123.23",
-                      value: "1",
+                      value: 3,
                       help: "testing this help"
                     },
                     {
                       text: "usps priority mail 2-day medium flat rate box",
                       price: "123.23",
-                      value: "1",
+                      value: 4,
                       help: "testing this help"
                     },
                     {
                       text: "USPS Priority Mail 2-Day Large Flat Rate Box",
                       price: "123.23",
-                      value: "1",
+                      value: 5,
                       help: "testing this help"
                     }
                   ]}

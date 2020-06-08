@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 import styled from "styled-components/macro";
 
@@ -50,7 +50,14 @@ const Price = styled.b`
   color: ${props => props.theme.color.black1};
 `;
 
-export function ShippingOptions({ help, text, price, value }) {
+export function ShippingOptions({
+  selected,
+  setSelected,
+  help,
+  text,
+  price,
+  value
+}) {
   return (
     <OptionsLayoutWrapper>
       <div
@@ -61,7 +68,15 @@ export function ShippingOptions({ help, text, price, value }) {
           flexDirection: "row"
         }}
       >
-        <RoundCheckBox style={{ marginRight: 8 }} isChecked={true} />
+        <RoundCheckBox
+          onClick={() =>
+            selected?.find(val => val === value)
+              ? setSelected(selected.filter(val => val !== value))
+              : setSelected([...selected, value])
+          }
+          style={{ marginRight: 8 }}
+          isChecked={selected.find(val => val === value) || false}
+        />
         <div style={{ display: "flex", flexDirection: "column" }}>
           <Title>{text}</Title>
           <SubText>{help}</SubText>
@@ -73,10 +88,23 @@ export function ShippingOptions({ help, text, price, value }) {
 }
 
 export default function ({ _data, RowLayout, ...props }) {
+  const [selected, setSelected] = useState([]);
+
+  useEffect(() => {
+    console.log(selected);
+  }, [selected]);
+
   return (
     <MainWrapper>
       {_data.map(vals => {
-        return <RowLayout {...vals} {...props} />;
+        return (
+          <RowLayout
+            setSelected={setSelected}
+            selected={selected}
+            {...vals}
+            {...props}
+          />
+        );
       })}
     </MainWrapper>
   );
