@@ -2,6 +2,8 @@ import React, { useState } from "react";
 
 import InputMask from "react-input-mask";
 import styled from "styled-components/macro";
+import CurrencyInput from "react-currency-masked-input";
+
 import BaseInput from "components/BaseInput";
 
 const MainWrapper = styled.div`
@@ -185,6 +187,24 @@ const StyledAAQInput = styled.input`
   }
 `;
 
+const StyledCurrencyInput = styled(CurrencyInput)`
+  border: solid 1px ${props => props.theme.color.creme};
+  border-radius: 3px;
+  height: 32px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  padding: 0px 8px;
+`;
+
+export const InputCurrency = props => {
+  return (
+    <BaseInput {...props}>
+      <StyledCurrencyInput />
+    </BaseInput>
+  );
+};
+
 export const TextInput = props => {
   return (
     <MainWrapper {...props}>
@@ -270,7 +290,7 @@ const StyledDefaultInput = styled.input`
 export function DefaultInput(props) {
   return (
     <BaseInput {...props}>
-      <StyledDefaultInput className={props.className} />
+      <StyledDefaultInput {...props.input} className={props.className} />
     </BaseInput>
   );
 }

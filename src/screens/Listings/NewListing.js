@@ -6,7 +6,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import AddMultipleImages from "components/forms/AddMultipleImages";
-import { DefaultInput, BigInput } from "components/forms/inputs";
+import { InputCurrency, DefaultInput, BigInput } from "components/forms/inputs";
 import { Dropdown2, CustomCreatableSelect } from "components/Dropdown";
 import Button from "components/Button";
 import DumbCheckBox from "components/forms/DumbCheckBox";
@@ -269,6 +269,10 @@ export default function () {
                 <Field
                   placeholder="Organic face cream, Vegan toothpaste..."
                   name="tags"
+                  options={data.productTags?.map(tags => ({
+                    value: tags.id,
+                    label: tags.label
+                  }))}
                   component={Dropdown2}
                   isMulti
                 />
@@ -283,6 +287,10 @@ export default function () {
                 <Field
                   placeholder="Pick your section..."
                   name="sections"
+                  options={data.vendorProductSections?.map(sections => ({
+                    value: sections.id,
+                    label: sections.label
+                  }))}
                   component={Dropdown2}
                 />
               </FormRow>
@@ -297,7 +305,7 @@ export default function () {
                 title={"Individual Pricing"}
                 subTitle={"Pricing when only one customer makes a purchase"}
               >
-                <Field name={"inventoryAndPricing"} component={DefaultInput} />
+                <Field name={"pricing"} component={InputCurrency} />
               </FormRow>
               <FormRow
                 title="Team Purchase Pricing"
@@ -316,7 +324,11 @@ export default function () {
                 title="Inventory"
                 subTitle="Indicate how much stock you have available. Will automatically deplete as you sell."
               >
-                <Field name="inventory" component={DefaultInput} />
+                <Field
+                  name="inventory"
+                  type="number"
+                  component={DefaultInput}
+                />
               </FormRow>
               <FormRow
                 title="Pre-Orders"
@@ -510,6 +522,14 @@ const QUERY = gql`
       }
     }
     sustainablePrinciples {
+      id
+      label
+    }
+    productTags {
+      id
+      label
+    }
+    vendorProductSections {
       id
       label
     }

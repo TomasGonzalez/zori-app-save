@@ -9311,6 +9311,14 @@ react-cookie@^4.0.3:
     hoist-non-react-statics "^3.0.0"
     universal-cookie "^4.0.0"
 
+react-currency-masked-input@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/react-currency-masked-input/-/react-currency-masked-input-2.4.0.tgz#78fb1f2fc2c88249d3414726125b2488f63bdee1"
+  integrity sha512-M0J0z6wH6+hmGwE57SX4lvdDUC8iOn8gJ8Mx0ncEjgcD/h8TfKmWnaDXuCXI2W2dFTIcJsXLLCfnS1qLcnuerg==
+  dependencies:
+    prop-types "^15.7.2"
+    react "^16.8.6"
+
 react-custom-password-mask@^1.0.10:
   version "1.0.10"
   resolved "https://registry.yarnpkg.com/react-custom-password-mask/-/react-custom-password-mask-1.0.10.tgz#267daaa7c36f256f1bb251d3c2d479e3ad37673a"
@@ -9605,7 +9613,7 @@ react@^0.14.2:
     envify "^3.0.0"
     fbjs "^0.6.1"
 
-react@^16.13.1:
+react@^16.13.1, react@^16.8.6:
   version "16.13.1"
   resolved "https://registry.yarnpkg.com/react/-/react-16.13.1.tgz#2e818822f1a9743122c063d6410d85c1e3afe48e"
   integrity sha512-YMZQQq32xHLX0bz5Mnibv1/LHb3Sqzngu7xstSM+vrkE5Kzr9xE0yMByK5kMoTK30YVJE61WfbxIFFvfeDKT1w==
