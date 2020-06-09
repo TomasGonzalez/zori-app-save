@@ -78,14 +78,36 @@ export default function () {
   const { data, refetch, loading, error } = useQuery(QUERY);
 
   const handleSubmit = values => {
-    console.log(values, "handle submit");
-    console.log("this is handle submit btw lol");
-    CreateProduct({ ...values })
+    console.log(values, "form values");
+    console.log(
+      values?.productCategory?.map(category => category.value),
+      "category values array"
+    );
+
+    CreateProduct({
+      variables: {
+        ...values,
+        productCategory: values.productCategory?.map(
+          category => category.value
+        ),
+        aboutThisProduct: {
+          whoMadeIt: values.whoMadeIt?.value,
+          howSellingIt: values.howSellingIt?.value
+        },
+        ingredients: values.ingredients?.map(ingredient => ingredient.label),
+        sustainablePrinciples: values.sustainablePrinciples(
+          principle => principle.value
+        ),
+        productTags: values.productTags?.map(tags => tags?.value),
+        productSections: values.productSections?.map(
+          sections => sections?.value
+        )
+      }
+    })
       .then(response => {
         console.log("Testing response", response);
       })
       .catch(err => {
-        console.log("this should be error");
         console.log(err);
       });
   };
@@ -93,8 +115,6 @@ export default function () {
   if (loading) {
     return <div>loading</div>;
   }
-
-  console.log(data, "this is supposed to be data");
 
   return (
     <MainContainer>
@@ -139,7 +159,7 @@ export default function () {
                   </div>
                 }
               >
-                <Field name="Photos" component={AddMultipleImages} />
+                <Field name="images" component={AddMultipleImages} />
               </FormRow>
               <FormRow
                 title={"Add your cover photo"}
@@ -173,7 +193,7 @@ export default function () {
                 }
               >
                 <Field
-                  name="category"
+                  name="productCategory"
                   component={StyledDropdown2}
                   isMulti
                   options={data.productCategories?.map(categories => ({
@@ -186,7 +206,7 @@ export default function () {
               <FormRow title={"About this product"}>
                 <HorizontalWrapper>
                   <Field
-                    name="about"
+                    name="whoMadeIt"
                     component={AboutThisProductDD}
                     placeholder="Who made it?"
                     options={[
@@ -195,7 +215,7 @@ export default function () {
                     ]}
                   />
                   <Field
-                    name="aboutDescription"
+                    name="howSellingIt"
                     component={AboutThisProductDD}
                     options={[
                       { value: 0, label: "As a finished product" },
@@ -235,7 +255,7 @@ export default function () {
                 <Field
                   placeholder="No Parabens, No Animal Cruelty... "
                   help="Start typing to generate suggestions. Feel free to add more than one."
-                  name="principles"
+                  name="sustainablePrinciples"
                   options={data.sustainablePrinciples?.map(principles => ({
                     label: principles.label,
                     value: principles.id
@@ -286,7 +306,7 @@ export default function () {
               >
                 <Field
                   placeholder="Pick your section..."
-                  name="sections"
+                  name="productSections"
                   options={data.vendorProductSections?.map(sections => ({
                     value: sections.id,
                     label: sections.label
@@ -546,7 +566,35 @@ const QUERY = gql`
 `;
 
 const CREATE_PRODUCT = gql`
-  mutation CreateProduct($description: String) {
-    errorMessage
+  mutation CreateProductMutation(
+    $title: String
+    $description: String
+    $images: [Upload]
+    $coverPhoto: Upload
+    $productCategory: [ID]
+    $ingredients: [String]
+    $sustainablePrnciples: [ID]
+    $productTags: [ID]
+    $productSections: [ID]
+  ) {
+    createProduct(
+      sutainablePrnciples: $sustainablePrinciples
+      productCategory: $productCategory
+      ingredients: $ingredients
+      coverPhoto: $coverPhoto
+      title: $title
+      description: $description
+      images: $images
+      productTags: $productTags
+      productSections: $productSections
+    ) {
+      errorMessage
+      product {
+        id
+        title
+        description
+        inventory
+      }
+    }
   }
 `;

@@ -241,8 +241,6 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
     setCrudImageFile(null);
   };
 
-  console.log(crudeImageFile, "crud image file");
-
   const handleSubmit = values => {
     setIsLoading(true);
     createVendorPost({
@@ -270,9 +268,7 @@ export default function ({ onRequestClose, isOpen, style, ...restProps }) {
         setIsLoading(true);
       });
   };
-  useEffect(() => {
-    console.log(productsTags);
-  }, [productsTags]);
+  useEffect(() => {}, [productsTags]);
 
   const addProductTag = event => {
     const bounds = event.target.getBoundingClientRect();

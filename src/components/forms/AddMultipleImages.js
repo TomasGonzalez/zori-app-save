@@ -42,14 +42,12 @@ const StyledLabel = styled.label`
 `;
 
 export default function ({ maxNumber = 8, ...props }) {
-  const onChange = data => {
-    console.log(data);
-  };
-
-  console.log(maxNumber);
-
   return (
-    <ImageUploading multiple onChange={onChange} maxNumber={maxNumber + 1}>
+    <ImageUploading
+      multiple
+      onChange={props.input.onChange}
+      maxNumber={maxNumber + 1}
+    >
       {({ imageList, onImageUpload, onImageRemoveAll }) => (
         <div>
           <ImageGrid>

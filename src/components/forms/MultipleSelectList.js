@@ -91,7 +91,7 @@ export default function ({ _data, RowLayout, ...props }) {
   const [selected, setSelected] = useState([]);
 
   useEffect(() => {
-    console.log(selected);
+    props.input.onChange(selected);
   }, [selected]);
 
   return (
