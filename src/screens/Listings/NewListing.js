@@ -95,12 +95,16 @@ export default function () {
           howSellingIt: values.howSellingIt?.value
         },
         ingredients: values.ingredients?.map(ingredient => ingredient.label),
-        sustainablePrinciples: values.sustainablePrinciples(
+        sustainablePrinciples: values.sustainablePrinciples?.map(
           principle => principle.value
         ),
         productTags: values.productTags?.map(tags => tags?.value),
         productSections: values.productSections?.map(
           sections => sections?.value
+        ),
+        processingTime: values.processingTime?.value,
+        shippingOptions: values.shippingOptions?.map(
+          shipping => shipping?.value
         )
       }
     })
@@ -264,7 +268,7 @@ export default function () {
                   isMulti
                 />
               </FormRow>
-              <FormRow
+              {/*<FormRow
                 title={"Personalization"}
                 isOptional
                 subTitle={
@@ -278,7 +282,7 @@ export default function () {
                   color={theme.color.creme}
                   component={DumbCheckBox}
                 />
-              </FormRow>
+              </FormRow>*/}
               <FormRow
                 title={"tags"}
                 isOptional
@@ -380,12 +384,12 @@ export default function () {
                 title="Purchase limits"
               >
                 <Field
-                  name="purchaselimits"
-                  labels={["Yes", "No"]}
-                  colorText={theme.color.gray1}
-                  color={theme.color.creme}
-                  component={DumbCheckBox}
-                ></Field>
+                  name="purchaseLimit"
+                  component={DefaultInput}
+                  type={"number"}
+                  step="1"
+                  min="0"
+                />
               </FormRow>
               <FormRow
                 title="SKU"
@@ -511,7 +515,7 @@ export default function () {
                   ]}
                   colorText={theme.color.gray1}
                   color={theme.color.creme}
-                  name="labels"
+                  name="shippingLabels"
                   component={DumbCheckBox}
                 />
               </StyledFormRow>
@@ -573,12 +577,19 @@ const CREATE_PRODUCT = gql`
     $coverPhoto: Upload
     $productCategory: [ID]
     $ingredients: [String]
-    $sustainablePrnciples: [ID]
+    $sustainablePrinciples: [ID]
     $productTags: [ID]
     $productSections: [ID]
+    $purchaseLimit: Int
+    $processingTime: ID
+    $burdenOfCost: Boolean
+    $shippingOptions: [ID]
+    $shippingLabels: Boolean
   ) {
     createProduct(
-      sutainablePrnciples: $sustainablePrinciples
+      burdenOfCost: $burdenOfCost
+      purchaseLimit: $purchaseLimit
+      sustainablePrinciples: $sustainablePrinciples
       productCategory: $productCategory
       ingredients: $ingredients
       coverPhoto: $coverPhoto
@@ -587,6 +598,9 @@ const CREATE_PRODUCT = gql`
       images: $images
       productTags: $productTags
       productSections: $productSections
+      processingTime: $processingTime
+      shippingOptions: $shippingOptions
+      shippingLabels: $shippingLabels
     ) {
       errorMessage
       product {
