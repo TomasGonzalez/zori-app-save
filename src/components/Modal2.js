@@ -12,7 +12,8 @@ const customStyles = {
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
-    transform: "translate(-50%, -50%)"
+    transform: "translate(-50%, -50%)",
+    width: 570
   },
   overlay: {
     backgroundColor: "rgba(0,0,0, 0.5)"
@@ -33,7 +34,7 @@ const Title = styled.h1`
 
 const SubTitle = styled.h2`
   font-size: 10px;
-  color: ${props => props.theme.color.gray1};
+  color: ${props => props.theme.color.gray2};
   font-weight: 400;
   margin-top: 6px;
 `;
