@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 
 import styled from "styled-components/macro";
 import { Field, Form } from "react-final-form";
 import { useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
+import TeamPricingModal from "./TeamPricingModal";
 import AddMultipleImages from "components/forms/AddMultipleImages";
 import { InputCurrency, DefaultInput, BigInput } from "components/forms/inputs";
 import { Dropdown2, CustomCreatableSelect } from "components/Dropdown";
@@ -76,13 +77,10 @@ const StyledFormRow = styled(FormRow)`
 export default function () {
   const [CreateProduct] = useMutation(CREATE_PRODUCT);
   const { data, refetch, loading, error } = useQuery(QUERY);
+  const [variations, setVariations] = useState(null);
 
   const handleSubmit = values => {
     console.log(values, "form values");
-    console.log(
-      values?.productCategory?.map(category => category.value),
-      "category values array"
-    );
 
     CreateProduct({
       variables: {
@@ -122,6 +120,7 @@ export default function () {
 
   return (
     <MainContainer>
+      <TeamPricingModal />
       <Form
         render={({ handleSubmit }) => (
           <form style={{ height: "100%" }}>
