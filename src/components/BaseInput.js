@@ -24,6 +24,7 @@ const FormTitle = styled.div`
   margin-bottom: 4px;
   font-size: 13px;
   font-weight: 500;
+  white-space: nowrap;
 `;
 
 const SubTitle = styled.div`

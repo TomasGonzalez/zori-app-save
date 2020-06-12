@@ -14,13 +14,13 @@ const Title = styled.h3`
 `;
 
 const StyledDefaultInput = styled(DefaultInput)`
-  width: 148px;
+  width: 184px;
   margin-right: 8px;
 `;
 
 const StyledDefaultInput2 = styled(DefaultInput)`
-  margin-bottom: 8px;
   width: 88px;
+  margin-right: 8px;
 `;
 
 const StyledDropdown = styled(Dropdown2)`
@@ -35,12 +35,15 @@ const Wrapper = styled.div`
   font-size: 12px;
 `;
 
+const Spacing = styled.div`
+  margin-top: 15px;
+`;
 export default function () {
   const Additional = () => {
     return (
       <BaseInput title="Teams of 3 or more get an additional">
         <Wrapper>
-          <StyledDefaultInput /> for every <StyledDropdown /> member(s) that
+          <StyledDefaultInput2 /> for every <StyledDropdown /> member(s) that
           joins the team
         </Wrapper>
       </BaseInput>
@@ -56,9 +59,16 @@ export default function () {
       isOpen={true}
     >
       <Title>Discount value</Title>
-      <StyledDefaultInput2 title={"Teams of 2"} />
-      <Additional />
-      <StyledDefaultInput title={"Maximum discount allowed"} />
+      <Spacing>
+        <StyledDefaultInput title={"Teams of 2"} />
+      </Spacing>
+
+      <Spacing>
+        <Additional />
+      </Spacing>
+      <Spacing>
+        <StyledDefaultInput title={"Maximum discount allowed"} />
+      </Spacing>
     </Modal2>
   );
 }

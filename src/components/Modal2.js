@@ -1,9 +1,10 @@
 import React from "react";
 
+import Modal from "react-modal";
+import Button from "components/Button";
+
 import styled from "styled-components";
 import theme from "theme";
-
-import Modal from "react-modal";
 
 const customStyles = {
   content: {
@@ -39,6 +40,13 @@ const SubTitle = styled.h2`
   margin-top: 6px;
 `;
 
+const SubmitWrapper = styled.div`
+  width: 100%;
+  border: solid 1px ${props => props.theme.color.creme};
+  border-width: 1px 0 0 0;
+  margin-top: 16px;
+`;
+
 export default function ({ children, ...props }) {
   return (
     <Modal style={customStyles} {...props}>
@@ -47,6 +55,13 @@ export default function ({ children, ...props }) {
         <SubTitle>{props.subTitle}</SubTitle>
       </TitleWrapper>
       {children}
+      <SubmitWrapper>
+        <Button
+          buttonStyle="dark"
+          label="Save and proceed"
+          style={{ width: "100%", height: 36, margin: "16px 0" }}
+        />
+      </SubmitWrapper>
     </Modal>
   );
 }
