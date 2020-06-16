@@ -144,7 +144,11 @@ export default function ({ variations, setVariations }) {
           options={data.productVariationOptions.map(options => ({
             value: options.id,
             label: options.label,
-            scale: options.scale
+            scale: options.scale,
+            priceVaries: false,
+            SKUVaries: false,
+            inventoryVaries: false,
+            productVariationInput: []
           }))}
         />
       </div>
