@@ -76,8 +76,8 @@ const StyledFormRow = styled(FormRow)`
 `;
 
 export default function () {
-  const [variations, setVariations] = useState(null);
   const [isTeamPricingModalOpen, setTeamPricingModal] = useState(false);
+  const [variations, setVariations] = useState([]);
 
   const { data, refetch, loading, error } = useQuery(QUERY);
   const [CreateProduct] = useMutation(CREATE_PRODUCT);
@@ -121,7 +121,7 @@ export default function () {
 
   return (
     <MainContainer>
-      <VariationsModal />
+      <VariationsModal variations={variations} setVariations={setVariations} />
       <TeamPricingModal
         isOpen={isTeamPricingModalOpen}
         onRequestClose={() => {
