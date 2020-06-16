@@ -1,0 +1,39 @@
+import React from "react";
+
+import gql from "graphql-tag";
+import { useMutation, useQuery } from "@apollo/react-hooks";
+
+import Modal2 from "components/Modal2";
+import { Dropdown2 } from "components/Dropdown";
+
+export default function () {
+  const { data, loading, error } = useQuery(QUERY);
+
+  if (loading) {
+    return <div> loading</div>;
+  }
+  return (
+    <Modal2
+      isOpen={true}
+      title={"Variations"}
+      subTitle={
+        "List all the variatons you have in mind here. They will appear in the order you list them. "
+      }
+    >
+      <Dropdown2 title="Add a variation" options={{data.productVariationOptions.map(options=>({
+        value: options.id,
+        label: options.value
+
+      }))}} />
+    </Modal2>
+  );
+}
+
+const QUERY = gql`
+  query Query {
+    productVariationOptions {
+      id
+      label
+    }
+  }
+`;

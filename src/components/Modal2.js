@@ -59,7 +59,7 @@ export default function ({ children, ...props }) {
         <Button
           buttonStyle="dark"
           label="Save and proceed"
-          style={{ width: "100%", height: 36, margin: "16px 0" }}
+          style={{ width: "100%", height: 36, margin: "16px 0 0 0" }}
         />
       </SubmitWrapper>
     </Modal>

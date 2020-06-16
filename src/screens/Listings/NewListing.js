@@ -6,6 +6,7 @@ import { useMutation, useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import TeamPricingModal from "./TeamPricingModal";
+import VariationsModal from "./VariationsModal";
 import AddMultipleImages from "components/forms/AddMultipleImages";
 import { InputCurrency, DefaultInput, BigInput } from "components/forms/inputs";
 import { Dropdown2, CustomCreatableSelect } from "components/Dropdown";
@@ -75,13 +76,13 @@ const StyledFormRow = styled(FormRow)`
 `;
 
 export default function () {
-  const [CreateProduct] = useMutation(CREATE_PRODUCT);
-  const { data, refetch, loading, error } = useQuery(QUERY);
   const [variations, setVariations] = useState(null);
+  const [isTeamPricingModalOpen, setTeamPricingModal] = useState(false);
+
+  const { data, refetch, loading, error } = useQuery(QUERY);
+  const [CreateProduct] = useMutation(CREATE_PRODUCT);
 
   const handleSubmit = values => {
-    console.log(values, "form values");
-
     CreateProduct({
       variables: {
         ...values,
@@ -120,7 +121,13 @@ export default function () {
 
   return (
     <MainContainer>
-      <TeamPricingModal />
+      <VariationsModal />
+      <TeamPricingModal
+        isOpen={isTeamPricingModalOpen}
+        onRequestClose={() => {
+          setTeamPricingModal(false);
+        }}
+      />
       <Form
         render={({ handleSubmit }) => (
           <form style={{ height: "100%" }}>
@@ -338,6 +345,7 @@ export default function () {
                   name="teaPurchasePricing"
                   label={"Set team purchasing rules"}
                   component={Button}
+                  onClick={() => setTeamPricingModal(true)}
                   borderColor={theme.color.creme}
                   textColor={[theme.color.background, theme.color.black1]}
                   style={{ height: 32, width: 169 }}

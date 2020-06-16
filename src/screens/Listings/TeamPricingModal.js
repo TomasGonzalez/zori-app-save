@@ -38,7 +38,8 @@ const Wrapper = styled.div`
 const Spacing = styled.div`
   margin-top: 15px;
 `;
-export default function () {
+
+export default function (props) {
   const Additional = () => {
     return (
       <BaseInput title="Teams of 3 or more get an additional">
@@ -56,13 +57,12 @@ export default function () {
       subTitle={
         "Specify rules on how you want team purchasing to work for this product"
       }
-      isOpen={true}
+      {...props}
     >
       <Title>Discount value</Title>
       <Spacing>
         <StyledDefaultInput title={"Teams of 2"} />
       </Spacing>
-
       <Spacing>
         <Additional />
       </Spacing>
